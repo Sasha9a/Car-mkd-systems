@@ -1,9 +1,14 @@
 <div th:fragment="header" xmlns:th="https://www.thymeleaf.org">
     <div class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="container">
-            <a href="/" class="navbar-brand d-flex align-items-center">
-                <strong>Car MKD Systems</strong>
+        <div class="container d-flex">
+            <div class="navbar-brand d-flex align-items-center flex-grow-1">
+                <a href="/" class="text-decoration-none text-reset"><strong>Car MKD Systems</strong></a>
+            </div>
+            <a href="/login" class="navbar-brand align-items-center" th:if="${#httpServletRequest?.remoteUser == null}">
+                <strong class="text-muted">Admin</strong>
             </a>
+            <strong class="text-muted" th:text="${#httpServletRequest.remoteUser}"
+                    th:if="${#httpServletRequest?.remoteUser}"></strong>
         </div>
     </div>
 </div>
