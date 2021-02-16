@@ -18,10 +18,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 				.authorizeRequests()
 				.antMatchers("/**").permitAll()
+				.antMatchers("/create").hasAuthority("ADMIN")
 				.anyRequest().authenticated()
 			.and()
 				.formLogin()
 				.loginPage("/login")
+				.permitAll()
+			.and()
+				.logout()
+				.logoutSuccessUrl("/")
 				.permitAll();
 	}
 
@@ -32,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				User.withDefaultPasswordEncoder()
 						.username("michail")
 						.password("123")
-						.roles("USER")
+						.roles("USER", "ADMIN")
 						.build();
 
 		return new InMemoryUserDetailsManager(user);

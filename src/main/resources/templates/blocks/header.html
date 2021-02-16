@@ -7,8 +7,13 @@
             <a href="/login" class="navbar-brand align-items-center" th:if="${#httpServletRequest?.remoteUser == null}">
                 <strong class="text-muted">Admin</strong>
             </a>
+            <a href="/create" class="btn btn-secondary text-white mr-3"
+               th:if="${#httpServletRequest?.isUserInRole('ADMIN')}">Добавить товар</a>
             <strong class="text-muted" th:text="${#httpServletRequest.remoteUser}"
                     th:if="${#httpServletRequest?.remoteUser}"></strong>
+            <form th:action="@{/logout}" method="post" th:if="${#httpServletRequest.remoteUser}">
+                <button type="submit" class="btn btn-danger ml-3">Выйти</button>
+            </form>
         </div>
     </div>
 </div>

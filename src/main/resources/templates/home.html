@@ -3,33 +3,16 @@
 <head th:insert="blocks/head :: head('Главная')"></head>
 <body>
 <header th:insert="blocks/header :: header"></header>
-<div class="container-fluid">
-    <div class="row">
-        <div class="list-group m-4 col-md-2">
-            <a href="#" class="list-group-item list-group-item-action border border-dark font-weight-bold active">
-                1 DIN
-            </a>
-            <a href="#" class="list-group-item list-group-item-action border border-dark font-weight-bold">
-                2 DIN
-            </a>
-            <a href="#" class="list-group-item list-group-item-action border border-dark font-weight-bold">
-                Штатные автомагнитолы
-            </a>
-            <a href="#" class="list-group-item list-group-item-action border border-dark font-weight-bold">
-                Аксессуары
-            </a>
-            <a href="#" class="list-group-item list-group-item-action border border-dark font-weight-bold">
-                Камеры заднего вида
-            </a>
-            <a href="#" class="list-group-item list-group-item-action border border-dark font-weight-bold">
-                Универсальные камеры
-            </a>
-            <a href="#" class="list-group-item list-group-item-action border border-dark font-weight-bold">
-                Камера переднего вида
-            </a>
-            <a href="#" class="list-group-item list-group-item-action border border-dark font-weight-bold" tabindex="-1">
-                Навесные мониторы
-            </a>
+<div class="container mt-4">
+    <div class="form-row align-items-center bg-secondary text-white container">
+        <div class="form-group col mt-3">
+            <input type="text" class="form-control" placeholder="Введите фирму автомобиля...">
+        </div>
+        <div class="form-group col mt-3">
+            <input type="text" class="form-control" placeholder="Введите модель автомобиля...">
+        </div>
+        <div class="form-group col mt-3">
+            <input type="number" min="1950" th:max="${#dates.format(#dates.createNow(), 'YYYY')}" class="form-control" placeholder="Введите год автомобиля...">
         </div>
     </div>
 </div>
