@@ -24,8 +24,9 @@
     </button>
     <div class="collapse" id="collapseAddFirmCar">
         <div class="card card-body">
-            <form th:action="@{/edit-models}" method="post" name="addFirmCar">
+            <form th:action="@{/edit-models}" method="post">
                 <input type="text" name="firm" class="form-control" placeholder="Введите название фирмы...">
+                <input type="number" name="task" value="1" hidden>
                 <button type="submit" class="btn btn-success mt-3">Добавить</button>
             </form>
         </div>
@@ -52,6 +53,7 @@
                                 <form class="mx-2" th:action="@{/edit-models}" method="post" name="editFirmCar">
                                     <input type="text" name="firm" class="form-control" placeholder="Введите название фирмы...">
                                     <input type="number" name="id" th:value="${f.getId()}" hidden>
+                                    <input type="number" name="task" value="2" hidden>
                                     <button type="submit" class="btn btn-success mt-3">Изменить</button>
                                 </form>
                             </div>
