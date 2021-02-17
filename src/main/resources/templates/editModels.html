@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head th:insert="blocks/head :: head('Панель моделей автотранспорта')"></head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div class="container mt-4">
+
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorText}">
+        <div th:text="${errorText}"></div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successText}">
+        <div th:text="${successText}"></div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseAddFirmCar" aria-expanded="false" aria-controls="collapseAddFirmCar">
+        Добавить фирму
+    </button>
+    <div class="collapse" id="collapseAddFirmCar">
+        <div class="card card-body">
+            <form th:action="@{/edit-models}" method="post" name="addFirmCar">
+                <input type="text" name="firm" class="form-control" placeholder="Введите название фирмы...">
+                <button type="submit" class="btn btn-success mt-3">Добавить</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="accordion mt-4" id="accordionFirms">
+
+        <div class="card" th:each="f : ${allFirms}" style="overflow: visible;">
+            <div class="card-header" th:id="'heading' + ${f.getId().toString()}">
+                <div class="row">
+                    <h2 class="col">
+                        <button class="btn btn-link btn-block text-left font-weight-bold" type="button" data-toggle="collapse"
+                                th:data-target="'#collapse' + ${f.getId().toString()}" aria-expanded="false"
+                                th:aria-controls="'collapse' + ${f.getId().toString()}" th:text="${f.getFirm()}">
+                        </button>
+                    </h2>
+                    <div class="dropdown col-auto">
+                        <button class="btn btn-outline-warning dropdown-toggle" type="button" th:id="'dropdownEditFirm' + ${f.getId().toString()}"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Изменить название
+                        </button>
+                        <div class="dropdown-menu" th:aria-labelledby="'dropdownEditFirm' + ${f.getId().toString()}">
+                            <div class="card-body" style="min-width: 300px;">
+                                <form class="m-2" th:action="@{/edit-models}" method="post" name="editFirmCar">
+                                    <input type="text" name="firm" class="form-control" placeholder="Введите название фирмы...">
+                                    <button type="submit" class="btn btn-success mt-3">Изменить</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:id="'collapse' + ${f.getId().toString()}" class="collapse"
+                 th:aria-labelledby="'heading' + ${f.getId().toString()}" data-parent="#accordionFirms">
+                <div class="card-body">
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseAddModelCar" aria-expanded="false" aria-controls="collapseAddModelCar">
+                        Добавить модель
+                    </button>
+                    <div class="collapse" id="collapseAddModelCar">
+                        <div class="card card-body">
+                            <form th:action="@{/edit-models}" method="post" name="addModelCar">
+                                <input type="text" name="model" class="form-control" placeholder="Введите название модели...">
+                                <button type="submit" class="btn btn-success mt-3">Добавить</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>
