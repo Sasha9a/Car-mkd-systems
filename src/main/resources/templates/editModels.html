@@ -49,8 +49,9 @@
                         </button>
                         <div class="dropdown-menu" th:aria-labelledby="'dropdownEditFirm' + ${f.getId().toString()}">
                             <div class="card-body" style="min-width: 300px;">
-                                <form class="m-2" th:action="@{/edit-models}" method="post" name="editFirmCar">
+                                <form class="mx-2" th:action="@{/edit-models}" method="post" name="editFirmCar">
                                     <input type="text" name="firm" class="form-control" placeholder="Введите название фирмы...">
+                                    <input type="number" name="id" th:value="${f.getId()}" hidden>
                                     <button type="submit" class="btn btn-success mt-3">Изменить</button>
                                 </form>
                             </div>
