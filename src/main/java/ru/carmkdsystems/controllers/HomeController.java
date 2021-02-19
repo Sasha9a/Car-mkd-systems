@@ -13,11 +13,4 @@ public class HomeController {
 	public String home() {
 		return "home";
 	}
-
-	@GetMapping("/products/{id}")
-	public String addProductFull(@PathVariable("id") Product product,
-								 Model model) {
-		model.addAttribute("product", product);
-		return "showProduct";
-	}
 }
