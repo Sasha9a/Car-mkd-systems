@@ -7,8 +7,10 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 @Entity
@@ -19,7 +21,7 @@ public class Product {
 	private Long id;
 
 	@NotBlank(message = "Введите название товара")
-	@Length(max = 128, message = "Слишком длинное название товара")
+	@Length(max = 100, message = "Слишком длинное название товара")
 	private String name;
 
 	@NotNull(message = "Введите цену товара")
@@ -27,8 +29,23 @@ public class Product {
 	@Max(value = 100000, message = "Слишком большая цена")
 	private Integer price;
 
+	@NotNull(message = "Введите кол-во товара")
+	@Min(value = 0, message = "Кол-во не может быть отрицательной")
+	@Max(value = 100000, message = "Слишком большое кол-во")
+	private Integer stock;
+
+	private boolean isPublic;
+
 	@ElementCollection
 	private List<String> images = new ArrayList<>();
+
+	public String convertToMoney() {
+		if (price != null) {
+			return NumberFormat.getCurrencyInstance(new Locale("ru", "RU")).format(price);
+		} else {
+			return "";
+		}
+	}
 
 	public Long getId() {
 		return id;
@@ -60,5 +77,21 @@ public class Product {
 
 	public void setImages(List<String> images) {
 		this.images = images;
+	}
+
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+
+	public boolean isPublic() {
+		return isPublic;
+	}
+
+	public void setPublic(boolean aPublic) {
+		isPublic = aPublic;
 	}
 }
