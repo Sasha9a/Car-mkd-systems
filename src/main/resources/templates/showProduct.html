@@ -9,7 +9,7 @@
         <div class="row no-gutters">
             <label class="col-6 mb-0"
                    th:style="${#httpServletRequest?.isUserInRole('ADMIN')}?'cursor: pointer':''">
-                <div id="carouselImages" class="carousel slide" data-ride="carousel">
+                <div id="carouselImages" class="carousel slide" data-interval="false">
                     <ol class="carousel-indicators" th:unless="${product.getImages().isEmpty()}">
                         <li th:each="i : ${product.getImages()}" data-target="#carouselImages"
                             th:attr="data-slide-to=${iStat.count - 1}" th:class="'bg-secondary' + (${iStat.count == 1}?' active':'')"></li>
@@ -38,21 +38,89 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-                <form th:action="@{'/products/' + ${product.getId()}}" method="post" enctype="multipart/form-data">
-                        <input type="file" name="files" accept="image/*" th:if="${#httpServletRequest?.isUserInRole('ADMIN')}"
-                                onchange="clickImagesProduct()" multiple hidden>
+                <form th:action="@{'/products/' + ${product.getId()}}" th:if="${#httpServletRequest?.isUserInRole('ADMIN')}"
+                      method="post" enctype="multipart/form-data">
+                        <input type="file" name="files" accept="image/*" onchange="clickImagesProduct()" multiple hidden>
                     <button type="submit" id="updateImages" hidden></button>
                 </form>
             </label>
             <div class="col">
-                <div class="card-header">
-                    <h4 class="card-title" th:text="${product.getName()}"></h4>
-                </div>
+                <h4 class="card-header" th:text="${product.getName()}"></h4>
                 <div class="card-body">
                     <h4 class="card-text text-primary font-weight-bold" th:text="${product.convertToMoney()}"></h4>
                     <p class="card-text text-muted" th:if="${product.getStock() > 0}"
                        th:text="'В наличии: ' + ${product.getStock()} + ' шт.'"></p>
                     <p class="card-text text-danger text-muted" th:if="${product.getStock() == 0}">Нет в наличии</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-3" style="min-height: 300px;">
+        <h5 class="card-header text-center">Подходит для автомобилей</h5>
+        <div class="card-body">
+
+            <div class="accordion mb-3" id="accordionFirms" th:if="${#httpServletRequest?.isUserInRole('ADMIN')}">
+
+                <div class="card" th:each="f : ${allFirms}" style="overflow: visible;">
+                    <div class="card-header" th:id="'heading' + ${f.getId().toString()}">
+                        <div class="row">
+                            <h2 class="col mb-0">
+                                <button class="btn btn-link btn-block text-left font-weight-bold" type="button" data-toggle="collapse"
+                                        th:data-target="'#collapse' + ${f.getId().toString()}" aria-expanded="false"
+                                        th:aria-controls="'collapse' + ${f.getId().toString()}" th:text="${f.getFirm()}">
+                                </button>
+                            </h2>
+                        </div>
+                    </div>
+                    <div th:id="'collapse' + ${f.getId().toString()}" class="collapse"
+                         th:aria-labelledby="'heading' + ${f.getId().toString()}" data-parent="#accordionFirms">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <th:block th:each="m : ${allModels}">
+                                    <li class="list-group-item" th:if="${m.getFirmCar().getId() == f.getId()}">
+                                        <div class="row align-items-center">
+                                            <div class="font-weight-bold col" th:text="${m.getModel()}"></div>
+                                            <button type="submit" class="btn btn-outline-success col-auto"
+                                                    th:style="(${product.getModelsCars().contains(m)}?'display: none;':'')"
+                                                    th:id="'btnAddModel' + ${m.getId()}"
+                                                    th:onclick="'clickModel('+ ${product.getId()} + ', ' + ${m.getId()} + ')'">
+                                                Добавить
+                                            </button>
+                                            <button type="submit" class="btn btn-outline-danger col-auto"
+                                                    th:style="(${product.getModelsCars().contains(m)}?'':'display: none;')"
+                                                    th:id="'btnDelModel' + ${m.getId()}"
+                                                    th:onclick="'clickModel('+ ${product.getId()} + ', ' + ${m.getId()} + ')'">
+                                                Удалить
+                                            </button>
+                                        </div>
+                                    </li>
+                                </th:block>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <div class="list-group" role="tablist">
+                        <a th:each="f : ${activeFirms}"
+                           th:id="'list-list' + ${f.getId()}" data-toggle="list"
+                           th:href="'#list' + ${f.getId()}" role="tab"
+                           th:text="${f.getFirm()}"
+                           th:class="'list-group-item list-group-item-action' + (${fStat.count == 1}?' active':'')"></a>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="tab-content">
+                        <div th:each="f : ${activeFirms}"
+                             th:class="'tab-pane fade' + (${fStat.count == 1}?' show active':'')" role="tabpanel"
+                             th:id="'list' + ${f.getId()}" th:aria-labelledby="'list-list' + ${f.getId()}">
+                            <th:block th:each="m : ${product.getModelsCars()}" th:if="${m.getFirmCar().getFirm().equals(f.getFirm())}">
+                                <h6 class="" th:utext="${m.getModel().toString()}"></h6>
+                            </th:block>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

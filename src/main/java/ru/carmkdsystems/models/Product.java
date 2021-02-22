@@ -8,10 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Product {
@@ -39,6 +36,9 @@ public class Product {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
 	private List<String> images = new ArrayList<>();
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Set<ModelCar> modelsCars = new HashSet<>();
 
 	public String convertToMoney() {
 		if (price != null) {
@@ -94,5 +94,13 @@ public class Product {
 
 	public void setPublic(boolean aPublic) {
 		isPublic = aPublic;
+	}
+
+	public Set<ModelCar> getModelsCars() {
+		return modelsCars;
+	}
+
+	public void setModelsCars(Set<ModelCar> modelsCars) {
+		this.modelsCars = modelsCars;
 	}
 }
