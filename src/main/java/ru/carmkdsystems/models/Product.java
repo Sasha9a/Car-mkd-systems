@@ -36,7 +36,8 @@ public class Product {
 
 	private boolean isPublic;
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
 	private List<String> images = new ArrayList<>();
 
 	public String convertToMoney() {

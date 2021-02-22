@@ -1,0 +1,3 @@
+function clickImagesProduct() {
+    $('#updateImages').click();
+}
