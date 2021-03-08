@@ -48,12 +48,59 @@
             <div class="col">
                 <h4 class="card-header" th:text="${product.getName()}"></h4>
                 <div class="card-body">
-                    <h4 class="card-text text-primary font-weight-bold" th:text="${product.convertToMoney()}"></h4>
+                    <div class="row mb-2" th:if="${#httpServletRequest?.isUserInRole('ADMIN')}">
+                        <div class="dropdown col-auto">
+                            <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownEditDiscount"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Скидка
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownEditDiscount">
+                                <div class="card-body" style="min-width: 300px;">
+                                    <form class="mx-2" th:action="@{'/products/' + ${product.getId()}}" method="post">
+                                        <input type="number" name="discount" class="form-control" min="0"
+                                               th:max="(${product.getPrice() == 0}?'0':${product.getPrice() - 1})"
+                                               placeholder="Введите цену...">
+                                        <button type="submit" class="btn btn-success col-auto mt-3">Изменить</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <form class="col-auto" th:action="@{'/products/' + ${product.getId()}}" method="post">
+                            <input type="number" name="isDel" value="1" hidden>
+                            <button type="submit" class="btn btn-outline-danger"
+                                    th:if="${product.getDiscount() != null}">
+                                Удалить скидку
+                            </button>
+                        </form>
+                    </div>
                     <div class="row align-items-center">
+                        <h4 th:class="'card-text col-auto font-weight-bold mb-0' + (${product.getDiscount() == null}?' text-primary':' text-danger')"
+                            th:text="${product.getDiscount() == null}?${product.convertToMoney()}:${product.convertToMoneyDiscount()}"></h4>
+                        <h5 class="card-text text-secondary font-weight-bold col-auto"
+                            th:if="${product.getDiscount() != null}"
+                            th:utext="'<del>' + ${product.convertToMoney()} + '</del>'"></h5>
+                        <div class="dropdown col-auto"
+                             th:if="${#httpServletRequest?.isUserInRole('ADMIN') and product.getDiscount() == null}">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownEditPrice"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Изменить цену
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownEditPrice">
+                                <div class="card-body" style="min-width: 300px;">
+                                    <form class="mx-2" th:action="@{'/products/' + ${product.getId()}}" method="post">
+                                        <input type="number" name="price" class="form-control" min="0" max="100000"
+                                               placeholder="Введите цену...">
+                                        <button type="submit" class="btn btn-success mt-3">Изменить</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mt-2">
                         <p th:class="'card-text col-auto mb-0' + (${product.getStock() > 0}?' text-muted':' text-danger')"
                            th:text="(${product.getStock() > 0}?('В наличии: ' + ${product.getStock()} + ' шт.'):'Нет в наличии')"></p>
                         <div class="dropdown col-auto" th:if="${#httpServletRequest?.isUserInRole('ADMIN')}">
-                            <button class="btn btn-outline-warning dropdown-toggle" type="button" id="dropdownEditStock"
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownEditStock"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Изменить кол-во
                             </button>
@@ -190,9 +237,20 @@
         </div>
     </div>
 
-    <button type="button" th:if="${#httpServletRequest?.isUserInRole('ADMIN')}" class="btn btn-success mt-3">
-        Опубликовать
-    </button>
+    <div class="row">
+        <form class="col-auto" th:action="@{'/products/' + ${product.getId()}}" method="post">
+            <input type="number" name="isPublic" value="1" hidden>
+            <button type="submit" th:if="${#httpServletRequest?.isUserInRole('ADMIN') and !product.isPublic()}" class="btn btn-success mt-3">
+                Опубликовать
+            </button>
+        </form>
+        <form class="col-auto" th:action="@{'/products/' + ${product.getId()}}" method="post">
+            <input type="number" name="isDelProduct" value="1" hidden>
+            <button type="submit" th:if="${#httpServletRequest?.isUserInRole('ADMIN')}" class="btn btn-danger mt-3">
+                Удалить
+            </button>
+        </form>
+    </div>
 </div>
 <footer th:insert="blocks/footer :: footer"></footer>
 </body>

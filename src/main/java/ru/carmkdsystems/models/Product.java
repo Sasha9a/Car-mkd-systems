@@ -26,6 +26,8 @@ public class Product {
 	@Max(value = 100000, message = "Слишком большая цена")
 	private Integer price;
 
+	private Integer discount;
+
 	@NotNull(message = "Введите кол-во товара")
 	@Min(value = 0, message = "Кол-во не может быть отрицательной")
 	@Max(value = 100000, message = "Слишком большое кол-во")
@@ -43,6 +45,14 @@ public class Product {
 	public String convertToMoney() {
 		if (price != null) {
 			return NumberFormat.getCurrencyInstance(new Locale("ru", "RU")).format(price);
+		} else {
+			return "";
+		}
+	}
+
+	public String convertToMoneyDiscount() {
+		if (discount != null) {
+			return NumberFormat.getCurrencyInstance(new Locale("ru", "RU")).format(discount);
 		} else {
 			return "";
 		}
@@ -70,6 +80,14 @@ public class Product {
 
 	public void setPrice(Integer price) {
 		this.price = price;
+	}
+
+	public Integer getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Integer discount) {
+		this.discount = discount;
 	}
 
 	public List<String> getImages() {

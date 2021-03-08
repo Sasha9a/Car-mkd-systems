@@ -60,7 +60,12 @@ public class ProductsController {
                                      @RequestParam(value = "input", required = false) String input,
                                      @RequestParam(value = "number", required = false) Integer number,
                                      @RequestParam(value = "countStock", required = false) Integer countStock,
-                                     @RequestParam(required = false) Map<String, String> form,
+                                     @RequestParam(value = "price", required = false) Integer price,
+                                     @RequestParam(value = "discount", required = false) Integer discount,
+                                     @RequestParam(value = "isDel", required = false) Boolean isDel,
+                                     @RequestParam(value = "isPublic", required = false) Boolean isPublic,
+                                     @RequestParam(value = "isDelProduct", required = false) Boolean isDelProduct,
+                                     @RequestParam Map<String, String> form,
                                      Model model) throws IOException {
         if (files != null) {
             File uploadDir = new File(uploadPath);
@@ -110,6 +115,28 @@ public class ProductsController {
         } else if (countStock != null) {
             product.setStock(countStock);
             productRepos.save(product);
+        } else if (price != null) {
+            product.setPrice(price);
+            productRepos.save(product);
+        } else if (discount != null) {
+            product.setDiscount(discount);
+            productRepos.save(product);
+        } else if (isDel != null) {
+            product.setDiscount(null);
+            productRepos.save(product);
+        } else if (isPublic != null) {
+            product.setPublic(true);
+            productRepos.save(product);
+            return "redirect:/";
+        } else if (isDelProduct != null) {
+            for (String s : product.getImages()) {
+                File f = new File(uploadPath + "/" + s);
+                if (f.exists()) {
+                    f.delete();
+                }
+            }
+            productRepos.deleteById(product.getId());
+            return "redirect:/";
         }
         Iterable<FirmCar> firmCar = firmCarRepos.findAll();
         ArrayList<FirmCar> isActiveFirm = new ArrayList<>();
