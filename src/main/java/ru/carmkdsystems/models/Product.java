@@ -37,7 +37,7 @@ public class Product {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
-	private List<String> images = new ArrayList<>();
+	private Set<String> images = new HashSet<>();
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<ModelCar> modelsCars = new HashSet<>();
@@ -90,11 +90,11 @@ public class Product {
 		this.discount = discount;
 	}
 
-	public List<String> getImages() {
+	public Set<String> getImages() {
 		return images;
 	}
 
-	public void setImages(List<String> images) {
+	public void setImages(Set<String> images) {
 		this.images = images;
 	}
 

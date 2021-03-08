@@ -72,12 +72,12 @@ public class ProductsController {
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
-            List<String> list = new ArrayList<>();
+            Set<String> list = new HashSet<>();
             for (MultipartFile f : files) {
                 list.add(UUID.randomUUID().toString() + "." + f.getOriginalFilename());
-                f.transferTo(new File(uploadPath + "/" + list.get(list.size() - 1)));
+                f.transferTo(new File(uploadPath + "/" + list.toArray()[list.size() - 1]));
             }
-            List<String> delImages = product.getImages();
+            Set<String> delImages = product.getImages();
             product.setImages(list);
             productRepos.save(product);
             if (delImages != null && !delImages.isEmpty()) {

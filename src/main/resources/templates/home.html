@@ -19,7 +19,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="card-img-top" th:if="${p.getImages().isEmpty()}">
                         <rect width="100%" height="100%" fill="#eee"></rect>
                     </svg>
-                    <img th:src="'/img/' + ${p.getImages().get(0)}"
+                    <img th:src="'/img/' + ${p.getImages().toArray()[0]}"
                          class="card-img-top" th:if="${p.getImages().size() > 0}"
                          th:alt="${p.getName()}">
                     <div class="card-body">

@@ -22,11 +22,10 @@
                                 <text x="40%" y="50%" fill="#aaa" dy=".3em">Загрузить картинки</text>
                             </svg>
                         </div>
-                        <th:block th:unless="${product.getImages().isEmpty()}">
-                            <div th:each="i : ${product.getImages()}" th:class="'carousel-item' + (${iStat.count == 1}?' active':'')">
-                                <img th:src="'/img/' + ${i}" height="300" class="d-block rounded w-100">
-                            </div>
-                        </th:block>
+                        <div th:each="i : ${product.getImages()}" th:unless="${product.getImages().isEmpty()}"
+                             th:class="'carousel-item' + (${iStat.count == 1}?' active':'')">
+                            <img th:src="'/img/' + ${i}" height="300" class="d-block rounded w-100">
+                        </div>
                     </div>
                     <a th:unless="${product.getImages().isEmpty()}" class="carousel-control-prev"
                        href="#carouselImages" role="button" data-slide="prev">
