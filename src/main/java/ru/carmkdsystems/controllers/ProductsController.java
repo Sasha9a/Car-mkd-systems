@@ -59,6 +59,7 @@ public class ProductsController {
                                      @RequestParam(value = "idParam", required = false) Long idParam,
                                      @RequestParam(value = "input", required = false) String input,
                                      @RequestParam(value = "number", required = false) Integer number,
+                                     @RequestParam(value = "countStock", required = false) Integer countStock,
                                      @RequestParam(required = false) Map<String, String> form,
                                      Model model) throws IOException {
         if (files != null) {
@@ -106,6 +107,9 @@ public class ProductsController {
                 }
                 productParamsRepos.save(pp);
             }
+        } else if (countStock != null) {
+            product.setStock(countStock);
+            productRepos.save(product);
         }
         Iterable<FirmCar> firmCar = firmCarRepos.findAll();
         ArrayList<FirmCar> isActiveFirm = new ArrayList<>();
