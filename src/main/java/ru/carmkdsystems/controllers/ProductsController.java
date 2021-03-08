@@ -9,8 +9,10 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.carmkdsystems.models.FirmCar;
 import ru.carmkdsystems.models.ModelCar;
 import ru.carmkdsystems.models.Product;
+import ru.carmkdsystems.models.ProductParams;
 import ru.carmkdsystems.repositories.FirmCarRepos;
 import ru.carmkdsystems.repositories.ModelCarRepos;
+import ru.carmkdsystems.repositories.ProductParamsRepos;
 import ru.carmkdsystems.repositories.ProductRepos;
 
 import java.io.File;
@@ -27,6 +29,8 @@ public class ProductsController {
     private FirmCarRepos firmCarRepos;
     @Autowired
     private ModelCarRepos modelCarRepos;
+    @Autowired
+    private ProductParamsRepos productParamsRepos;
     @Value("${upload.path}")
     private String uploadPath;
 
@@ -44,6 +48,7 @@ public class ProductsController {
         model.addAttribute("allFirms", firmCar);
         model.addAttribute("allModels", modelCarRepos.findAll());
         model.addAttribute("activeFirms", isActiveFirm);
+        model.addAttribute("allProductParams", productParamsRepos.findAll());
         return "showProduct";
     }
 
@@ -51,6 +56,10 @@ public class ProductsController {
     public String addProductFullPost(@PathVariable("id") Product product,
                                      @RequestParam(value = "files", required = false) MultipartFile[] files,
                                      @RequestParam(value = "idModel", required = false) Long idModel,
+                                     @RequestParam(value = "idParam", required = false) Long idParam,
+                                     @RequestParam(value = "input", required = false) String input,
+                                     @RequestParam(value = "number", required = false) Integer number,
+                                     @RequestParam(required = false) Map<String, String> form,
                                      Model model) throws IOException {
         if (files != null) {
             File uploadDir = new File(uploadPath);
@@ -83,6 +92,20 @@ public class ProductsController {
                 }
                 productRepos.save(product);
             }
+        } else if (idParam != null) {
+            if (productParamsRepos.findById(idParam).isPresent()) {
+                ProductParams pp = productParamsRepos.findById(idParam).get();
+                if (input != null) {
+                    pp.getProductParams().put(product.getId(), input);
+                } else if (number != null) {
+                    pp.getProductParams().put(product.getId(), String.format("%d", number));
+                } else {
+                    if (form.get("bool").equals("Да") || form.get("bool").equals("Нет")) {
+                        pp.getProductParams().put(product.getId(), form.get("bool"));
+                    }
+                }
+                productParamsRepos.save(pp);
+            }
         }
         Iterable<FirmCar> firmCar = firmCarRepos.findAll();
         ArrayList<FirmCar> isActiveFirm = new ArrayList<>();
@@ -95,6 +118,7 @@ public class ProductsController {
         model.addAttribute("allFirms", firmCar);
         model.addAttribute("allModels", modelCarRepos.findAll());
         model.addAttribute("activeFirms", isActiveFirm);
+        model.addAttribute("allProductParams", productParamsRepos.findAll());
         return "showProduct";
     }
 }

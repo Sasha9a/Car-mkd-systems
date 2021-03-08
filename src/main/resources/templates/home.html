@@ -11,8 +11,21 @@
         <div class="form-group col mt-3">
             <input type="text" class="form-control" placeholder="Введите модель автомобиля...">
         </div>
-        <div class="form-group col mt-3">
-            <input type="number" min="1950" th:max="${#dates.format(#dates.createNow(), 'YYYY')}" class="form-control" placeholder="Введите год автомобиля...">
+    </div>
+    <div class="row row-cols-1 row-cols-md-4 mt-3">
+        <div class="col mb-3" th:each="p : ${AllProducts}">
+            <div class="card h-100">
+                <a th:href="'/products/' + ${p.getId()}" class="text-decoration-none text-reset">
+                    <img th:src="'/img/' + ${p.getImages().get(0)}" class="card-img-top" th:alt="${p.getName()}">
+                    <div class="card-body">
+                        <h6 class="card-title" th:text="${p.getName()}"></h6>
+                        <p class="card-text text-primary font-weight-bold" th:text="${p.convertToMoney()}"></p>
+                        <p class="card-text text-muted" th:if="${p.getStock() > 0}"
+                           th:text="'В наличии: ' + ${p.getStock()} + ' шт.'"></p>
+                        <p class="card-text text-danger text-muted" th:if="${p.getStock() == 0}">Нет в наличии</p>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 </div>
