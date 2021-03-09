@@ -102,10 +102,14 @@ public class ProductsController {
             if (productParamsRepos.findById(idParam).isPresent()) {
                 ProductParams pp = productParamsRepos.findById(idParam).get();
                 if (input != null) {
-                    pp.getProductParams().put(product.getId(), input);
+                    if (input.isEmpty()) {
+                        pp.getProductParams().remove(product.getId());
+                    } else {
+                        pp.getProductParams().put(product.getId(), input);
+                    }
                 } else if (number != null) {
                     pp.getProductParams().put(product.getId(), String.format("%d", number));
-                } else {
+                } else if (form.containsKey("bool")) {
                     if (form.get("bool").equals("Да") || form.get("bool").equals("Нет")) {
                         pp.getProductParams().put(product.getId(), form.get("bool"));
                     }

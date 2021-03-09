@@ -194,7 +194,8 @@
         <h5 class="card-header text-center">Характеристики</h5>
         <div class="card-body">
             <ul class="list-group">
-                <li class="list-group-item" th:each="p : ${allProductParams}">
+                <li class="list-group-item" th:each="p : ${allProductParams}"
+                    th:if="${#httpServletRequest?.isUserInRole('ADMIN') or p.getProductParams().containsKey(product.getId())}">
                     <div class="row align-items-center">
                         <h6 class="col-auto mb-0" th:text="${p.getName()} + ':'"></h6>
                         <p class="col mb-0" th:text="(${p.getProductParams().containsKey(product.getId())}?${p.getProductParams().get(product.getId())}:'')"></p>
