@@ -1,22 +1,22 @@
-<div th:fragment="pagination(pages, url)" xmlns:th="https://www.thymeleaf.org">
+<div th:fragment="pagination(pages, url, filter)" xmlns:th="https://www.thymeleaf.org">
     <ul class="pagination justify-content-end">
         <li th:class="'page-item' + (${pages.getNumber() == 0}?' disabled':'')">
             <span class="page-link" th:if="${pages.getNumber() == 0}">Начало</span>
             <a class="page-link" th:unless="${pages.getNumber() == 0}"
-               th:href="${url} + '?size=20'">Начало</a>
+               th:href="${url} + (${!filter.isEmpty()}?('?' + ${filter}):'')">Начало</a>
         </li>
         <th:block th:each="p : ${#numbers.sequence(1, pages.getTotalPages(), 1)}"
                   th:if="${(p >= pages.getNumber() - 1) and (p <= pages.getNumber() + 3)}">
             <li th:class="'page-item' + (${pages.getNumber() == p - 1}?' active':'')">
                 <span class="page-link" th:if="${pages.getNumber() == p - 1}" th:text="${p}"></span>
                 <a class="page-link" th:unless="${pages.getNumber() == p - 1}"
-                   th:href="${url} + '?page=' + ${p - 1} + '&size=20'" th:text="${p}"></a>
+                   th:href="${url} + '?page=' + ${p - 1} + (${!filter.isEmpty()}?('&' + ${filter}):'')" th:text="${p}"></a>
             </li>
         </th:block>
         <li th:class="'page-item' + (${pages.getNumber() == pages.getTotalPages() - 1}?' disabled':'')">
             <span class="page-link" th:if="${pages.getNumber() == pages.getTotalPages() - 1}">Конец</span>
             <a class="page-link" th:unless="${pages.getNumber() == pages.getTotalPages() - 1}"
-               th:href="${url} + '?page=' + ${pages.getTotalPages() - 1} + '&size=20'">Конец</a>
+               th:href="${url} + '?page=' + ${pages.getTotalPages() - 1} + (${!filter.isEmpty()}?('&' + ${filter}):'')">Конец</a>
         </li>
     </ul>
 </div>
