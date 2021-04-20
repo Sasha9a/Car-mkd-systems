@@ -11,8 +11,9 @@ scp -i ~/.ssh/id_rsa \
 echo 'Restart server...'
 
 ssh -i ~/.ssh/id_rsa root@45.90.35.174 << EOF
-  pgrep java | xargs kill -9
-  nohup java -jar car-mkd-systems-0.0.1.jar > log.txt &
+  pkill -f car-mkd-systems-0.0.1.jar
+  nohup java -jar car-mkd-systems-0.0.1.jar > log.txt 2>&1 &
+  exit
 EOF
 
 echo 'Bye.'
