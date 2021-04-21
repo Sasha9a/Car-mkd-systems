@@ -17,8 +17,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 				.authorizeRequests()
-				.antMatchers( "/favicon.ico").permitAll()
-				.antMatchers("/", "/products/*", "/static/**", "/img/**").permitAll()
+				.antMatchers("/", "/products/*", "/static/**", "/img/**", "/favicon.ico").permitAll()
 				.antMatchers("/edit-models", "/create-product").hasRole("ADMIN")
 				.anyRequest().hasRole("USER")
 			.and()

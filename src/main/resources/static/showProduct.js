@@ -8,7 +8,8 @@ function clickModel(id, idModel) {
     formData.append('idModel', idModel);
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:8080/products/' + id,
+        url: 'http://car-mkd-systems.ru/products/' + id,
+        // url: 'http://localhost:8080/products/' + id,
         cache: false,
         headers: {"X-CSRF-TOKEN": token},
         contentType: false,
