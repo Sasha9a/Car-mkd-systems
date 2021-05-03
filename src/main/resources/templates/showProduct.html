@@ -147,13 +147,19 @@
                                             <button type="submit" class="btn btn-outline-success col-auto"
                                                     th:style="(${product.getModelsCars().contains(m)}?'display: none;':'')"
                                                     th:id="'btnAddModel' + ${m.getId()}"
-                                                    th:onclick="'clickModel('+ ${product.getId()} + ', ' + ${m.getId()} + ')'">
+                                                    th:data-ajax="${@environment.getProperty('url.ajax')}"
+                                                    th:data-mid="${m.getId()}"
+                                                    th:data-pid="${product.getId()}"
+                                                    onclick="clickModel(this.getAttribute('data-pid'),this.getAttribute('data-mid'),this.getAttribute('data-ajax'))">
                                                 Добавить
                                             </button>
                                             <button type="submit" class="btn btn-outline-danger col-auto"
                                                     th:style="(${product.getModelsCars().contains(m)}?'':'display: none;')"
                                                     th:id="'btnDelModel' + ${m.getId()}"
-                                                    th:onclick="'clickModel('+ ${product.getId()} + ', ' + ${m.getId()} + ')'">
+                                                    th:data-ajax="${@environment.getProperty('url.ajax')}"
+                                                    th:data-mid="${m.getId()}"
+                                                    th:data-pid="${product.getId()}"
+                                                    onclick="clickModel(this.getAttribute('data-pid'),this.getAttribute('data-mid'),this.getAttribute('data-ajax'))">
                                                 Удалить
                                             </button>
                                         </div>
