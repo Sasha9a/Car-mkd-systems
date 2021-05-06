@@ -21,17 +21,11 @@ public class Product {
 	@Length(max = 100, message = "Слишком длинное название товара")
 	private String name;
 
-	@NotNull(message = "Введите цену товара")
-	@Min(value = 0, message = "Цена не может быть отрицательной")
-	@Max(value = 100000, message = "Слишком большая цена")
-	private Integer price;
+	private Integer price = 0;
 
 	private Integer discount;
 
-	@NotNull(message = "Введите кол-во товара")
-	@Min(value = 0, message = "Кол-во не может быть отрицательной")
-	@Max(value = 100000, message = "Слишком большое кол-во")
-	private Integer stock;
+	private Integer stock = 0;
 
 	private boolean isPublic;
 

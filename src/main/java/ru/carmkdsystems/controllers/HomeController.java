@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.carmkdsystems.models.Product;
-import ru.carmkdsystems.repositories.FirmCarRepos;
 import ru.carmkdsystems.repositories.ModelCarRepos;
 import ru.carmkdsystems.repositories.ProductRepos;
 
@@ -26,43 +25,40 @@ public class HomeController {
 	@Autowired
 	private ProductRepos productRepos;
 	@Autowired
-	private FirmCarRepos firmCarRepos;
-	@Autowired
 	private ModelCarRepos modelCarRepos;
 
 	@GetMapping("/")
 	public String home(Model model,
 					   HttpServletRequest user,
 					   @RequestParam(defaultValue = "", required = false) String firmCar,
-					   @RequestParam(defaultValue = "", required = false) String modelCar,
-					   @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, size = 20) Pageable pageable) {
-		Page<Product> products;
-		if (user != null && user.isUserInRole("ADMIN")) {
-			if (firmCar != null && !firmCar.isEmpty() && modelCar != null && !modelCar.isEmpty()) {
-				products = productRepos.findAllByFirmAndModel(firmCar, modelCar, pageable);
-			} else if (firmCar != null && !firmCar.isEmpty()) {
-				products = productRepos.findAllByFirm(firmCar, pageable);
-			} else {
-				products = productRepos.findAllDesc(pageable);
-			}
-		} else {
-			if (firmCar != null && !firmCar.isEmpty() && modelCar != null && !modelCar.isEmpty()) {
-				products = productRepos.findAllByFirmAndModelIsProduct(firmCar, modelCar, pageable);
-			} else if (firmCar != null && !firmCar.isEmpty()) {
-				products = productRepos.findAllByFirmIsProduct(firmCar, pageable);
-			} else {
-				products = productRepos.findAllByIsProduct(pageable);
-			}
-		}
-		model.addAttribute("AllProducts", products);
-		model.addAttribute("AllFirms", firmCarRepos.findAll());
-		if (firmCar != null && !firmCar.isEmpty()) {
-			model.addAttribute("firmCar", firmCar);
-			model.addAttribute("AllModels", modelCarRepos.findAllByFirmCar(firmCarRepos.findByFirm(firmCar)));
-		}
-		if (modelCar != null && !modelCar.isEmpty()) {
-			model.addAttribute("modelCar", modelCar);
-		}
+					   @RequestParam(defaultValue = "", required = false) String modelCar/*,
+					   @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, size = 20) Pageable pageable*/) {
+//		Page<Product> products;
+//		if (user != null && user.isUserInRole("ADMIN")) {
+//			if (firmCar != null && !firmCar.isEmpty() && modelCar != null && !modelCar.isEmpty()) {
+//				products = productRepos.findAllByFirmAndModel(firmCar, modelCar, pageable);
+//			} else if (firmCar != null && !firmCar.isEmpty()) {
+//				products = productRepos.findAllByFirm(firmCar, pageable);
+//			} else {
+//				products = productRepos.findAllDesc(pageable);
+//			}
+//		} else {
+//			if (firmCar != null && !firmCar.isEmpty() && modelCar != null && !modelCar.isEmpty()) {
+//				products = productRepos.findAllByFirmAndModelIsProduct(firmCar, modelCar, pageable);
+//			} else if (firmCar != null && !firmCar.isEmpty()) {
+//				products = productRepos.findAllByFirmIsProduct(firmCar, pageable);
+//			} else {
+//				products = productRepos.findAllByIsProduct(pageable);
+//			}
+//		}
+//		model.addAttribute("AllProducts", products);
+//		if (firmCar != null && !firmCar.isEmpty()) {
+//			model.addAttribute("firmCar", firmCar);
+//			model.addAttribute("AllModels", modelCarRepos.findAllByFirmCar(firmCarRepos.findByFirm(firmCar)));
+//		}
+//		if (modelCar != null && !modelCar.isEmpty()) {
+//			model.addAttribute("modelCar", modelCar);
+//		}
 		return "home";
 	}
 }

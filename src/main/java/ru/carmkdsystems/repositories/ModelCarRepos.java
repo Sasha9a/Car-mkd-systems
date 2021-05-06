@@ -2,16 +2,13 @@ package ru.carmkdsystems.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.carmkdsystems.models.FirmCar;
 import ru.carmkdsystems.models.ModelCar;
 
-import java.util.List;
+import java.util.Set;
 
 public interface ModelCarRepos extends CrudRepository<ModelCar, Long> {
-    ModelCar findByModelAndFirmCar(String model, FirmCar id);
-
-    List<ModelCar> findAllByFirmCar(FirmCar id);
-
+    ModelCar findByModelAndFirm(String model, String firm);
+    Set<ModelCar> findByFirm(String firm);
     @Transactional
-    void deleteByFirmCar(FirmCar id);
+    void deleteByFirm(String firm);
 }

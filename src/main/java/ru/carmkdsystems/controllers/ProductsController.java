@@ -6,11 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.carmkdsystems.models.FirmCar;
 import ru.carmkdsystems.models.ModelCar;
 import ru.carmkdsystems.models.Product;
 import ru.carmkdsystems.models.ProductParams;
-import ru.carmkdsystems.repositories.FirmCarRepos;
 import ru.carmkdsystems.repositories.ModelCarRepos;
 import ru.carmkdsystems.repositories.ProductParamsRepos;
 import ru.carmkdsystems.repositories.ProductRepos;
@@ -26,8 +24,6 @@ public class ProductsController {
     @Autowired
     private ProductRepos productRepos;
     @Autowired
-    private FirmCarRepos firmCarRepos;
-    @Autowired
     private ModelCarRepos modelCarRepos;
     @Autowired
     private ProductParamsRepos productParamsRepos;
@@ -37,17 +33,8 @@ public class ProductsController {
     @GetMapping("/{id}")
     public String addProductFull(@PathVariable("id") Product product,
                                  Model model) {
-        Iterable<FirmCar> firmCar = firmCarRepos.findAll();
-        ArrayList<FirmCar> isActiveFirm = new ArrayList<>();
-        for (FirmCar f : firmCar) {
-            if (product.getModelsCars().stream().anyMatch(u -> u.getFirmCar().getFirm().equals(f.getFirm()))) {
-                isActiveFirm.add(f);
-            }
-        }
         model.addAttribute("product", product);
-        model.addAttribute("allFirms", firmCar);
         model.addAttribute("allModels", modelCarRepos.findAll());
-        model.addAttribute("activeFirms", isActiveFirm);
         model.addAttribute("allProductParams", productParamsRepos.findAll());
         return "showProduct";
     }
@@ -142,17 +129,8 @@ public class ProductsController {
             productRepos.deleteById(product.getId());
             return "redirect:/";
         }
-        Iterable<FirmCar> firmCar = firmCarRepos.findAll();
-        ArrayList<FirmCar> isActiveFirm = new ArrayList<>();
-        for (FirmCar f : firmCar) {
-            if (product.getModelsCars().stream().anyMatch(u -> u.getFirmCar().getFirm().equals(f.getFirm()))) {
-                isActiveFirm.add(f);
-            }
-        }
         model.addAttribute("product", product);
-        model.addAttribute("allFirms", firmCar);
         model.addAttribute("allModels", modelCarRepos.findAll());
-        model.addAttribute("activeFirms", isActiveFirm);
         model.addAttribute("allProductParams", productParamsRepos.findAll());
         return "showProduct";
     }

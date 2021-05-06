@@ -2,14 +2,13 @@ function clickImagesProduct() {
     $('#updateImages').click();
 }
 
-function clickModel(id, idModel) {
+function clickModel(id, idModel, url) {
     var formData = new FormData();
     var token = $("meta[name='_csrf']").attr("content");
     formData.append('idModel', idModel);
     $.ajax({
         type: 'POST',
-        url: 'http://car-mkd-systems.ru/products/' + id,
-        // url: 'http://localhost:8080/products/' + id,
+        url: url.toString() + id.toString(),
         cache: false,
         headers: {"X-CSRF-TOKEN": token},
         contentType: false,

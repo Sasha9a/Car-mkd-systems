@@ -11,8 +11,14 @@ public class ModelCar {
 
     private String model;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private FirmCar firmCar;
+    private String firm;
+
+    public ModelCar() { }
+
+    public ModelCar(String model, String firm) {
+        this.model = model;
+        this.firm = firm;
+    }
 
     public Long getId() {
         return id;
@@ -30,11 +36,11 @@ public class ModelCar {
         this.model = model;
     }
 
-    public FirmCar getFirmCar() {
-        return firmCar;
+    public String getFirm() {
+        return firm;
     }
 
-    public void setFirmCar(FirmCar firmCar) {
-        this.firmCar = firmCar;
+    public void setFirm(String firm) {
+        this.firm = firm;
     }
 }

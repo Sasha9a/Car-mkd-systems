@@ -28,8 +28,8 @@ public class CreateProductController {
     public String addProduct(@Valid Product product,
                              BindingResult bindingResult,
                              Model model) {
-        model.addAttribute("product", product);
         if (bindingResult.hasErrors()) {
+            model.addAttribute("product", product);
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
             return "createProduct";
