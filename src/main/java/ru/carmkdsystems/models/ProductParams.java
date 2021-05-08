@@ -1,9 +1,6 @@
 package ru.carmkdsystems.models;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 @Entity
 public class ProductParams {
@@ -11,24 +8,11 @@ public class ProductParams {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
+    private Long idProduct;
 
-    private String type;
+    private Integer modProduct;
 
-    @ElementCollection
-    private Set<String> params;
-
-    @ElementCollection
-    @MapKeyColumn(name = "product_id")
-    @Column(name = "param")
-    private Map<Long, String> productParams = new HashMap<>();
-
-    public ProductParams() {}
-
-    public ProductParams(String name, String type) {
-        this.name = name;
-        this.type = type;
-    }
+    private String text;
 
     public Long getId() {
         return id;
@@ -38,35 +22,27 @@ public class ProductParams {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Long getIdProduct() {
+        return idProduct;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setIdProduct(Long idProduct) {
+        this.idProduct = idProduct;
     }
 
-    public String getType() {
-        return type;
+    public Integer getModProduct() {
+        return modProduct;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setModProduct(Integer modProduct) {
+        this.modProduct = modProduct;
     }
 
-    public Set<String> getParams() {
-        return params;
+    public String getText() {
+        return text;
     }
 
-    public void setParams(Set<String> params) {
-        this.params = params;
-    }
-
-    public Map<Long, String> getProductParams() {
-        return productParams;
-    }
-
-    public void setProductParams(Map<Long, String> productParams) {
-        this.productParams = productParams;
+    public void setText(String text) {
+        this.text = text;
     }
 }
