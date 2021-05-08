@@ -36,8 +36,8 @@
         </div>
     </div>
 
-    <ul class="list-group mt-3" th:unless="${allProductParams.isEmpty()}">
-        <li class="list-group-item" th:each="p : ${allProductParams}">
+    <ul class="list-group mt-3" th:unless="${allParams.isEmpty()}">
+        <li class="list-group-item" th:each="p : ${allParams}">
             <div class="row align-items-center">
                 <div class="font-weight-bold col" th:utext="${p.getName()}"></div>
                 <form th:action="@{/edit-params}" method="post" class="col-auto">
