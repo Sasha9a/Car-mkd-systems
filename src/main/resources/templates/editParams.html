@@ -30,14 +30,6 @@
                     <div class="col">
                         <input type="text" name="name" class="form-control" placeholder="Введите название характеристики...">
                     </div>
-                    <div class="col-3">
-                        <select name="type" class="form-control">
-                            <option selected class="text-muted">Выберите тип...</option>
-                            <option class="font-weight-bold">Цифра</option>
-                            <option class="font-weight-bold">Текст</option>
-                            <option class="font-weight-bold">Да/Нет</option>
-                        </select>
-                    </div>
                     <button type="submit" class="btn btn-success col-auto px-4 mb-0">Добавить</button>
                 </div>
             </form>
@@ -47,7 +39,7 @@
     <ul class="list-group mt-3" th:unless="${allProductParams.isEmpty()}">
         <li class="list-group-item" th:each="p : ${allProductParams}">
             <div class="row align-items-center">
-                <div class="font-weight-bold col" th:utext="${p.getName()} + ' [' + ${p.getType()} + ']'"></div>
+                <div class="font-weight-bold col" th:utext="${p.getName()}"></div>
                 <form th:action="@{/edit-params}" method="post" class="col-auto">
                     <input type="number" name="id" th:value="${p.getId()}" hidden>
                     <button type="submit" class="btn btn-outline-danger">Удалить</button>
