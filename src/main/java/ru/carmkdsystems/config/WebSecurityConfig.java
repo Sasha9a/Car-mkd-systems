@@ -14,36 +14,37 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	@Value("${user.password}")
-	private String pass;
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-				.authorizeRequests()
-				.antMatchers("/", "/products/*", "/static/**", "/img/**", "/favicon.ico").permitAll()
-				.antMatchers("/edit-models", "/create-product").hasRole("ADMIN")
-				.anyRequest().hasRole("USER")
-			.and()
-				.formLogin()
-				.loginPage("/login")
-				.defaultSuccessUrl("/")
-				.permitAll()
-			.and()
-				.logout()
-				.logoutSuccessUrl("/")
-				.permitAll();
-	}
+    @Value("${user.password}")
+    private String pass;
 
-	@Bean
-	@Override
-	public UserDetailsService userDetailsService() {
-		UserDetails user =
-				User.withDefaultPasswordEncoder()
-						.username("michail")
-						.password(pass)
-						.roles("USER", "ADMIN")
-						.build();
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/", "/products/*", "/static/**", "/img/**", "/favicon.ico").permitAll()
+                .antMatchers("/edit-models", "/create-product").hasRole("ADMIN")
+                .anyRequest().hasRole("USER")
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/")
+                .permitAll();
+    }
 
-		return new InMemoryUserDetailsManager(user);
-	}
+    @Bean
+    @Override
+    public UserDetailsService userDetailsService() {
+        UserDetails user =
+                User.withDefaultPasswordEncoder()
+                        .username("michail")
+                        .password(pass)
+                        .roles("USER", "ADMIN")
+                        .build();
+
+        return new InMemoryUserDetailsManager(user);
+    }
 }

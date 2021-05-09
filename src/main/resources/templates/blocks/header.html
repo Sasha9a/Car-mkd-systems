@@ -1,28 +1,28 @@
 <div th:fragment="header" xmlns:th="https://www.thymeleaf.org">
-    <div class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="container d-flex">
-            <div class="navbar-brand d-flex align-items-center flex-grow-1">
-                <a href="/" class="text-decoration-none text-reset"><strong>Car MKD Systems</strong></a>
-            </div>
-            <a href="/login" class="navbar-brand align-items-center" th:if="${#httpServletRequest?.remoteUser == null}">
-                <strong class="text-muted">Admin</strong>
-            </a>
-            <div class="dropdown mr-3" th:if="${#httpServletRequest?.isUserInRole('ADMIN')}">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Редактирование
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="/edit-models">Панель моделей автотранспорта</a>
-                    <a class="dropdown-item" href="/edit-params">Панель характеристик</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/create-product">Создать товар</a>
-                </div>
-            </div>
-            <strong class="text-muted" th:text="${#httpServletRequest.remoteUser}"
-                    th:if="${#httpServletRequest?.remoteUser}"></strong>
-            <form th:action="@{/logout}" method="post" th:if="${#httpServletRequest.remoteUser}">
-                <button type="submit" class="btn btn-danger ml-3">Выйти</button>
-            </form>
+  <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container d-flex">
+      <div class="navbar-brand d-flex align-items-center flex-grow-1">
+        <a href="/" class="text-decoration-none text-reset"><strong>Car MKD Systems</strong></a>
+      </div>
+      <a href="/login" class="navbar-brand align-items-center" th:if="${#httpServletRequest?.remoteUser == null}">
+        <strong class="text-muted">Admin</strong>
+      </a>
+      <div class="dropdown mr-3" th:if="${#httpServletRequest?.isUserInRole('ADMIN')}">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Редактирование
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="/edit-models">Панель моделей автотранспорта</a>
+          <a class="dropdown-item" href="/edit-params">Панель характеристик</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/create-product">Создать товар</a>
         </div>
+      </div>
+      <strong class="text-muted" th:text="${#httpServletRequest.remoteUser}"
+              th:if="${#httpServletRequest?.remoteUser}"></strong>
+      <form th:action="@{/logout}" method="post" th:if="${#httpServletRequest.remoteUser}">
+        <button type="submit" class="btn btn-danger ml-3">Выйти</button>
+      </form>
     </div>
+  </div>
 </div>
