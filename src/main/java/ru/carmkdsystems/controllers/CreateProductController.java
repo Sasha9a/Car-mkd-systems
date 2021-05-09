@@ -42,6 +42,7 @@ public class CreateProductController {
             return "createProduct";
         }
         product.getDiscount().add(0);
+        product.getPrice().add(0);
         Product res = productRepos.save(product);
         for (Params p : paramsRepos.findAll()) {
             ProductParams productParams = new ProductParams();

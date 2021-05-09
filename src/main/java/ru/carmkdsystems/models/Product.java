@@ -21,11 +21,18 @@ public class Product {
 	@Length(max = 100, message = "Слишком длинное название товара")
 	private String name;
 
-	private Integer price = 0;
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "product_price", joinColumns = @JoinColumn(name = "product_id"))
+	private List<Integer> price = new ArrayList<>();
 
-	private Integer discount;
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "product_discount", joinColumns = @JoinColumn(name = "product_id"))
+	private List<Integer> discount = new ArrayList<>();
 
-	private Integer stock = 0;
+	@NotNull(message = "Введите кол-во товара")
+	@Min(value = 0, message = "Кол-во не может быть отрицательной")
+	@Max(value = 100000, message = "Слишком большое кол-во")
+	private Integer stock;
 
 	private boolean isPublic;
 
@@ -36,17 +43,17 @@ public class Product {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<ModelCar> modelsCars = new HashSet<>();
 
-	public String convertToMoney() {
-		if (price != null) {
-			return NumberFormat.getCurrencyInstance(new Locale("ru", "RU")).format(price);
+	public String convertToMoney(Integer mod) {
+		if (price.get(mod) != null) {
+			return NumberFormat.getCurrencyInstance(new Locale("ru", "RU")).format(price.get(mod));
 		} else {
 			return "";
 		}
 	}
 
-	public String convertToMoneyDiscount() {
-		if (discount != null) {
-			return NumberFormat.getCurrencyInstance(new Locale("ru", "RU")).format(discount);
+	public String convertToMoneyDiscount(Integer mod) {
+		if (discount.get(mod) != null) {
+			return NumberFormat.getCurrencyInstance(new Locale("ru", "RU")).format(discount.get(mod));
 		} else {
 			return "";
 		}
@@ -66,22 +73,6 @@ public class Product {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Integer getPrice() {
-		return price;
-	}
-
-	public void setPrice(Integer price) {
-		this.price = price;
-	}
-
-	public Integer getDiscount() {
-		return discount;
-	}
-
-	public void setDiscount(Integer discount) {
-		this.discount = discount;
 	}
 
 	public Set<String> getImages() {
@@ -114,5 +105,21 @@ public class Product {
 
 	public void setModelsCars(Set<ModelCar> modelsCars) {
 		this.modelsCars = modelsCars;
+	}
+
+	public List<Integer> getPrice() {
+		return price;
+	}
+
+	public void setPrice(List<Integer> price) {
+		this.price = price;
+	}
+
+	public List<Integer> getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(List<Integer> discount) {
+		this.discount = discount;
 	}
 }

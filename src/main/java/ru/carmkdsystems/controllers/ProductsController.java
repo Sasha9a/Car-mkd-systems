@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.carmkdsystems.models.ModelCar;
 import ru.carmkdsystems.models.Product;
-import ru.carmkdsystems.models.ProductParams;
+import ru.carmkdsystems.models.Params;
 import ru.carmkdsystems.repositories.ModelCarRepos;
-import ru.carmkdsystems.repositories.ProductParamsRepos;
+import ru.carmkdsystems.repositories.ParamsRepos;
 import ru.carmkdsystems.repositories.ProductRepos;
 
 import java.io.File;
@@ -26,7 +26,7 @@ public class ProductsController {
     @Autowired
     private ModelCarRepos modelCarRepos;
     @Autowired
-    private ProductParamsRepos productParamsRepos;
+    private ParamsRepos paramsRepos;
     @Value("${upload.path}")
     private String uploadPath;
 
@@ -35,7 +35,7 @@ public class ProductsController {
                                  Model model) {
         model.addAttribute("product", product);
         model.addAttribute("allModels", modelCarRepos.findAll());
-        model.addAttribute("allProductParams", productParamsRepos.findAll());
+        model.addAttribute("allProductParams", paramsRepos.findAll());
         return "showProduct";
     }
 
@@ -52,7 +52,6 @@ public class ProductsController {
                                      @RequestParam(value = "isDel", required = false) Boolean isDel,
                                      @RequestParam(value = "isPublic", required = false) Boolean isPublic,
                                      @RequestParam(value = "isDelProduct", required = false) Boolean isDelProduct,
-                                     @RequestParam Map<String, String> form,
                                      Model model) throws IOException {
         if (files != null) {
             File uploadDir = new File(uploadPath);
@@ -86,31 +85,31 @@ public class ProductsController {
                 productRepos.save(product);
             }
         } else if (idParam != null) {
-            if (productParamsRepos.findById(idParam).isPresent()) {
-                ProductParams pp = productParamsRepos.findById(idParam).get();
-                if (input != null) {
-                    if (input.isEmpty()) {
-                        pp.getProductParams().remove(product.getId());
-                    } else {
-                        pp.getProductParams().put(product.getId(), input);
-                    }
-                } else if (number != null) {
-                    pp.getProductParams().put(product.getId(), String.format("%d", number));
-                } else if (form.containsKey("bool")) {
-                    if (form.get("bool").equals("Да") || form.get("bool").equals("Нет")) {
-                        pp.getProductParams().put(product.getId(), form.get("bool"));
-                    }
-                }
-                productParamsRepos.save(pp);
-            }
+//            if (paramsRepos.findById(idParam).isPresent()) {
+//                Params pp = paramsRepos.findById(idParam).get();
+//                if (input != null) {
+//                    if (input.isEmpty()) {
+//                        pp.getProductParams().remove(product.getId());
+//                    } else {
+//                        pp.getProductParams().put(product.getId(), input);
+//                    }
+//                } else if (number != null) {
+//                    pp.getProductParams().put(product.getId(), String.format("%d", number));
+//                } else if (form.containsKey("bool")) {
+//                    if (form.get("bool").equals("Да") || form.get("bool").equals("Нет")) {
+//                        pp.getProductParams().put(product.getId(), form.get("bool"));
+//                    }
+//                }
+//                paramsRepos.save(pp);
+//            }
         } else if (countStock != null) {
             product.setStock(countStock);
             productRepos.save(product);
         } else if (price != null) {
-            product.setPrice(price);
+//            product.setPrice(price);
             productRepos.save(product);
         } else if (discount != null) {
-            product.setDiscount(discount);
+//            product.setDiscount(discount);
             productRepos.save(product);
         } else if (isDel != null) {
             product.setDiscount(null);
@@ -131,7 +130,7 @@ public class ProductsController {
         }
         model.addAttribute("product", product);
         model.addAttribute("allModels", modelCarRepos.findAll());
-        model.addAttribute("allProductParams", productParamsRepos.findAll());
+        model.addAttribute("allProductParams", paramsRepos.findAll());
         return "showProduct";
     }
 }
