@@ -1,0 +1,31 @@
+{
+  "name": "car-mkd-systems",
+  "version": "1.0.0",
+  "description": "Online store of car radios.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.12.7",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "jsonwebtoken": "^8.5.1",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "bcryptjs": "^2.4.3",
+    "bootstrap": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sasha9a/Car-mkd-systems.git"
+  },
+  "author": "Aleksandr Dovgiy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sasha9a/Car-mkd-systems/issues"
+  },
+  "homepage": "https://github.com/Sasha9a/Car-mkd-systems#readme"
+}
