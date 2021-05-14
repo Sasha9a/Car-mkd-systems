@@ -4,10 +4,6 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/db');
 const User = require('../models/User');
 
-router.get('/', (req, res) => {
-	res.send('Авторизация');
-});
-
 router.post('/', (req, res) => {
 	const login = req.body.login;
 	const password = req.body.password;

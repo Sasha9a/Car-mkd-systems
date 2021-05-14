@@ -8,10 +8,10 @@
         Редактирование
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="/edit-models">Панель моделей автотранспорта</a>
-        <a class="dropdown-item" href="/edit-params">Панель характеристик</a>
+        <a class="dropdown-item" [routerLink]="['/edit-models']">Панель моделей автотранспорта</a>
+        <a class="dropdown-item" [routerLink]="['/edit-params']">Панель характеристик</a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="/create-product">Создать товар</a>
+        <a class="dropdown-item" [routerLink]="['/create-product']">Создать товар</a>
       </div>
     </div>
 		<a [routerLink]="['/login']" *ngIf="!authService.isAuth()" class="navbar-brand align-items-center">

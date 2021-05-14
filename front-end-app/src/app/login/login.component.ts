@@ -10,15 +10,12 @@ import { AuthService } from "../auth.service";
 })
 export class LoginComponent implements OnInit {
 
-	login: String;
-	password: String;
+	login: String = '';
+	password: String = '';
 
 	constructor(private flashMessages: FlashMessagesService,
 							private router: Router,
-							private authService: AuthService) {
-		this.login = '';
-		this.password = '';
-	}
+							private authService: AuthService) {}
 
 	ngOnInit(): void {
 	}
