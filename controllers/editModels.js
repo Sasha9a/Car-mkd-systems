@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
 		case 2:
 			ModelCar.findByFirm(req.body.oldFirm, (err, modelsCar) => {
 				if (err) throw err;
-				for (let m of modelsCar) {
+				modelsCar.forEach((m) => {
 					ModelCar.findByModelAndFirm(m.model, req.body.firm, (err, modelCar) => {
 						if (err) throw err;
 						if (modelCar) {
@@ -47,7 +47,7 @@ router.post('/', (req, res) => {
 							});
 						}
 					});
-				}
+				});
 				res.json({
 					message: `Фирма ${req.body.oldFirm} успешно изменена на ${req.body.firm}.`
 				});
