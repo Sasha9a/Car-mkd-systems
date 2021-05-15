@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { FlashMessagesService } from "angular2-flash-messages";
 import { Router } from "@angular/router";
+import { UtilsService } from "../utils.service";
 
 @Component({
   selector: 'app-edit-models',
@@ -18,20 +19,14 @@ export class EditModelsComponent implements OnInit {
 
   constructor(private http: HttpClient,
 							private router: Router,
-							private flashMessages: FlashMessagesService) {
+							private flashMessages: FlashMessagesService,
+							private utilsService: UtilsService) {
 	}
 
   ngOnInit(): void {
 		this.http.get('http://localhost:3000/edit-models').subscribe((data: any) => {
-			if (!data.success) {
-				this.flashMessages.show(data.message, {
-					cssClass: 'alert-danger',
-					timeout: 5000
-				});
-			} else {
-				this.modelsCar = data.modelsCar;
-				this.allFirms = data.distinctFirm;
-			}
+			this.modelsCar = data.modelsCar;
+			this.allFirms = data.distinctFirm;
 		});
   }
 
@@ -83,7 +78,7 @@ export class EditModelsComponent implements OnInit {
 					});
 				}
 		});
-		this.reloadComponent('/edit-models');
+		this.utilsService.reloadComponent('/edit-models');
 		return true;
 	}
 
@@ -170,12 +165,6 @@ export class EditModelsComponent implements OnInit {
 				timeout: 5000
 			});
 		});
-		this.reloadComponent('/edit-models');
-	}
-
-	reloadComponent(url: String) {
-		this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-		this.router.onSameUrlNavigation = 'reload';
-		this.router.navigate([url]);
+		this.utilsService.reloadComponent('/edit-models');
 	}
 }

@@ -28,10 +28,12 @@ require('./config/passport')(passport);
 const home = require('./controllers/home');
 const editModels = require('./controllers/editModels');
 const login = require('./controllers/login');
+const params = require('./controllers/editParams');
 
 app.use('/', home);
 app.use('/edit-models', editModels);
 app.use('/login', login);
+app.use('/edit-params', params);
 
 // Подключение к бд
 mongoose.connect(db.db, {useNewUrlParser: true, useUnifiedTopology: true});

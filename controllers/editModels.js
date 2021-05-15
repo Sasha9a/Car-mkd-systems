@@ -8,7 +8,6 @@ router.get('/', (req, res) => {
 		ModelCar.distinctFirm((err, firms) => {
 			if (err) throw err;
 			res.json({
-				success: true,
 				modelsCar: modelsCar,
 				distinctFirm: firms
 			});
@@ -23,12 +22,22 @@ router.post('/', (req, res) => {
 				model: req.body.model,
 				firm: req.body.firm
 			});
-			ModelCar.addModelCar(newModelCar, (err, modelCar) => {
+			ModelCar.findByModelAndFirm(req.body.model, req.body.firm, (err, modelCar) => {
 				if (err) throw err;
-				res.json({
-					success: true,
-					message: `Модель ${modelCar.model} успешно добавлен.`
-				});
+				if (modelCar) {
+					res.json({
+						success: false,
+						message: `Такая модель уже существует!`
+					});
+				} else {
+					ModelCar.addModelCar(newModelCar, (err, modelCar) => {
+						if (err) throw err;
+						res.json({
+							success: true,
+							message: `Модель ${modelCar.model} успешно добавлен.`
+						});
+					});
+				}
 			});
 			break;
 		case 2:

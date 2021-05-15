@@ -1,0 +1,27 @@
+<button class="btn btn-primary" type="button" data-toggle="collapse"
+				data-target="#collapseAddFirmCar" aria-expanded="false" aria-controls="collapseAddFirmCar">
+	Добавить характеристику
+</button>
+<div class="collapse" id="collapseAddFirmCar">
+	<div class="card card-body">
+		<form (submit)="addParam()">
+			<div class="form-row">
+				<div class="col">
+					<input type="text" [(ngModel)]="name" name="name" class="form-control" placeholder="Введите название характеристики...">
+				</div>
+				<button type="submit" class="btn btn-success col-auto px-4 mb-0">Добавить</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<ul class="list-group mt-3" *ngIf="allParams.length !== 0">
+	<li class="list-group-item" *ngFor="let p of allParams">
+		<div class="row align-items-center">
+			<div class="font-weight-bold col" [innerText]="p.name"></div>
+			<form class="col-auto" (submit)="deleteParam(p.name)">
+				<button type="submit" class="btn btn-outline-danger">Удалить</button>
+			</form>
+		</div>
+	</li>
+</ul>
