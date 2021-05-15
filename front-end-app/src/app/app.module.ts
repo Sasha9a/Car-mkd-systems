@@ -9,6 +9,8 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { EditModelsComponent } from './edit-models/edit-models.component';
 import { EditParamsComponent } from './edit-params/edit-params.component';
+import { CreateProductComponent } from './create-product/create-product.component';
+import { ProductComponent } from './product/product.component';
 
 import { RouterModule, Routes } from "@angular/router";
 import { FlashMessagesModule } from "angular2-flash-messages";
@@ -18,13 +20,14 @@ import { HttpClientModule } from "@angular/common/http";
 import { AuthService } from "./auth.service";
 import { UtilsService } from "./utils.service";
 import { IsAuth } from "./isAuth.guard";
-import { CreateProductComponent } from './create-product/create-product.component';
 
 const appRoute: Routes = [
 	{path: '', component: HomeComponent},
 	{path: 'login', component: LoginComponent},
 	{path: 'edit-models', component: EditModelsComponent, canActivate: [IsAuth]},
-	{path: 'edit-params', component: EditParamsComponent, canActivate: [IsAuth]}
+	{path: 'edit-params', component: EditParamsComponent, canActivate: [IsAuth]},
+	{path: 'product/new', component: CreateProductComponent, canActivate: [IsAuth]},
+	{path: 'product/:id', component: ProductComponent}
 ];
 
 @NgModule({
@@ -36,7 +39,8 @@ const appRoute: Routes = [
     HomeComponent,
     EditModelsComponent,
     EditParamsComponent,
-    CreateProductComponent
+    CreateProductComponent,
+    ProductComponent
   ],
 	imports: [
 		BrowserModule,

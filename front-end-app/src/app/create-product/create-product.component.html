@@ -1,1 +1,14 @@
-<p>create-product works!</p>
+<h2 class="my-4">Форма создания товара</h2>
+<form (submit)="createProduct()">
+	<div class="form-group my-3">
+		<input type="text" [(ngModel)]="name" name="name" class="form-control" placeholder="Введите название товара...">
+	</div>
+	<div class="input-group my-3">
+		<input type="number" [(ngModel)]="stock" name="stock" class="form-control"
+					 aria-describedby="stock2" placeholder="Введите кол-во товара...">
+		<div class="input-group-append">
+			<span class="input-group-text" id="stock2">шт.</span>
+		</div>
+	</div>
+	<button type="submit" class="btn btn-primary my-3">Продолжить</button>
+</form>

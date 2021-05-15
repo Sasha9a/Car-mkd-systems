@@ -29,11 +29,13 @@ const home = require('./controllers/home');
 const editModels = require('./controllers/editModels');
 const login = require('./controllers/login');
 const params = require('./controllers/editParams');
+const product = require('./controllers/product');
 
 app.use('/', home);
 app.use('/edit-models', editModels);
 app.use('/login', login);
 app.use('/edit-params', params);
+app.use('/product', product);
 
 // Подключение к бд
 mongoose.connect(db.db, {useNewUrlParser: true, useUnifiedTopology: true});
