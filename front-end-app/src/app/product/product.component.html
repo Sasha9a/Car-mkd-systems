@@ -89,21 +89,21 @@
 				<div class="row align-items-center mt-2">
 					<p class="card-text col-auto mb-0{{ product.stock > 0 ? ' text-muted' : ' text-danger' }}"
 						 [innerText]="product.stock > 0 ? ('В наличии: ' + product.stock.toString()) : 'Нет в наличии'"></p>
-<!--					<div class="dropdown col-auto" *ngIf="authService.isAuth()">-->
-<!--						<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownEditStock"-->
-<!--										data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--							Изменить кол-во-->
-<!--						</button>-->
-<!--						<div class="dropdown-menu" aria-labelledby="dropdownEditStock">-->
-<!--							<div class="card-body" style="min-width: 300px;">-->
-<!--								<form class="mx-2" th:action="@{'/products/' + ${product.getId()}}" method="post">-->
-<!--									<input type="number" name="countStock" class="form-control" min="0" max="100000"-->
-<!--												 placeholder="Введите кол-во...">-->
-<!--									<button type="submit" class="btn btn-success mt-3">Изменить</button>-->
-<!--								</form>-->
-<!--							</div>-->
-<!--						</div>-->
-<!--					</div>-->
+					<div class="dropdown col-auto" *ngIf="authService.isAuth()">
+						<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownEditStock"
+										data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Изменить кол-во
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownEditStock">
+							<div class="card-body" style="min-width: 300px;">
+								<form class="mx-2" (submit)="updateStock()">
+									<input type="number" [(ngModel)]="countStock" name="countStock" class="form-control" min="0" max="100000"
+												 placeholder="Введите кол-во...">
+									<button type="submit" class="btn btn-success mt-3">Изменить</button>
+								</form>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

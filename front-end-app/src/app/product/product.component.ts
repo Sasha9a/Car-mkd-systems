@@ -14,6 +14,7 @@ export class ProductComponent implements OnInit {
 
 	urlID: String = '';
 	product: any = null;
+	countStock: Number | undefined;
 
   constructor(public authService: AuthService,
 							private http: HttpClient,
@@ -28,6 +29,20 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+	updateStock() {
+  	const product = {
+  		stock: this.countStock,
+			task: 1
+		};
+		let headers = new HttpHeaders();
+		this.http.post('http://localhost:3000/product/' + this.urlID,
+			product, {headers: headers}).subscribe((data:any) => {
+				if (data.success) {
+					this.product.stock = this.countStock;
+				}
+		});
+	}
 
   uploadImages(event: any) {
   	const formData = new FormData();
@@ -44,12 +59,9 @@ export class ProductComponent implements OnInit {
 						timeout: 5000
 					});
 				} else {
-					this.utils.reloadComponent('/product/' + this.urlID);
+					this.product.images = data.images;
 				}
 				return true;
 		});
 	}
-
-
-
 }
