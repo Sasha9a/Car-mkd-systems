@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 const passport = require('passport');
+const fs = require('fs');
+const fileUpload = require('express-fileupload');
 
 const User = require('./models/User');
 
@@ -23,6 +25,9 @@ app.use(bodyParser.json());
 app.use(passport.initialize(undefined));
 app.use(passport.session(undefined));
 require('./config/passport')(passport);
+app.use(fileUpload({
+	createParentPath: true
+}));
 
 // Контроллеры
 const home = require('./controllers/home');
@@ -36,6 +41,16 @@ app.use('/edit-models', editModels);
 app.use('/login', login);
 app.use('/edit-params', params);
 app.use('/product', product);
+
+app.get('/images/:id', (req, res) => {
+	fs.access(path.resolve('./public/images/', req.params.id), fs.F_OK, (err) => {
+		if (err) {
+			console.error(err);
+		} else {
+			fs.createReadStream(path.resolve('./public/images/', req.params.id)).pipe(res);
+		}
+	});
+});
 
 // Подключение к бд
 mongoose.connect(db.db, {useNewUrlParser: true, useUnifiedTopology: true});

@@ -10,13 +10,16 @@ const ProductSchema = mongoose.Schema({
 		default: 0
 	},
 	price: {
-		type: [Number]
+		type: [Number],
+		default: []
 	},
 	discount: {
-		type: [Number]
+		type: [Number],
+		default: []
 	},
 	images: {
-		type: [String]
+		type: [String],
+		default: []
 	},
 	isPublic: {
 		type: Boolean,
