@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const ProductSchema = mongoose.Schema({
 	name: {
@@ -19,6 +20,10 @@ const ProductSchema = mongoose.Schema({
 	},
 	images: {
 		type: [String],
+		default: []
+	},
+	carModels: {
+		type: [Schema.Types.Mixed],
 		default: []
 	},
 	isPublic: {

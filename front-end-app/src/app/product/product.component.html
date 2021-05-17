@@ -109,3 +109,70 @@
 		</div>
 	</div>
 </div>
+
+<div class="card mt-3" style="min-height: 300px;">
+	<h5 class="card-header text-center">Подходит для автомобилей</h5>
+	<div class="card-body">
+
+		<div class="accordion mb-3" id="accordionFirms" *ngIf="authService.isAuth()">
+
+			<div class="card" *ngFor="let f of allFirms" style="overflow: visible;">
+				<div class="card-header" [id]="'heading' + f">
+					<div class="row">
+						<h2 class="col mb-0">
+							<button class="btn btn-link btn-block text-left font-weight-bold" type="button"
+											data-toggle="collapse" [attr.data-target]="'#collapse' + f" aria-expanded="false"
+											[attr.aria-controls]="'collapse' + f" [innerText]="f">
+							</button>
+						</h2>
+					</div>
+				</div>
+				<div [id]="'collapse' + f" class="collapse" [attr.aria-labelledby]="'heading' + f"
+						 data-parent="#accordionFirms">
+					<div class="card-body">
+						<ul class="list-group">
+							<ng-container *ngFor="let m of allModels">
+								<li class="list-group-item" *ngIf="m.firm === f">
+									<div class="row align-items-center">
+										<div class="font-weight-bold col" [innerText]="m.model"></div>
+										<button type="button" class="btn btn-outline-success col-auto mr-2"
+														style="{{ isModelCar(m.model, f) ? 'display: none;' : '' }}"
+														[id]="'btnAddModel' + m.model + m.firm" (click)="addCarModel(m)">
+												Добавить
+										</button>
+										<button type="button" class="btn btn-outline-danger col-auto mr-2"
+														style="{{ isModelCar(m.model, f) ? '' : 'display: none;' }}"
+														[id]="'btnDelModel' + m.model + m.firm" (click)="delCarModel(m)">
+												Удалить
+										</button>
+									</div>
+								</li>
+							</ng-container>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-4">
+				<div class="list-group" role="tablist">
+					<a *ngFor="let f of activeFirms; let ind = index"
+						 [id]="'list-list' + f" data-toggle="list" [href]="'#list' + f"  role="tab" [innerText]="f"
+						 class="{{ 'list-group-item list-group-item-action' + (ind == 0 ? ' active' : '') }}"></a>
+				</div>
+			</div>
+			<div class="col-8">
+				<div class="tab-content">
+					<div *ngFor="let f of activeFirms; let ind = index"
+							 class="{{ 'tab-pane fade' + (ind == 0 ? ' show active' : '') }}" role="tabpanel"
+							 [id]="'list' + f" [attr.aria-labelledby]="'list-list' + f">
+						<ng-container *ngFor="let m of product.carModels">
+							<h6 *ngIf="m.firm == f" [innerText]="m.model"></h6>
+						</ng-container>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

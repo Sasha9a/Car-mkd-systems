@@ -12,9 +12,12 @@ import { UtilsService } from "../utils.service";
 })
 export class ProductComponent implements OnInit {
 
+	allFirms: any = [];
+	allModels: any = [];
 	urlID: String = '';
 	product: any = null;
 	countStock: Number | undefined;
+	activeFirms: any = [];
 
   constructor(public authService: AuthService,
 							private http: HttpClient,
@@ -24,11 +27,56 @@ export class ProductComponent implements OnInit {
 		this.urlID = this.router.parseUrl(this.router.url).root.children[PRIMARY_OUTLET].segments[1].path;
 		this.http.get('http://localhost:3000/product/' + this.urlID).subscribe((data: any) => {
 			this.product = data.product;
+			this.allFirms = data.allFirms;
+			this.allModels = data.allModels;
+			this.activeFirms = data.activeFirms;
+			console.log(this.activeFirms);
 		});
 	}
 
   ngOnInit(): void {
   }
+
+	isModelCar(model: String, firm: String) {
+  	const arr = this.product.carModels.filter((cm: any) => {
+  		return cm.model == model && cm.firm == firm;
+		});
+  	return arr.length != 0;
+	}
+
+	addCarModel(model: any) {
+  	const product = {
+			model: model,
+			task: 2
+		}
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', 'application/json');
+		this.http.post('http://localhost:3000/product/' + this.urlID,
+			product, {headers: headers}).subscribe((data:any) => {
+			if (data.success) {
+				this.product.carModels = data.carModels;
+				this.activeFirms = data.activeFirms;
+				console.log(this.activeFirms);
+			}
+		});
+	}
+
+	delCarModel(model: any) {
+		const product = {
+			model: model,
+			task: 3
+		}
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', 'application/json');
+		this.http.post('http://localhost:3000/product/' + this.urlID,
+			product, {headers: headers}).subscribe((data:any) => {
+			if (data.success) {
+				this.product.carModels = data.carModels;
+				this.activeFirms = data.activeFirms;
+				console.log(this.activeFirms);
+			}
+		});
+	}
 
 	updateStock() {
   	const product = {
@@ -36,6 +84,7 @@ export class ProductComponent implements OnInit {
 			task: 1
 		};
 		let headers = new HttpHeaders();
+		headers.append('Content-Type', 'application/json');
 		this.http.post('http://localhost:3000/product/' + this.urlID,
 			product, {headers: headers}).subscribe((data:any) => {
 				if (data.success) {

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ModelCar = require('../models/ModelCar');
+const Product = require('../models/Product');
 
 router.get('/', (req, res) => {
 	ModelCar.findAll((err, modelsCar) => {
@@ -65,8 +66,15 @@ router.post('/', (req, res) => {
 		case 3:
 			ModelCar.deleteByFirm(req.body.firm, (err) => {
 				if (err) throw err;
-				res.json({
-					message: `Фирма ${req.body.firm} успешно удалена.`
+				Product.find({"carModels.firm" : req.body.firm}, (err, products) => {
+					if (err) throw err;
+					products.forEach((p) => {
+						p.carModels = p.carModels.filter((el) => el.firm !== req.body.firm);
+						p.save();
+					});
+					res.json({
+						message: `Фирма ${req.body.firm} успешно удалена.`
+					});
 				});
 			});
 			break;
@@ -90,8 +98,18 @@ router.post('/', (req, res) => {
 		case 5:
 			ModelCar.deleteByModelAndFirm(req.body.model, req.body.firm, (err) => {
 				if (err) throw err;
-				res.json({
-					message: `Модель ${req.body.model} успешно удалена.`
+				Product.find({
+					"carModels.firm" : req.body.firm,
+					"carModels.model" : req.body.model
+				}, (err, products) => {
+					if (err) throw err;
+					products.forEach((p) => {
+						p.carModels = p.carModels.filter((el) => el.firm !== req.body.firm || el.model !== req.body.model);
+						p.save();
+					});
+					res.json({
+						message: `Модель ${req.body.model} успешно удалена.`
+					});
 				});
 			});
 			break;
