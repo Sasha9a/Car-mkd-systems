@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
 const ModelCar = require('../models/ModelCar');
+const Param = require('../models/Param');
 const fs = require('fs');
 const uuid = require('uuid');
 
@@ -126,6 +127,74 @@ router.post('/:id', (req, res) => {
 					});
 				}).sort();
 			});
+		});
+	} else if (req.body.task === 4) {
+		Product.findById(req.params.id, (err, product) => {
+			if (err) throw err;
+			let mods = product.mods.filter((m) => m.name === req.body.nameMod);
+			if (mods.length !== 0) {
+				res.json({
+					success: false,
+					message: `Модификация <b>${req.body.nameMod}</b> уже существует!`
+				});
+			} else {
+				const mod = {
+					name: req.body.nameMod,
+					params: {
+						price: 0,
+						discount: -1
+					}
+				};
+				product.mods.push(mod);
+				product.save();
+				res.json({
+					success: true,
+					mods: product.mods
+				});
+			}
+		});
+	} else if (req.body.task === 5) {
+		Product.findById(req.params.id, (err, product) => {
+			if (err) throw err;
+			let mods = product.mods.filter((m) => m.name === req.body.nameMod);
+			if (mods.length !== 0) {
+				res.json({
+					success: false,
+					message: `Модификация <b>${req.body.nameMod}</b> уже существует!`
+				});
+			} else {
+				try {
+					product.mods.find((m) => m.name === req.body.oldNameMod).name = req.body.nameMod;
+					product.markModified('mods');
+					product.save();
+					res.json({
+						success: true,
+						mods: product.mods
+					});
+				} catch (err) {
+					res.json({
+						success: false,
+						message: `Произошла ошибка!`
+					});
+				}
+			}
+		});
+	} else if (req.body.task === 6) {
+		Product.findById(req.params.id, (err, product) => {
+			if (err) throw err;
+			try {
+				product.mods = product.mods.filter((el) => el.name !== req.body.nameMod);
+				product.save();
+				res.json({
+					success: true,
+					mods: product.mods
+				});
+			} catch (err) {
+				res.json({
+					success: false,
+					message: `Произошла ошибка!`
+				});
+			}
 		});
 	}
 });

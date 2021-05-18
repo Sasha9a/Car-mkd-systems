@@ -3,7 +3,6 @@ import { AuthService } from "../auth.service";
 import { FlashMessagesService } from "angular2-flash-messages";
 import {PRIMARY_OUTLET, Router} from "@angular/router";
 import { HttpHeaders, HttpClient } from "@angular/common/http";
-import { UtilsService } from "../utils.service";
 
 @Component({
   selector: 'app-product',
@@ -18,19 +17,23 @@ export class ProductComponent implements OnInit {
 	product: any = null;
 	countStock: Number | undefined;
 	activeFirms: any = [];
+	newNameMod: String = '';
+	editNameMod: String = '';
+	activeMod: number = -1;
 
   constructor(public authService: AuthService,
 							private http: HttpClient,
 							private flashMessages: FlashMessagesService,
-							private router: Router,
-							private utils: UtilsService) {
+							private router: Router) {
 		this.urlID = this.router.parseUrl(this.router.url).root.children[PRIMARY_OUTLET].segments[1].path;
 		this.http.get('http://localhost:3000/product/' + this.urlID).subscribe((data: any) => {
 			this.product = data.product;
+			if (this.product.mods.length !== 0) {
+				this.activeMod = 0;
+			}
 			this.allFirms = data.allFirms;
 			this.allModels = data.allModels;
 			this.activeFirms = data.activeFirms;
-			console.log(this.activeFirms);
 		});
 	}
 
@@ -42,6 +45,107 @@ export class ProductComponent implements OnInit {
   		return cm.model == model && cm.firm == firm;
 		});
   	return arr.length != 0;
+	}
+
+	selectMod(index: number) {
+  	this.activeMod = index;
+	}
+
+	deleteMod() {
+		const product = {
+			nameMod: this.product.mods[this.activeMod].name,
+			task: 6
+		}
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', 'application/json');
+		this.http.post('http://localhost:3000/product/' + this.urlID,
+			product, {headers: headers}).subscribe((data:any) => {
+			if (data.success) {
+				this.product.mods = data.mods;
+				if (this.product.mods.length > 0) {
+					this.activeMod = 0;
+				} else {
+					this.activeMod = -1;
+				}
+			} else {
+				this.flashMessages.show(data.message, {
+					cssClass: 'alert-danger',
+					timeout: 5000
+				});
+			}
+		});
+	}
+
+	editMod() {
+		const product = {
+			nameMod: this.editNameMod,
+			oldNameMod: this.product.mods[this.activeMod].name,
+			task: 5
+		}
+		if (this.editNameMod === '') {
+			return false;
+		} else if (this.editNameMod.length > 64) {
+			this.flashMessages.show('Слишком длинное название модификации!', {
+				cssClass: 'alert-danger',
+				timeout: 5000
+			});
+			return false;
+		} else if (this.editNameMod === this.product.mods[this.activeMod].name) {
+			this.flashMessages.show('Название совпадает с нынешним!', {
+				cssClass: 'alert-danger',
+				timeout: 5000
+			});
+			return false;
+		}
+		this.editNameMod = '';
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', 'application/json');
+		this.http.post('http://localhost:3000/product/' + this.urlID,
+			product, {headers: headers}).subscribe((data:any) => {
+			if (data.success) {
+				this.product.mods = data.mods;
+			} else {
+				this.flashMessages.show(data.message, {
+					cssClass: 'alert-danger',
+					timeout: 5000
+				});
+			}
+		});
+		return true;
+	}
+
+	createMod() {
+		const product = {
+			nameMod: this.newNameMod,
+			task: 4
+		}
+  	if (this.newNameMod === '') {
+  		return false;
+		} else if (this.newNameMod.length > 64) {
+			this.flashMessages.show('Слишком длинное название модификации!', {
+				cssClass: 'alert-danger',
+				timeout: 5000
+			});
+			return false;
+		}
+  	this.newNameMod = '';
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', 'application/json');
+		this.http.post('http://localhost:3000/product/' + this.urlID,
+			product, {headers: headers}).subscribe((data:any) => {
+			if (data.success) {
+				this.product.mods = data.mods;
+				if (this.product.mods.length !== 0 && this.activeMod === -1) {
+					this.activeMod = 0;
+				}
+			} else {
+				this.flashMessages.show(data.message, {
+					cssClass: 'alert-danger',
+					timeout: 5000
+				});
+			}
+		});
+		return true;
 	}
 
 	addCarModel(model: any) {
@@ -56,7 +160,6 @@ export class ProductComponent implements OnInit {
 			if (data.success) {
 				this.product.carModels = data.carModels;
 				this.activeFirms = data.activeFirms;
-				console.log(this.activeFirms);
 			}
 		});
 	}
@@ -73,7 +176,6 @@ export class ProductComponent implements OnInit {
 			if (data.success) {
 				this.product.carModels = data.carModels;
 				this.activeFirms = data.activeFirms;
-				console.log(this.activeFirms);
 			}
 		});
 	}

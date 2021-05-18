@@ -10,19 +10,15 @@ const ProductSchema = mongoose.Schema({
 		type: Number,
 		default: 0
 	},
-	price: {
-		type: [Number],
-		default: []
-	},
-	discount: {
-		type: [Number],
-		default: []
-	},
 	images: {
 		type: [String],
 		default: []
 	},
 	carModels: {
+		type: [Schema.Types.Mixed],
+		default: []
+	},
+	mods: {
 		type: [Schema.Types.Mixed],
 		default: []
 	},

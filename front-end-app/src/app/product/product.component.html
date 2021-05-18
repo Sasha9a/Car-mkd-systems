@@ -110,6 +110,55 @@
 	</div>
 </div>
 
+<div class="card mt-3">
+	<h5 class="card-header text-center">Тип комплектации</h5>
+	<div class="card-body">
+		<div class="overflow-auto mb-3" *ngIf="product.mods.length !== 0">
+			<div class="btn-group" role="group" aria-label="Basic example">
+				<button *ngFor="let m of product.mods; let ind = index" type="button" [innerText]="m.name"
+								class="btn{{ (activeMod === ind) ? ' btn-secondary' : ' btn-outline-secondary' }}"
+								(click)="selectMod(ind)"></button>
+			</div>
+		</div>
+		<ng-container *ngIf="authService.isAuth()">
+			<div class="dropdown">
+				<button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownAddMod"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Создать новую модификацию
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownAddMod">
+					<div class="card-body" style="min-width: 25vw;">
+						<form class="mx-2" (submit)="createMod()">
+							<input type="text" [(ngModel)]="newNameMod" name="newNameMod" class="form-control"
+										 placeholder="Введите название модификации...">
+							<button type="submit" class="btn btn-success mt-3">Создать</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<ng-container *ngIf="activeMod != -1">
+				<div class="dropdown mt-3">
+					<button class="btn btn-outline-warning dropdown-toggle" type="button" id="dropdownEditMod"
+									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Изменить название модификации
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownEditMod">
+						<div class="card-body" style="min-width: 25vw;">
+							<form class="mx-2" (submit)="editMod()">
+								<input type="text" [(ngModel)]="editNameMod" name="editNameMod" class="form-control"
+											 placeholder="Введите название модификации...">
+								<button type="submit" class="btn btn-success mt-3">Изменить</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<button (click)="deleteMod()" type="button" class="btn btn-outline-danger mt-3">Удалить модификацию</button>
+			</ng-container>
+		</ng-container>
+	</div>
+</div>
+
 <div class="card mt-3" style="min-height: 300px;">
 	<h5 class="card-header text-center">Подходит для автомобилей</h5>
 	<div class="card-body">
