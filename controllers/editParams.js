@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Param = require('../models/Param');
+const Product = require('../models/Product');
 
 router.get('/', (req, res) => {
 	Param.findAll((err, params) => {
@@ -53,10 +54,20 @@ router.post('/', (req, res) => {
 		// 	});
 		// 	break;
 		case 2:
-			Param.deleteByName(req.body.name, (err) => {
+			Product.find({}, (err, products) => {
 				if (err) throw err;
-				res.json({
-					message: `Характеристика <b>${req.body.name}</b> успешно удалена.`
+				products.forEach((product) => {
+					product.mods.forEach((mo) => {
+						mo.params = mo.params.filter((p) => p.name !== req.body.name);
+					});
+					product.markModified('mods');
+					product.save();
+				});
+				Param.deleteByName(req.body.name, (err) => {
+					if (err) throw err;
+					res.json({
+						message: `Характеристика <b>${req.body.name}</b> успешно удалена.`
+					});
 				});
 			});
 			break;

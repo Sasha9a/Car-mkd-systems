@@ -13,6 +13,7 @@ export class ProductComponent implements OnInit {
 
 	allFirms: any = [];
 	allModels: any = [];
+	allParams: any = [];
 	urlID: String = '';
 	product: any = null;
 	countStock: Number | undefined;
@@ -22,6 +23,7 @@ export class ProductComponent implements OnInit {
 	activeMod: number = -1;
 	price: Number | undefined;
 	discount: Number | undefined;
+	param: Array<string> = new Array<string>();
 
   constructor(public authService: AuthService,
 							private http: HttpClient,
@@ -35,7 +37,9 @@ export class ProductComponent implements OnInit {
 			}
 			this.allFirms = data.allFirms;
 			this.allModels = data.allModels;
+			this.allParams = data.allParams;
 			this.activeFirms = data.activeFirms;
+			this.param = new Array<string>(this.allParams.length);
 		});
 	}
 
@@ -55,6 +59,97 @@ export class ProductComponent implements OnInit {
 			currency: 'RUB',
 			minimumFractionDigits: 0
 		}).format(number);
+	}
+
+	findParam(name: String) {
+  	if (this.activeMod != -1) {
+			let par = this.product.mods[this.activeMod].params.find((el: any) => el.name === name);
+			if (par !== undefined) {
+				return this.product.mods[this.activeMod].params.find((el: any) => el.name === name).value;
+			} else {
+				return '';
+			}
+		}
+  	return '';
+	}
+
+	deleteProduct() {
+		const product = {
+			task: 12
+		};
+		this.sendPost('application/json', product, (data: any) => {
+			if (data.success) {
+				this.flashMessages.show('Товар успешно удален', {
+					cssClass: 'alert-success',
+					timeout: 5000
+				});
+				this.router.navigate(['/']);
+			} else {
+				this.flashMessages.show('Произошла ошибка!', {
+					cssClass: 'alert-danger',
+					timeout: 5000
+				});
+			}
+		});
+	}
+
+	publicProduct() {
+		const product = {
+			task: 11
+		};
+		if (this.product.mods.length === 0) {
+			this.flashMessages.show('Чтобы опубликовать, нужно создать минимум 1 тип комплектации!', {
+				cssClass: 'alert-danger',
+				timeout: 10000
+			});
+			return false;
+		} else if (this.product.carModels.length === 0) {
+			this.flashMessages.show('Чтобы опубликовать, нужно продукт прикрепить минимум к одному автомобилю!', {
+				cssClass: 'alert-danger',
+				timeout: 10000
+			});
+			return false;
+		}
+		this.sendPost('application/json', product, (data: any) => {
+			if (data.success) {
+				this.product.isPublic = data.isPublic;
+				this.flashMessages.show('Товар опубликован', {
+					cssClass: 'alert-success',
+					timeout: 5000
+				});
+			}
+		});
+		return true;
+	}
+
+	editParam(name: String, index: number) {
+  	const product = {
+  		nameParam: name,
+			value: this.param[index],
+			nameMod: this.product.mods[this.activeMod].name,
+			task: 10
+		};
+  	if (this.param[index] === undefined) {
+  		return false;
+		} else if (this.param[index].length > 100) {
+			this.flashMessages.show('Слишком длинный текст!', {
+				cssClass: 'alert-danger',
+				timeout: 10000
+			});
+			return false;
+		}
+  	this.param[index] = '';
+  	this.sendPost('application/json', product, (data: any) => {
+			if (data.success) {
+				this.product.mods = data.mods;
+			} else {
+				this.flashMessages.show(data.message, {
+					cssClass: 'alert-danger',
+					timeout: 10000
+				});
+			}
+		});
+  	return true;
 	}
 
 	delDiscount() {

@@ -27,15 +27,19 @@ router.get('/:id', (req, res) => {
 			if (err) throw err;
 			ModelCar.distinctFirm((err, allFirms) => {
 				if (err) throw err;
-				Product.distinct("carModels.firm", {_id: req.params.id}, (err, activeFirms) => {
+				Param.findAll((err, allParams) => {
 					if (err) throw err;
-					res.json({
-						product: product,
-						allModels: modelsCar,
-						allFirms: allFirms,
-						activeFirms: activeFirms
-					});
-				}).sort();
+					Product.distinct("carModels.firm", {_id: req.params.id}, (err, activeFirms) => {
+						if (err) throw err;
+						res.json({
+							product: product,
+							allModels: modelsCar,
+							allFirms: allFirms,
+							allParams: allParams,
+							activeFirms: activeFirms
+						});
+					}).sort();
+				});
 			});
 		})
 	});
@@ -249,6 +253,80 @@ router.post('/:id', (req, res) => {
 				});
 			}
 		});
+	} else if (req.body.task === 10) {
+		Product.findById(req.params.id, (err, product) => {
+			if (err) throw err;
+			try {
+				if (product.mods.find((m) => m.name === req.body.nameMod) !== undefined) {
+					if (product.mods.find((m) => m.name === req.body.nameMod).params
+							.find((p) => p.name === req.body.nameParam) === undefined) {
+						if (req.body.value !== '') {
+							const param = {
+								name: req.body.nameParam,
+								value: req.body.value
+							};
+							product.mods.find((m) => m.name === req.body.nameMod).params.push(param);
+						}
+					} else {
+						if (req.body.value !== '') {
+							product.mods.find((m) => m.name === req.body.nameMod).params
+								.find((p) => p.name === req.body.nameParam).value = req.body.value;
+						} else {
+							product.mods.find((m) => m.name === req.body.nameMod).params =
+								product.mods.find((m) => m.name === req.body.nameMod).params
+									.filter((p) => p.name !== req.body.nameParam);
+						}
+					}
+					product.markModified('mods');
+					product.save();
+					res.json({
+						success: true,
+						mods: product.mods
+					});
+				} else {
+					res.json({
+						success: false,
+						message: `Произошла ошибка!`
+					});
+				}
+			} catch (err) {
+				res.json({
+					success: false,
+					message: `Произошла ошибка: ${err}`
+				});
+			}
+		});
+	} else if (req.body.task === 11) {
+		Product.findById(req.params.id, (err, product) => {
+			if (err) throw err;
+			product.isPublic = true;
+			product.save();
+			res.json({
+				success: true,
+				isPublic: true
+			});
+		});
+	} else if (req.body.task === 12) {
+		Product.findById(req.params.id, (err, product) => {
+			if (err) throw err;
+			product.images.forEach((i) => {
+				fs.access('./public/images/' + i, fs.F_OK, (err) => {
+					if (!err) {
+						fs.unlink('./public/images/' + i, (err) => {
+							if (err) {
+								console.error(err);
+								res.json({success: false});
+								return false;
+							}
+						});
+					}
+				});
+			});
+			Product.deleteOne({_id: req.params.id}, (err) => {
+				if (err) throw err;
+				res.json({success: true});
+			});
+		})
 	}
 });
 
