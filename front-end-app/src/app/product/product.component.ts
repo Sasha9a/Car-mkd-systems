@@ -82,7 +82,7 @@ export class ProductComponent implements OnInit {
 		};
 		if (this.discount === undefined) {
 			return false;
-		} else if (this.discount < 0 || this.discount > this.product.mods[this.activeMod].params.price - 1) {
+		} else if (this.discount < 0 || this.discount > this.product.mods[this.activeMod].price - 1) {
 			this.flashMessages.show('Число не должно быть меньше 0 или больше цены товара!', {
 				cssClass: 'alert-danger',
 				timeout: 5000

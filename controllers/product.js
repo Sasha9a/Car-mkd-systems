@@ -140,10 +140,9 @@ router.post('/:id', (req, res) => {
 			} else {
 				const mod = {
 					name: req.body.nameMod,
-					params: {
-						price: 0,
-						discount: -1
-					}
+					price: 0,
+					discount: -1,
+					params: []
 				};
 				product.mods.push(mod);
 				product.save();
@@ -200,7 +199,7 @@ router.post('/:id', (req, res) => {
 		Product.findById(req.params.id, (err, product) => {
 			if (err) throw err;
 			try {
-				product.mods.find((m) => m.name === req.body.nameMod).params.price = req.body.price;
+				product.mods.find((m) => m.name === req.body.nameMod).price = req.body.price;
 				product.markModified('mods');
 				product.save();
 				res.json({
@@ -218,7 +217,7 @@ router.post('/:id', (req, res) => {
 		Product.findById(req.params.id, (err, product) => {
 			if (err) throw err;
 			try {
-				product.mods.find((m) => m.name === req.body.nameMod).params.discount = req.body.discount;
+				product.mods.find((m) => m.name === req.body.nameMod).discount = req.body.discount;
 				product.markModified('mods');
 				product.save();
 				res.json({
@@ -236,7 +235,7 @@ router.post('/:id', (req, res) => {
 		Product.findById(req.params.id, (err, product) => {
 			if (err) throw err;
 			try {
-				product.mods.find((m) => m.name === req.body.nameMod).params.discount = -1;
+				product.mods.find((m) => m.name === req.body.nameMod).discount = -1;
 				product.markModified('mods');
 				product.save();
 				res.json({
