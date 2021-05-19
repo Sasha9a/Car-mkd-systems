@@ -93,8 +93,8 @@ router.post('/:id', (req, res) => {
 	} else if (req.body.task === 1) {
 		Product.updateOne({_id: req.params.id}, {$set: {stock: req.body.stock}}, (err) => {
 			if (err) throw err;
+			res.json({success: true, stock: req.body.stock});
 		});
-		res.json({success: true});
 	} else if (req.body.task === 2) {
 		Product.findById(req.params.id, (err, product) => {
 			if (err) throw err;
@@ -174,7 +174,7 @@ router.post('/:id', (req, res) => {
 				} catch (err) {
 					res.json({
 						success: false,
-						message: `Произошла ошибка!`
+						message: `Произошла ошибка: ${err}`
 					});
 				}
 			}
@@ -192,7 +192,61 @@ router.post('/:id', (req, res) => {
 			} catch (err) {
 				res.json({
 					success: false,
-					message: `Произошла ошибка!`
+					message: `Произошла ошибка: ${err}`
+				});
+			}
+		});
+	} else if (req.body.task === 7) {
+		Product.findById(req.params.id, (err, product) => {
+			if (err) throw err;
+			try {
+				product.mods.find((m) => m.name === req.body.nameMod).params.price = req.body.price;
+				product.markModified('mods');
+				product.save();
+				res.json({
+					success: true,
+					mods: product.mods
+				});
+			} catch (err) {
+				res.json({
+					success: false,
+					message: `Произошла ошибка: ${err}`
+				});
+			}
+		});
+	} else if (req.body.task === 8) {
+		Product.findById(req.params.id, (err, product) => {
+			if (err) throw err;
+			try {
+				product.mods.find((m) => m.name === req.body.nameMod).params.discount = req.body.discount;
+				product.markModified('mods');
+				product.save();
+				res.json({
+					success: true,
+					mods: product.mods
+				});
+			} catch (err) {
+				res.json({
+					success: false,
+					message: `Произошла ошибка: ${err}`
+				});
+			}
+		});
+	} else if (req.body.task === 9) {
+		Product.findById(req.params.id, (err, product) => {
+			if (err) throw err;
+			try {
+				product.mods.find((m) => m.name === req.body.nameMod).params.discount = -1;
+				product.markModified('mods');
+				product.save();
+				res.json({
+					success: true,
+					mods: product.mods
+				});
+			} catch (err) {
+				res.json({
+					success: false,
+					message: `Произошла ошибка: ${err}`
 				});
 			}
 		});

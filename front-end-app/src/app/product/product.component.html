@@ -38,54 +38,50 @@
 		<div class="col">
 			<h4 class="card-header" [innerText]="product.name"></h4>
 			<div class="card-body">
-<!--				<div class="row mb-2" *ngIf="authService.isAuth()">-->
-<!--					<div class="dropdown col-auto">-->
-<!--						<button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownEditDiscount"-->
-<!--										data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--							Скидка-->
-<!--						</button>-->
-<!--						<div class="dropdown-menu" aria-labelledby="dropdownEditDiscount">-->
-<!--							<div class="card-body" style="min-width: 300px;">-->
-<!--								<form class="mx-2" th:action="@{'/products/' + ${product.getId()}}" method="post">-->
-<!--									<input type="number" name="discount" class="form-control" min="0"-->
-<!--												 th:max="(${product.getPrice() == 0}?'0':${product.getPrice() - 1})"-->
-<!--												 placeholder="Введите цену...">-->
-<!--									<button type="submit" class="btn btn-success col-auto mt-3">Изменить</button>-->
-<!--								</form>-->
-<!--							</div>-->
-<!--						</div>-->
-<!--					</div>-->
-<!--					<form class="col-auto" th:action="@{'/products/' + ${product.getId()}}" method="post">-->
-<!--						<input type="number" name="isDel" value="1" hidden>-->
-<!--						<button type="submit" class="btn btn-outline-danger"-->
-<!--										th:if="${product.getDiscount() != null}">-->
-<!--							Удалить скидку-->
-<!--						</button>-->
-<!--					</form>-->
-<!--				</div>-->
-<!--				<div class="row align-items-center">-->
-<!--					<h4 th:class="'card-text col-auto font-weight-bold mb-0' + (${product.getDiscount() == null}?' text-primary':' text-danger')"-->
-<!--							th:text="${product.getDiscount() == null}?${product.convertToMoney()}:${product.convertToMoneyDiscount()}"></h4>-->
-<!--					<h5 class="card-text text-secondary font-weight-bold col-auto"-->
-<!--							th:if="${product.getDiscount() != null}"-->
-<!--							th:utext="'<del>' + ${product.convertToMoney()} + '</del>'"></h5>-->
-<!--					<div class="dropdown col-auto"-->
-<!--							 th:if="${#httpServletRequest?.isUserInRole('ADMIN') and product.getDiscount() == null}">-->
-<!--						<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownEditPrice"-->
-<!--										data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--							Изменить цену-->
-<!--						</button>-->
-<!--						<div class="dropdown-menu" aria-labelledby="dropdownEditPrice">-->
-<!--							<div class="card-body" style="min-width: 300px;">-->
-<!--								<form class="mx-2" th:action="@{'/products/' + ${product.getId()}}" method="post">-->
-<!--									<input type="number" name="price" class="form-control" min="0" max="100000"-->
-<!--												 placeholder="Введите цену...">-->
-<!--									<button type="submit" class="btn btn-success mt-3">Изменить</button>-->
-<!--								</form>-->
-<!--							</div>-->
-<!--						</div>-->
-<!--					</div>-->
-<!--				</div>-->
+
+				<div class="row mb-2" *ngIf="authService.isAuth()">
+					<div class="dropdown col-auto">
+						<button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownEditDiscount"
+										data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Скидка
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownEditDiscount">
+							<div class="card-body" style="min-width: 25vw;">
+								<form class="mx-2" (submit)="addDiscount()">
+									<input type="number" [(ngModel)]="discount" name="discount" class="form-control"
+												 placeholder="Введите цену...">
+									<button type="submit" class="btn btn-success col-auto mt-3">Изменить</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					<form class="col-auto" *ngIf="product.mods[activeMod].params.discount !== -1" (submit)="delDiscount()">
+						<button type="submit" class="btn btn-outline-danger">Удалить скидку</button>
+					</form>
+				</div>
+
+				<div class="row align-items-center" *ngIf="activeMod != -1">
+					<h4 class="card-text col-auto font-weight-bold mb-0{{ product.mods[activeMod].params.discount === -1 ? ' text-primary' : ' text-danger' }}"
+							[innerText]="product.mods[activeMod].params.discount === -1 ? convertToMoney(product.mods[activeMod].params.price) : convertToMoney(product.mods[activeMod].params.discount)"></h4>
+					<h5 class="card-text text-secondary font-weight-bold col-auto"
+							*ngIf="product.mods[activeMod].params.discount !== -1"
+							[innerHTML]="'<del>' + convertToMoney(product.mods[activeMod].params.price) + '</del>'"></h5>
+					<div class="dropdown col-auto" *ngIf="authService.isAuth() && product.mods[activeMod].params.discount === -1">
+						<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownEditPrice"
+										data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Изменить цену
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownEditPrice">
+							<div class="card-body" style="min-width: 25vw;">
+								<form class="mx-2" (submit)="editPrice()">
+									<input type="number" [(ngModel)]="price" name="price" class="form-control"
+												 placeholder="Введите цену...">
+									<button type="submit" class="btn btn-success mt-3">Изменить</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="row align-items-center mt-2">
 					<p class="card-text col-auto mb-0{{ product.stock > 0 ? ' text-muted' : ' text-danger' }}"
 						 [innerText]="product.stock > 0 ? ('В наличии: ' + product.stock.toString()) : 'Нет в наличии'"></p>
@@ -95,9 +91,9 @@
 							Изменить кол-во
 						</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownEditStock">
-							<div class="card-body" style="min-width: 300px;">
+							<div class="card-body" style="min-width: 25vw;">
 								<form class="mx-2" (submit)="updateStock()">
-									<input type="number" [(ngModel)]="countStock" name="countStock" class="form-control" min="0" max="100000"
+									<input type="number" [(ngModel)]="countStock" name="countStock" class="form-control" min="0" max="10000"
 												 placeholder="Введите кол-во...">
 									<button type="submit" class="btn btn-success mt-3">Изменить</button>
 								</form>

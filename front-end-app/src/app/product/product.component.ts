@@ -20,6 +20,8 @@ export class ProductComponent implements OnInit {
 	newNameMod: String = '';
 	editNameMod: String = '';
 	activeMod: number = -1;
+	price: Number | undefined;
+	discount: Number | undefined;
 
   constructor(public authService: AuthService,
 							private http: HttpClient,
@@ -47,6 +49,89 @@ export class ProductComponent implements OnInit {
   	return arr.length != 0;
 	}
 
+	convertToMoney(number: number) {
+  	return new Intl.NumberFormat('ru-RU', {
+  		style: 'currency',
+			currency: 'RUB',
+			minimumFractionDigits: 0
+		}).format(number);
+	}
+
+	delDiscount() {
+		const product = {
+			nameMod: this.product.mods[this.activeMod].name,
+			task: 9
+		};
+		this.sendPost('application/json', product, (data: any) => {
+			if (data.success) {
+				this.product.mods = data.mods;
+			} else {
+				this.flashMessages.show(data.message, {
+					cssClass: 'alert-danger',
+					timeout: 5000
+				});
+			}
+		});
+	}
+
+	addDiscount() {
+		const product = {
+			discount: this.discount,
+			nameMod: this.product.mods[this.activeMod].name,
+			task: 8
+		};
+		if (this.discount === undefined) {
+			return false;
+		} else if (this.discount < 0 || this.discount > this.product.mods[this.activeMod].params.price - 1) {
+			this.flashMessages.show('Число не должно быть меньше 0 или больше цены товара!', {
+				cssClass: 'alert-danger',
+				timeout: 5000
+			});
+			return false;
+		}
+		this.discount = undefined;
+		this.sendPost('application/json', product, (data: any) => {
+			if (data.success) {
+				this.product.mods = data.mods;
+			} else {
+				this.flashMessages.show(data.message, {
+					cssClass: 'alert-danger',
+					timeout: 5000
+				});
+			}
+		});
+		return true;
+	}
+
+	editPrice() {
+		const product = {
+			price: this.price,
+			nameMod: this.product.mods[this.activeMod].name,
+			task: 7
+		};
+		if (this.price === undefined) {
+			return false;
+		} else if (this.price < 0 || this.price > 100000) {
+			this.flashMessages.show('Число не должно быть меньше 0 или больше 100.000!', {
+				cssClass: 'alert-danger',
+				timeout: 5000
+			});
+			return false;
+		}
+		this.price = undefined;
+		this.sendPost('application/json', product, (data: any) => {
+			if (data.success) {
+				this.product.mods = data.mods;
+			} else {
+				this.flashMessages.show(data.message, {
+					cssClass: 'alert-danger',
+					timeout: 5000
+				});
+			}
+		});
+		return true;
+	}
+
 	selectMod(index: number) {
   	this.activeMod = index;
 	}
@@ -56,10 +141,7 @@ export class ProductComponent implements OnInit {
 			nameMod: this.product.mods[this.activeMod].name,
 			task: 6
 		}
-		let headers = new HttpHeaders();
-		headers.append('Content-Type', 'application/json');
-		this.http.post('http://localhost:3000/product/' + this.urlID,
-			product, {headers: headers}).subscribe((data:any) => {
+		this.sendPost('application/json', product, (data: any) => {
 			if (data.success) {
 				this.product.mods = data.mods;
 				if (this.product.mods.length > 0) {
@@ -98,10 +180,7 @@ export class ProductComponent implements OnInit {
 			return false;
 		}
 		this.editNameMod = '';
-		let headers = new HttpHeaders();
-		headers.append('Content-Type', 'application/json');
-		this.http.post('http://localhost:3000/product/' + this.urlID,
-			product, {headers: headers}).subscribe((data:any) => {
+		this.sendPost('application/json', product, (data: any) => {
 			if (data.success) {
 				this.product.mods = data.mods;
 			} else {
@@ -129,10 +208,7 @@ export class ProductComponent implements OnInit {
 			return false;
 		}
   	this.newNameMod = '';
-		let headers = new HttpHeaders();
-		headers.append('Content-Type', 'application/json');
-		this.http.post('http://localhost:3000/product/' + this.urlID,
-			product, {headers: headers}).subscribe((data:any) => {
+  	this.sendPost('application/json', product, (data: any) => {
 			if (data.success) {
 				this.product.mods = data.mods;
 				if (this.product.mods.length !== 0 && this.activeMod === -1) {
@@ -153,10 +229,7 @@ export class ProductComponent implements OnInit {
 			model: model,
 			task: 2
 		}
-		let headers = new HttpHeaders();
-		headers.append('Content-Type', 'application/json');
-		this.http.post('http://localhost:3000/product/' + this.urlID,
-			product, {headers: headers}).subscribe((data:any) => {
+		this.sendPost('application/json', product, (data: any) => {
 			if (data.success) {
 				this.product.carModels = data.carModels;
 				this.activeFirms = data.activeFirms;
@@ -169,10 +242,7 @@ export class ProductComponent implements OnInit {
 			model: model,
 			task: 3
 		}
-		let headers = new HttpHeaders();
-		headers.append('Content-Type', 'application/json');
-		this.http.post('http://localhost:3000/product/' + this.urlID,
-			product, {headers: headers}).subscribe((data:any) => {
+		this.sendPost('application/json', product, (data: any) => {
 			if (data.success) {
 				this.product.carModels = data.carModels;
 				this.activeFirms = data.activeFirms;
@@ -185,14 +255,22 @@ export class ProductComponent implements OnInit {
   		stock: this.countStock,
 			task: 1
 		};
-		let headers = new HttpHeaders();
-		headers.append('Content-Type', 'application/json');
-		this.http.post('http://localhost:3000/product/' + this.urlID,
-			product, {headers: headers}).subscribe((data:any) => {
-				if (data.success) {
-					this.product.stock = this.countStock;
-				}
+		if (this.countStock === undefined) {
+			return false;
+		} else if (this.countStock < 0 || this.countStock > 10000) {
+			this.flashMessages.show('Число не должно быть меньше 0 или больше 10.000!', {
+				cssClass: 'alert-danger',
+				timeout: 5000
+			});
+			return false;
+		}
+		this.countStock = undefined;
+		this.sendPost('application/json', product, (data: any) => {
+			if (data.success) {
+				this.product.stock = data.stock;
+			}
 		});
+		return true;
 	}
 
   uploadImages(event: any) {
@@ -200,19 +278,23 @@ export class ProductComponent implements OnInit {
 		for (let f of event.target.files) {
 			formData.append('images', f, f.name);
 		}
-		let headers = new HttpHeaders();
-		headers.append('Content-Type', 'multipart/form-data');
-		this.http.post('http://localhost:3000/product/' + this.urlID,
-			formData, {headers: headers}).subscribe((data:any) => {
-				if (!data.success) {
-					this.flashMessages.show('Произошла ошибка во время загрузки фото!', {
-						cssClass: 'alert-danger',
-						timeout: 5000
-					});
-				} else {
-					this.product.images = data.images;
-				}
-				return true;
+		this.sendPost('multipart/form-data', formData, (data: any) => {
+			if (!data.success) {
+				this.flashMessages.show('Произошла ошибка во время загрузки фото!', {
+					cssClass: 'alert-danger',
+					timeout: 5000
+				});
+			} else {
+				this.product.images = data.images;
+			}
 		});
+		return true;
+	}
+
+	sendPost(valueContent: string, object: any, callback: any) {
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', valueContent);
+		this.http.post('http://localhost:3000/product/' + this.urlID,
+			object, {headers: headers}).subscribe(callback);
 	}
 }
