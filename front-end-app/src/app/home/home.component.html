@@ -1,1 +1,105 @@
-<p>home works!</p>
+<div class="rounded bg-secondary text-white container">
+	<div class="form-row align-items-center">
+		<div class="form-group col mt-3">
+			<input type="text" class="form-control" (input)="updateListFilterFirm()"
+						 placeholder="Выберите фирму автомобиля..." [(ngModel)]="firmCar" name="firmCar" list="firms" autocomplete="off">
+			<datalist id="firms">
+				<option *ngFor="let f of filtersFirm" [value]="f"></option>
+			</datalist>
+		</div>
+		<div class="form-group col mt-3">
+			<input type="text" class="form-control" [disabled]="isDisabledModelFilter" (input)="updateListFilterModel()"
+						 placeholder="Выберите модель автомобиля..." [(ngModel)]="modelCar" name="modelCar" list="models" autocomplete="off">
+			<datalist id="models">
+				<option *ngFor="let m of filtersModel" [value]="m.model"></option>
+			</datalist>
+		</div>
+		<button type="button" class="col-auto btn btn-secondary border border-white" (click)="delFilters()">
+			Удалить фильтры
+		</button>
+	</div>
+</div>
+
+<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-end mt-3">
+		<li class="page-item{{ page == 0 ? ' disabled' : '' }}"
+				style="{{ page == 0 ? '' : 'cursor: pointer' }}">
+			<a class="page-link" (click)="setPage(0)">Начало</a>
+		</li>
+		<li *ngIf="page > 1" class="page-item disabled">
+			<a class="page-link">...</a>
+		</li>
+		<ng-container *ngFor="let p of allPages">
+			<li class="page-item{{ page == p ? ' active' : '' }}" *ngIf="p >= page - 1 && page + 1 >= p"
+					style="{{ page == p ? '' : 'cursor: pointer' }}">
+				<a class="page-link" [innerText]="(p + 1)" (click)="setPage(p)"></a>
+			</li>
+		</ng-container>
+		<li *ngIf="page < allPages.length - 2" class="page-item disabled">
+			<a class="page-link">...</a>
+		</li>
+		<li class="page-item{{ page == allPages.length - 1 ? ' disabled' : '' }}"
+				style="{{ page == allPages.length - 1 ? '' : 'cursor: pointer' }}">
+			<a class="page-link" (click)="setPage(allPages.length - 1)">Конец</a>
+		</li>
+	</ul>
+</nav>
+
+<div class="row row-cols-1 row-cols-md-4 mt-3" *ngIf="showProducts != []">
+	<ng-container *ngFor="let p of showProducts">
+		<div class="col mb-3">
+			<div class="card h-100">
+				<a [href]="'/product/' + p._id" class="text-decoration-none text-reset">
+					<svg xmlns="http://www.w3.org/2000/svg" class="card-img-top" *ngIf="p.images.length == 0">
+						<rect width="100%" height="100%" fill="#eee"></rect>
+					</svg>
+					<img [src]="'http://localhost:3000/images/' + p.images[0]" class="card-img-top"
+							 *ngIf="p.images.length > 0" [alt]="p.name">
+					<div class="card-body">
+						<h6 class="card-title{{ p.isPublic ? '' : ' text-danger' }}" [innerText]="p.name"></h6>
+						<div class="row align-items-center no-gutters" *ngIf="p.mods.length !== 0">
+							<p *ngIf="p.mods.length === 1"
+								 class="card-text font-weight-bold col-auto mb-0{{ p.mods[0].discount == -1 ? ' text-primary' : ' text-danger' }}"
+								 [innerText]="p.mods[0].discount != -1 ? convertToMoney(p.mods[0].discount) : convertToMoney(p.mods[0].price)"></p>
+							<small *ngIf="p.mods.length === 1 && p.mods[0].discount !== -1"
+										 class="card-text text-muted font-weight-bold col-auto ml-2"
+										 [innerHTML]="'<del>' + convertToMoney(p.mods[0].price) + '</del>'"></small>
+							<p *ngIf="p.mods.length > 1" class="card-text font-weight-bold col-auto mb-0 text-primary"
+								 [innerText]="'от ' + convertToMoney(minPrice(p.name))"></p>
+							<small *ngIf="p.mods.length > 1 && isDiscount(p.name)" class="card-text text-danger font-weight-bold col-auto ml-2">
+								(Есть скидка)
+							</small>
+						</div>
+						<p class="card-text mt-2{{ p.stock > 0 ? ' text-muted' : ' text-danger' }}"
+							 [innerText]="p.stock > 0 ? ('В наличии: ' + p.stock + ' шт.') : 'Нет в наличии'"></p>
+					</div>
+				</a>
+			</div>
+		</div>
+	</ng-container>
+</div>
+
+<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-end">
+		<li class="page-item{{ page == 0 ? ' disabled' : '' }}"
+				style="{{ page == 0 ? '' : 'cursor: pointer' }}">
+			<a class="page-link" (click)="setPage(0)">Начало</a>
+		</li>
+		<li *ngIf="page > 1" class="page-item disabled">
+			<a class="page-link">...</a>
+		</li>
+		<ng-container *ngFor="let p of allPages">
+			<li class="page-item{{ page == p ? ' active' : '' }}" *ngIf="p >= page - 1 && page + 1 >= p"
+					style="{{ page == p ? '' : 'cursor: pointer' }}">
+				<a class="page-link" [innerText]="(p + 1)" (click)="setPage(p)"></a>
+			</li>
+		</ng-container>
+		<li *ngIf="page < allPages.length - 2" class="page-item disabled">
+			<a class="page-link">...</a>
+		</li>
+		<li class="page-item{{ page == allPages.length - 1 ? ' disabled' : '' }}"
+				style="{{ page == allPages.length - 1 ? '' : 'cursor: pointer' }}">
+			<a class="page-link" (click)="setPage(allPages.length - 1)">Конец</a>
+		</li>
+	</ul>
+</nav>

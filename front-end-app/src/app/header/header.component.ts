@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../auth.service";
 import { FlashMessagesService } from "angular2-flash-messages";
 import { Router } from "@angular/router";
+import { UtilsService } from "../utils.service";
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(public authService: AuthService,
 							private flashMessages: FlashMessagesService,
-							private router: Router) { }
+							private router: Router,
+							private utilService: UtilsService) { }
 
   ngOnInit(): void {
   }
@@ -23,8 +25,9 @@ export class HeaderComponent implements OnInit {
 			cssClass: 'alert-success',
 			timeout: 5000
 		});
-		this.router.navigate(['']);
-		return false;
+		this.router.navigate(['/']);
+		this.utilService.reloadComponent('/');
+		return true;
 	}
 
 }

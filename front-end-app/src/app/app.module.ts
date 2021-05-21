@@ -20,6 +20,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { AuthService } from "./auth.service";
 import { UtilsService } from "./utils.service";
 import { IsAuth } from "./isAuth.guard";
+import { HelpComponent } from './help/help.component';
 
 const appRoute: Routes = [
 	{path: '', component: HomeComponent},
@@ -27,6 +28,7 @@ const appRoute: Routes = [
 	{path: 'edit-models', component: EditModelsComponent, canActivate: [IsAuth]},
 	{path: 'edit-params', component: EditParamsComponent, canActivate: [IsAuth]},
 	{path: 'product/new', component: CreateProductComponent, canActivate: [IsAuth]},
+	{path: 'help', component: HelpComponent, canActivate: [IsAuth]},
 	{path: 'product/:id', component: ProductComponent}
 ];
 
@@ -40,7 +42,8 @@ const appRoute: Routes = [
     EditModelsComponent,
     EditParamsComponent,
     CreateProductComponent,
-    ProductComponent
+    ProductComponent,
+    HelpComponent
   ],
 	imports: [
 		BrowserModule,

@@ -5,13 +5,15 @@
     </div>
     <div class="dropdown mr-3" *ngIf="authService.isAuth()">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Редактирование
+        Админ панель
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" [routerLink]="['/edit-models']">Панель моделей автотранспорта</a>
         <a class="dropdown-item" [routerLink]="['/edit-params']">Панель характеристик</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" [routerLink]="['/product/new']">Создать товар</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" [routerLink]="['/help']">Помощь</a>
       </div>
     </div>
 		<a [routerLink]="['/login']" *ngIf="!authService.isAuth()" class="navbar-brand align-items-center">
