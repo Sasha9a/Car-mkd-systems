@@ -2,14 +2,14 @@
 	<div class="form-row align-items-center">
 		<div class="form-group col mt-3">
 			<input type="text" class="form-control" (input)="updateListFilterFirm()"
-						 placeholder="Выберите фирму автомобиля..." [(ngModel)]="firmCar" name="firmCar" list="firms" autocomplete="off">
+						 placeholder="Введите фирму автомобиля..." [(ngModel)]="firmCar" name="firmCar" list="firms" autocomplete="off">
 			<datalist id="firms">
 				<option *ngFor="let f of filtersFirm" [value]="f"></option>
 			</datalist>
 		</div>
 		<div class="form-group col mt-3">
 			<input type="text" class="form-control" [disabled]="isDisabledModelFilter" (input)="updateListFilterModel()"
-						 placeholder="Выберите модель автомобиля..." [(ngModel)]="modelCar" name="modelCar" list="models" autocomplete="off">
+						 placeholder="Введите модель автомобиля..." [(ngModel)]="modelCar" name="modelCar" list="models" autocomplete="off">
 			<datalist id="models">
 				<option *ngFor="let m of filtersModel" [value]="m.model"></option>
 			</datalist>
