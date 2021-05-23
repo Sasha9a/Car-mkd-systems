@@ -20,7 +20,7 @@ export class EditParamsComponent implements OnInit {
 							private utilsService: UtilsService) { }
 
   ngOnInit(): void {
-		this.http.get('http://localhost:3000/edit-params').subscribe((data: any) => {
+		this.http.get('edit-params').subscribe((data: any) => {
 			this.allParams = data.allParams;
 		});
   }

@@ -2522,7 +2522,7 @@ class EditParamsComponent {
         this.allParams = [];
     }
     ngOnInit() {
-        this.http.get('http://localhost:3000/edit-params').subscribe((data) => {
+        this.http.get('edit-params').subscribe((data) => {
             this.allParams = data.allParams;
         });
     }
