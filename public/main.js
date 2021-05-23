@@ -124,7 +124,7 @@ function HomeComponent_div_23_ng_container_1_img_5_Template(rf, ctx) { if (rf & 
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "img", 32);
 } if (rf & 2) {
     const p_r18 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnextContext"]().$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("src", "http://localhost:3000/images/" + p_r18.images[0], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsanitizeUrl"])("alt", p_r18.name);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("src", "images/" + p_r18.images[0], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsanitizeUrl"])("alt", p_r18.name);
 } }
 function HomeComponent_div_23_ng_container_1_div_8_p_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "p", 28);
@@ -993,7 +993,7 @@ class EditModelsComponent {
     sendPost(valueContent, object, callback) {
         let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]();
         headers.append('Content-Type', valueContent);
-        this.http.post('edit-params', object, { headers: headers }).subscribe(callback);
+        this.http.post('edit-models', object, { headers: headers }).subscribe(callback);
     }
 }
 EditModelsComponent.ɵfac = function EditModelsComponent_Factory(t) { return new (t || EditModelsComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](angular2_flash_messages__WEBPACK_IMPORTED_MODULE_3__["FlashMessagesService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_utils_service__WEBPACK_IMPORTED_MODULE_4__["UtilsService"])); };
