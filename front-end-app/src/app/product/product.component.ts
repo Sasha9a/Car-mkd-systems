@@ -30,7 +30,7 @@ export class ProductComponent implements OnInit {
 							private flashMessages: FlashMessagesService,
 							private router: Router) {
 		this.urlID = this.router.parseUrl(this.router.url).root.children[PRIMARY_OUTLET].segments[1].path;
-		this.http.get('http://localhost:3000/product/' + this.urlID).subscribe((data: any) => {
+		this.http.get('product/' + this.urlID).subscribe((data: any) => {
 			this.product = data.product;
 			if (this.product.mods.length !== 0) {
 				this.activeMod = 0;

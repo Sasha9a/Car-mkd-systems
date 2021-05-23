@@ -1596,7 +1596,7 @@ class ProductComponent {
         this.activeMod = -1;
         this.param = new Array();
         this.urlID = this.router.parseUrl(this.router.url).root.children[_angular_router__WEBPACK_IMPORTED_MODULE_0__["PRIMARY_OUTLET"]].segments[1].path;
-        this.http.get('http://localhost:3000/product/' + this.urlID).subscribe((data) => {
+        this.http.get('product/' + this.urlID).subscribe((data) => {
             this.product = data.product;
             if (this.product.mods.length !== 0) {
                 this.activeMod = 0;
