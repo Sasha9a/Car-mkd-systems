@@ -17,7 +17,7 @@ const db = require('./config/db');
 const app = express();
 
 // Настройка проекта
-const port = 3000;
+const port = process.env.PORT || 8080;
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
@@ -52,6 +52,10 @@ app.get('/images/:id', (req, res) => {
 	});
 });
 
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
 // Подключение к бд
 mongoose.connect(db.db, {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -65,7 +69,7 @@ mongoose.connection.on('connected', () => {
 			if (!user) {
 				let newUser = new User({
 					login: 'michail',
-					password: '123'
+					password: 'berezina9A_@'
 				});
 				User.addUser(newUser, (err) => {
 					if (err) console.log('Не удалось создать аккаунт!');

@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
 
   constructor(public authService: AuthService,
 							private http: HttpClient) {
-  	this.http.get('http://localhost:3000/').subscribe((data: any) => {
+  	this.http.get('/').subscribe((data: any) => {
   		if (data.success) {
   			let max = 0;
   			this.allProducts = data.products;

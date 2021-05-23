@@ -12,7 +12,7 @@ export class AuthService {
 	authUser(user: {login: String, password: String}) {
   	let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post('http://localhost:3000/login',
+		return this.http.post('login',
 			user,
 			{headers: headers});
 	}

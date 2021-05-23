@@ -45,7 +45,7 @@ export class EditParamsComponent implements OnInit {
 		} else {
 			let headers = new HttpHeaders();
 			headers.append('Content-Type', 'application/json');
-			this.http.post('http://localhost:3000/edit-params',
+			this.http.post('edit-params',
 				param,
 				{headers: headers}).subscribe((data:any) => {
 				if (!data.success) {
@@ -72,7 +72,7 @@ export class EditParamsComponent implements OnInit {
 		};
 		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
-		this.http.post('http://localhost:3000/edit-params',
+		this.http.post('edit-params',
 			param,
 			{headers: headers}).subscribe((data:any) => {
 			this.flashMessages.show(data.message, {

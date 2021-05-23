@@ -52,7 +52,7 @@ export class CreateProductComponent implements OnInit {
 		} else {
 			let headers = new HttpHeaders();
 			headers.append('Content-Type', 'application/json');
-			this.http.post('http://localhost:3000/product/new',
+			this.http.post('product/new',
 				product,
 				{headers: headers}).subscribe((data:any) => {
 				this.flashMessages.show(data.message, {

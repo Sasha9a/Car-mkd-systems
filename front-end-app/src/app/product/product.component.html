@@ -16,7 +16,7 @@
 					</div>
 					<ng-container *ngIf="product.images.length != 0">
 						<div *ngFor="let i of product.images; let ind = index" class="carousel-item{{ ind == 0 ? ' active' : '' }}">
-							<img [src]=" 'http://localhost:3000/images/' + i" height="300" class="d-block rounded w-100">
+							<img [src]=" 'images/' + i" height="300" class="d-block rounded w-100">
 						</div>
 					</ng-container>
 				</div>

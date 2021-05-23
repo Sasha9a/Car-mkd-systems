@@ -389,7 +389,7 @@ export class ProductComponent implements OnInit {
 	sendPost(valueContent: string, object: any, callback: any) {
 		let headers = new HttpHeaders();
 		headers.append('Content-Type', valueContent);
-		this.http.post('http://localhost:3000/product/' + this.urlID,
+		this.http.post('product/' + this.urlID,
 			object, {headers: headers}).subscribe(callback);
 	}
 }

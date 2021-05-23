@@ -24,7 +24,7 @@ export class EditModelsComponent implements OnInit {
 	}
 
   ngOnInit(): void {
-		this.http.get('http://localhost:3000/edit-models').subscribe((data: any) => {
+		this.http.get('edit-models').subscribe((data: any) => {
 			this.modelsCar = data.modelsCar;
 			this.allFirms = data.distinctFirm;
 		});
@@ -63,7 +63,7 @@ export class EditModelsComponent implements OnInit {
 		}
 		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
-		this.http.post('http://localhost:3000/edit-models',
+		this.http.post('edit-models',
 			modelCar,
 			{headers: headers}).subscribe((data:any) => {
 				if (!data.success) {
@@ -157,7 +157,7 @@ export class EditModelsComponent implements OnInit {
 	httpPost(modelCar: any) {
 		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
-		this.http.post('http://localhost:3000/edit-models',
+		this.http.post('edit-models',
 			modelCar,
 			{headers: headers}).subscribe((data:any) => {
 			this.flashMessages.show(data.message, {
