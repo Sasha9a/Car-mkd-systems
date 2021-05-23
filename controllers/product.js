@@ -20,31 +20,6 @@ router.post('/new', (req, res) => {
 	});
 });
 
-router.get('/:id', (req, res) => {
-	Product.findById(req.params.id, (err, product) => {
-		if (err) throw err;
-		ModelCar.findAll((err, modelsCar) => {
-			if (err) throw err;
-			ModelCar.distinctFirm((err, allFirms) => {
-				if (err) throw err;
-				Param.findAll((err, allParams) => {
-					if (err) throw err;
-					Product.distinct("carModels.firm", {_id: req.params.id}, (err, activeFirms) => {
-						if (err) throw err;
-						res.json({
-							product: product,
-							allModels: modelsCar,
-							allFirms: allFirms,
-							allParams: allParams,
-							activeFirms: activeFirms
-						});
-					}).sort();
-				});
-			});
-		})
-	});
-});
-
 router.post('/:id', (req, res) => {
 	if (req.files) {
 		let arrImages = [];
@@ -93,6 +68,30 @@ router.post('/:id', (req, res) => {
 				if (err) throw err;
 			});
 			res.json({success: true, images: arrImages});
+		});
+	} else if (req.body.task === 0) {
+		Product.findById(req.params.id, (err, product) => {
+			if (err) throw err;
+			ModelCar.findAll((err, modelsCar) => {
+				if (err) throw err;
+				ModelCar.distinctFirm((err, allFirms) => {
+					if (err) throw err;
+					Param.findAll((err, allParams) => {
+						if (err) throw err;
+						Product.distinct("carModels.firm", {_id: req.params.id}, (err, activeFirms) => {
+							if (err) throw err;
+							res.json({
+								success: true,
+								product: product,
+								allModels: modelsCar,
+								allFirms: allFirms,
+								allParams: allParams,
+								activeFirms: activeFirms
+							});
+						}).sort();
+					});
+				});
+			})
 		});
 	} else if (req.body.task === 1) {
 		Product.updateOne({_id: req.params.id}, {$set: {stock: req.body.stock}}, (err) => {

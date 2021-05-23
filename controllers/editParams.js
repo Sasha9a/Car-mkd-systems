@@ -3,17 +3,17 @@ const router = express.Router();
 const Param = require('../models/Param');
 const Product = require('../models/Product');
 
-router.get('/', (req, res) => {
-	Param.findAll((err, params) => {
-		if (err) throw err;
-		res.json({
-			allParams: params
-		});
-	});
-});
-
 router.post('/', (req, res) => {
 	switch (req.body.task) {
+		case 0:
+			Param.findAll((err, params) => {
+				if (err) throw err;
+				res.json({
+					success: true,
+					allParams: params
+				});
+			});
+			break;
 		case 1:
 			let newParam = new Param({
 				name: req.body.name

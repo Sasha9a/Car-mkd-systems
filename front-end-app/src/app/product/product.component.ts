@@ -30,16 +30,21 @@ export class ProductComponent implements OnInit {
 							private flashMessages: FlashMessagesService,
 							private router: Router) {
 		this.urlID = this.router.parseUrl(this.router.url).root.children[PRIMARY_OUTLET].segments[1].path;
-		this.http.get('product/' + this.urlID).subscribe((data: any) => {
-			this.product = data.product;
-			if (this.product.mods.length !== 0) {
-				this.activeMod = 0;
+		const product = {
+			task: 0
+		};
+		this.sendPost('application/json', product, (data: any) => {
+			if (data.success) {
+				this.product = data.product;
+				if (this.product.mods.length !== 0) {
+					this.activeMod = 0;
+				}
+				this.allFirms = data.allFirms;
+				this.allModels = data.allModels;
+				this.allParams = data.allParams;
+				this.activeFirms = data.activeFirms;
+				this.param = new Array<string>(this.allParams.length);
 			}
-			this.allFirms = data.allFirms;
-			this.allModels = data.allModels;
-			this.allParams = data.allParams;
-			this.activeFirms = data.activeFirms;
-			this.param = new Array<string>(this.allParams.length);
 		});
 	}
 

@@ -20,8 +20,13 @@ export class EditParamsComponent implements OnInit {
 							private utilsService: UtilsService) { }
 
   ngOnInit(): void {
-		this.http.get('edit-params').subscribe((data: any) => {
-			this.allParams = data.allParams;
+		const param = {
+			task: 0
+		};
+		this.sendPost('application/json', param, (data: any) => {
+			if (data.success) {
+				this.allParams = data.allParams;
+			}
 		});
   }
 
@@ -43,11 +48,7 @@ export class EditParamsComponent implements OnInit {
 			});
 			return false;
 		} else {
-			let headers = new HttpHeaders();
-			headers.append('Content-Type', 'application/json');
-			this.http.post('edit-params',
-				param,
-				{headers: headers}).subscribe((data:any) => {
+			this.sendPost('application/json', param, (data: any) => {
 				if (!data.success) {
 					this.flashMessages.show(data.message, {
 						cssClass: 'alert-danger',
@@ -70,11 +71,7 @@ export class EditParamsComponent implements OnInit {
 			name: name,
 			task: 2
 		};
-		let headers = new HttpHeaders();
-		headers.append('Content-Type', 'application/json');
-		this.http.post('edit-params',
-			param,
-			{headers: headers}).subscribe((data:any) => {
+		this.sendPost('application/json', param, (data: any) => {
 			this.flashMessages.show(data.message, {
 				cssClass: 'alert-success',
 				timeout: 5000
@@ -83,4 +80,10 @@ export class EditParamsComponent implements OnInit {
 		this.utilsService.reloadComponent('/edit-params');
 	}
 
+	sendPost(valueContent: string, object: any, callback: any) {
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', valueContent);
+		this.http.post('edit-params',
+			object, {headers: headers}).subscribe(callback);
+	}
 }

@@ -24,9 +24,14 @@ export class EditModelsComponent implements OnInit {
 	}
 
   ngOnInit(): void {
-		this.http.get('edit-models').subscribe((data: any) => {
-			this.modelsCar = data.modelsCar;
-			this.allFirms = data.distinctFirm;
+  	const modelCar = {
+  		task: 0
+		};
+  	this.sendPost('application/json', modelCar, (data: any) => {
+  		if (data.success) {
+				this.modelsCar = data.modelsCar;
+				this.allFirms = data.distinctFirm;
+			}
 		});
   }
 
@@ -61,22 +66,18 @@ export class EditModelsComponent implements OnInit {
 			});
 			return false;
 		}
-		let headers = new HttpHeaders();
-		headers.append('Content-Type', 'application/json');
-		this.http.post('edit-models',
-			modelCar,
-			{headers: headers}).subscribe((data:any) => {
-				if (!data.success) {
-					this.flashMessages.show(data.message, {
-						cssClass: 'alert-danger',
-						timeout: 5000
-					});
-				} else {
-					this.flashMessages.show(data.message, {
-						cssClass: 'alert-success',
-						timeout: 5000
-					});
-				}
+		this.sendPost('application/json', modelCar, (data: any) => {
+			if (!data.success) {
+				this.flashMessages.show(data.message, {
+					cssClass: 'alert-danger',
+					timeout: 5000
+				});
+			} else {
+				this.flashMessages.show(data.message, {
+					cssClass: 'alert-success',
+					timeout: 5000
+				});
+			}
 		});
 		this.utilsService.reloadComponent('/edit-models');
 		return true;
@@ -155,16 +156,19 @@ export class EditModelsComponent implements OnInit {
 	}
 
 	httpPost(modelCar: any) {
-		let headers = new HttpHeaders();
-		headers.append('Content-Type', 'application/json');
-		this.http.post('edit-models',
-			modelCar,
-			{headers: headers}).subscribe((data:any) => {
+		this.sendPost('application/json', modelCar, (data: any) => {
 			this.flashMessages.show(data.message, {
 				cssClass: 'alert-success',
 				timeout: 5000
 			});
 		});
 		this.utilsService.reloadComponent('/edit-models');
+	}
+
+	sendPost(valueContent: string, object: any, callback: any) {
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', valueContent);
+		this.http.post('edit-params',
+			object, {headers: headers}).subscribe(callback);
 	}
 }

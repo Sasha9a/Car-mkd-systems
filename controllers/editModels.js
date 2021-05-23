@@ -3,21 +3,21 @@ const router = express.Router();
 const ModelCar = require('../models/ModelCar');
 const Product = require('../models/Product');
 
-router.get('/', (req, res) => {
-	ModelCar.findAll((err, modelsCar) => {
-		if (err) throw err;
-		ModelCar.distinctFirm((err, firms) => {
-			if (err) throw err;
-			res.json({
-				modelsCar: modelsCar,
-				distinctFirm: firms
-			});
-		});
-	});
-});
-
 router.post('/', (req, res) => {
 	switch (req.body.task) {
+		case 0:
+			ModelCar.findAll((err, modelsCar) => {
+				if (err) throw err;
+				ModelCar.distinctFirm((err, firms) => {
+					if (err) throw err;
+					res.json({
+						success: true,
+						modelsCar: modelsCar,
+						distinctFirm: firms
+					});
+				});
+			});
+			break;
 		case 1:
 			let newModelCar = new ModelCar({
 				model: req.body.model,

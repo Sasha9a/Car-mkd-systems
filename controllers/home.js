@@ -3,7 +3,7 @@ const router = express.Router();
 const Product = require('../models/Product');
 const ModelCar = require('../models/ModelCar');
 
-router.get('/', (req, res) => {
+router.post('/', (req, res) => {
 	Product.find({}, (err, products) => {
 		if (err) throw err;
 		ModelCar.find({}, (err, models) => {

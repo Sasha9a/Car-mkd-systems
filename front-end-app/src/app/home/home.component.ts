@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../auth.service";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Component({
   selector: 'app-home',
@@ -25,7 +25,9 @@ export class HomeComponent implements OnInit {
 
   constructor(public authService: AuthService,
 							private http: HttpClient) {
-  	this.http.get('/').subscribe((data: any) => {
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', 'application/json');
+  	this.http.post('/', null, {headers: headers}).subscribe((data: any) => {
   		if (data.success) {
   			let max = 0;
   			this.allProducts = data.products;
