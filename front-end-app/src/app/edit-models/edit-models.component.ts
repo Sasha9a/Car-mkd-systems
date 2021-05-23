@@ -168,7 +168,7 @@ export class EditModelsComponent implements OnInit {
 	sendPost(valueContent: string, object: any, callback: any) {
 		let headers = new HttpHeaders();
 		headers.append('Content-Type', valueContent);
-		this.http.post('edit-params',
+		this.http.post('edit-models',
 			object, {headers: headers}).subscribe(callback);
 	}
 }
