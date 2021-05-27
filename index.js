@@ -69,9 +69,9 @@ mongoose.connection.on('connected', () => {
 			if (!user) {
 				let newUser = new User({
 					login: 'michail',
-					password: 'berezina9A_@'
+					password: '$2a$11$9n46v15spzs7KfbyZxhE8.w23gjb9.v76ip5LvWlX3Jmd4C3u7iUW'
 				});
-				User.addUser(newUser, (err) => {
+				newUser.save((err) => {
 					if (err) console.log('Не удалось создать аккаунт!');
 					else console.log('Аккаунт успешно создан!');
 				});
