@@ -11,6 +11,7 @@ import { EditModelsComponent } from './edit-models/edit-models.component';
 import { EditParamsComponent } from './edit-params/edit-params.component';
 import { CreateProductComponent } from './create-product/create-product.component';
 import { ProductComponent } from './product/product.component';
+import { HelpComponent } from './help/help.component';
 
 import { RouterModule, Routes } from "@angular/router";
 import { FlashMessagesModule } from "angular2-flash-messages";
@@ -20,16 +21,15 @@ import { HttpClientModule } from "@angular/common/http";
 import { AuthService } from "./auth.service";
 import { UtilsService } from "./utils.service";
 import { IsAuth } from "./isAuth.guard";
-import { HelpComponent } from './help/help.component';
 
 const appRoute: Routes = [
-	{path: '', component: HomeComponent},
-	{path: 'login', component: LoginComponent},
-	{path: 'edit-models', component: EditModelsComponent, canActivate: [IsAuth]},
-	{path: 'edit-params', component: EditParamsComponent, canActivate: [IsAuth]},
-	{path: 'product/new', component: CreateProductComponent, canActivate: [IsAuth]},
-	{path: 'help', component: HelpComponent, canActivate: [IsAuth]},
-	{path: 'product/:id', component: ProductComponent}
+  {path: '', component: HomeComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'edit-models', component: EditModelsComponent, canActivate: [IsAuth]},
+  {path: 'edit-params', component: EditParamsComponent, canActivate: [IsAuth]},
+  {path: 'product/new', component: CreateProductComponent, canActivate: [IsAuth]},
+  {path: 'help', component: HelpComponent, canActivate: [IsAuth]},
+  {path: 'product/:id', component: ProductComponent}
 ];
 
 @NgModule({
@@ -45,14 +45,14 @@ const appRoute: Routes = [
     ProductComponent,
     HelpComponent
   ],
-	imports: [
-		BrowserModule,
-		AppRoutingModule,
-		RouterModule.forRoot(appRoute),
-		FormsModule,
-		FlashMessagesModule.forRoot(),
-		HttpClientModule
-	],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    RouterModule.forRoot(appRoute),
+    FormsModule,
+    FlashMessagesModule.forRoot(),
+    HttpClientModule
+  ],
   providers: [AuthService, IsAuth, UtilsService],
   bootstrap: [AppComponent]
 })
