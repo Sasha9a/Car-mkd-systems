@@ -12,6 +12,7 @@ import { UtilsService } from "../utils.service";
 export class EditParamsComponent implements OnInit {
 
 	name: String = '';
+	param: String = '';
 	allParams: any = [];
 
   constructor(private http: HttpClient,
@@ -66,10 +67,42 @@ export class EditParamsComponent implements OnInit {
 		}
 	}
 
+	updateParam(name: String) {
+    const param = {
+      name: this.param,
+      oldName: name,
+      task: 2
+    };
+    if (this.param === '') {
+      return false;
+    } else if (this.param.length > 100) {
+      this.flashMessages.show('Слишком длинное название характеристики!', {
+        cssClass: 'alert-danger',
+        timeout: 5000
+      });
+      return false;
+    } else if (this.param === name) {
+      this.flashMessages.show('Название характеристики совпадает с нынешним!', {
+        cssClass: 'alert-danger',
+        timeout: 5000
+      });
+      return false;
+    } else {
+      this.sendPost('application/json', param, (data: any) => {
+        this.flashMessages.show(data.message, {
+          cssClass: 'alert-success',
+          timeout: 5000
+        });
+      });
+      this.utilsService.reloadComponent('/edit-params');
+      return true;
+    }
+  }
+
 	deleteParam(name: String) {
 		const param = {
 			name: name,
-			task: 2
+			task: 3
 		};
 		this.sendPost('application/json', param, (data: any) => {
 			this.flashMessages.show(data.message, {

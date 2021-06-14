@@ -10,7 +10,7 @@ const ParamSchema = mongoose.Schema({
 const Param = module.exports = mongoose.model('Param', ParamSchema);
 
 module.exports.findAll = function (callback) {
-	Param.find({}, {_id: 0, __v: 0}, callback).sort({name: 1});
+	Param.find({}, {_id: 0, __v: 0}, callback);
 }
 
 module.exports.findByName = function (name, callback) {

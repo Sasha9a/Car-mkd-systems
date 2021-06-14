@@ -16,9 +16,23 @@
 </div>
 
 <ul class="list-group mt-3" *ngIf="allParams.length !== 0">
-	<li class="list-group-item" *ngFor="let p of allParams">
+	<li class="list-group-item" *ngFor="let p of allParams; let ind = index">
 		<div class="row align-items-center">
 			<div class="font-weight-bold col" [innerText]="p.name"></div>
+      <div class="dropdown col-auto">
+        <button class="btn btn-outline-warning dropdown-toggle" type="button" [id]="'dropdownEditParam' + ind"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Изменить название
+        </button>
+        <div class="dropdown-menu" [attr.aria-labelledby]="'dropdownEditParam' + ind">
+          <div class="card-body" style="min-width: 300px;">
+            <form class="mx-2" (submit)="updateParam(p.name)">
+              <input type="text" [(ngModel)]="param" name="param" class="form-control" placeholder="Введите название характеристики...">
+              <button type="submit" class="btn btn-success mt-3">Изменить</button>
+            </form>
+          </div>
+        </div>
+      </div>
 			<form class="col-auto" (submit)="deleteParam(p.name)">
 				<button type="submit" class="btn btn-outline-danger">Удалить</button>
 			</form>

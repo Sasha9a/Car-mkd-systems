@@ -36,24 +36,24 @@ router.post('/', (req, res) => {
 				}
 			});
 			break;
-		// case 2:
-		// 	Param.findByName(req.body.name, (err, param) => {
-		// 		if (err) throw err;
-		// 		if (param) {
-		// 			Param.deleteByName(req.body.oldName, (err) => {
-		// 				if (err) throw err;
-		// 			});
-		// 		} else {
-		// 			Param.updateParam(req.body.oldName, req.body.name, (err, param) => {
-		// 				if (err) throw err;
-		// 			});
-		// 		}
-		// 		res.json({
-		// 			message: `Характеристика <b>${req.body.oldName}</b> успешно изменена на <b>${req.body.name}</b>.`
-		// 		});
-		// 	});
-		// 	break;
 		case 2:
+			Param.findByName(req.body.name, (err, param) => {
+				if (err) throw err;
+				if (param) {
+					Param.deleteByName(req.body.oldName, (err) => {
+						if (err) throw err;
+					});
+				} else {
+					Param.updateParam(req.body.oldName, req.body.name, (err) => {
+						if (err) throw err;
+					});
+				}
+				res.json({
+					message: `Характеристика <b>${req.body.oldName}</b> успешно изменена на <b>${req.body.name}</b>.`
+				});
+			});
+			break;
+		case 3:
 			Product.find({}, (err, products) => {
 				if (err) throw err;
 				products.forEach((product) => {
