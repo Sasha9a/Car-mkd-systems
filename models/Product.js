@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const ModelCar = require('./ModelCar');
 
 const ProductSchema = mongoose.Schema({
 	name: {
@@ -15,7 +16,7 @@ const ProductSchema = mongoose.Schema({
 		default: []
 	},
 	carModels: {
-		type: [Schema.Types.Mixed],
+		type: [mongoose.ObjectId],
 		default: []
 	},
 	mods: {
@@ -32,4 +33,8 @@ const Product = module.exports = mongoose.model('Product', ProductSchema);
 
 module.exports.addProduct = function (product, callback) {
 	product.save(callback);
+}
+
+module.exports.findCarModel = function (modelCarId, callback) {
+	ModelCar.findById(modelCarId, callback);
 }

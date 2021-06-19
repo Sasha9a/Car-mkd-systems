@@ -6,11 +6,11 @@
 	<div class="card card-body">
 		<form (submit)="createModelCar()">
 			<div class="form-row">
+        <div class="col">
+          <input type="text" [(ngModel)]="firm" name="firm" class="form-control" placeholder="Введите название фирмы...">
+        </div>
 				<div class="col">
 					<input type="text" [(ngModel)]="model" name="model" class="form-control" placeholder="Введите название модели...">
-				</div>
-				<div class="col">
-					<input type="text" [(ngModel)]="firm" name="firm" class="form-control" placeholder="Введите название фирмы...">
 				</div>
 			</div>
 			<button type="submit" class="btn btn-success mt-3">Добавить</button>
@@ -20,7 +20,7 @@
 
 <div class="accordion mt-4" id="accordionFirms">
 
-	<div class="card" *ngFor="let f of allFirms" style="overflow: visible;">
+	<div class="card" *ngFor="let f of allFirms; let ind = index" style="overflow: visible;">
 		<div class="card-header" [id]="'heading' + f">
 			<div class="row">
 				<h2 class="col mb-0">
@@ -36,8 +36,8 @@
 					</button>
 					<div class="dropdown-menu" [attr.aria-labelledby]="'dropdownEditFirm' + f">
 						<div class="card-body" style="min-width: 300px;">
-							<form class="mx-2" (submit)="updateNameFirm(f)">
-								<input type="text" [(ngModel)]="firm" name="firm" class="form-control" placeholder="Введите название фирмы...">
+							<form class="mx-2" (submit)="updateNameFirm(f, ind)">
+								<input type="text" [(ngModel)]="inputFirms[ind]" name="inputFirms" class="form-control" placeholder="Введите название фирмы...">
 								<button type="submit" class="btn btn-success mt-3">Изменить</button>
 							</form>
 						</div>
@@ -51,7 +51,7 @@
 		<div [id]="'collapse' + f" class="collapse" [attr.aria-labelledby]="'heading' + f" data-parent="#accordionFirms">
 			<div class="card-body">
 				<ul class="list-group">
-					<ng-container *ngFor="let m of modelsCar">
+					<ng-container *ngFor="let m of modelsCar; let ind2 = index">
 						<li class="list-group-item" *ngIf="m.firm === f">
 							<div class="row align-items-center">
 								<div class="font-weight-bold col" [innerText]="m.model"></div>
@@ -63,8 +63,8 @@
 									</button>
 									<div class="dropdown-menu" [attr.aria-labelledby]="'dropdownEditModel' + m.model">
 										<div class="card-body" style="min-width: 300px;">
-											<form class="mx-2" (submit)="updateNameModel(m.model, f)">
-												<input type="text" [(ngModel)]="model" name="model" class="form-control" placeholder="Введите название модели...">
+											<form class="mx-2" (submit)="updateNameModel(m.model, f, ind2)">
+												<input type="text" [(ngModel)]="inputModels[ind2]" name="inputModels" class="form-control" placeholder="Введите название модели...">
 												<button type="submit" class="btn btn-success mt-3">Изменить</button>
 											</form>
 										</div>

@@ -78,17 +78,24 @@ router.post('/:id', (req, res) => {
 					if (err) throw err;
 					Param.findAll((err, allParams) => {
 						if (err) throw err;
-						Product.distinct("carModels.firm", {_id: req.params.id}, (err, activeFirms) => {
-							if (err) throw err;
-							res.json({
-								success: true,
-								product: product,
-								allModels: modelsCar,
-								allFirms: allFirms,
-								allParams: allParams,
-								activeFirms: activeFirms
-							});
-						}).sort();
+						res.json({
+							success: true,
+							product: product,
+							allModels: modelsCar,
+							allFirms: allFirms,
+							allParams: allParams
+						});
+						// Product.distinct("carModels.firm", {_id: req.params.id}, (err, activeFirms) => {
+						// 	if (err) throw err;
+						// 	res.json({
+						// 		success: true,
+						// 		product: product,
+						// 		allModels: modelsCar,
+						// 		allFirms: allFirms,
+						// 		allParams: allParams,
+						// 		activeFirms: activeFirms
+						// 	});
+						// }).sort();
 					});
 				});
 			})

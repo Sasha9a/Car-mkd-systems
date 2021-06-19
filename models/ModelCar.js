@@ -1,30 +1,30 @@
 const mongoose = require('mongoose');
 
 const ModelCarSchema = mongoose.Schema({
-	model: {
-		type: String,
-		required: true
-	},
 	firm: {
 		type: String,
 		required: true
+	},
+	model: {
+		type: String,
+		required: true
 	}
-});
+}, { versionKey: false });
 
 const ModelCar = module.exports = mongoose.model('ModelCar', ModelCarSchema);
 
 module.exports.findByModelAndFirm = function (model, firm, callback) {
 	const query = {model: model, firm: firm};
-	ModelCar.findOne(query, {_id: 0, __v: 0}, callback);
+	ModelCar.findOne(query, callback);
 }
 
 module.exports.findByFirm = function (firm, callback) {
 	const query = {firm: firm};
-	ModelCar.find(query, {_id: 0, __v: 0}, callback).sort({model: 1});
+	ModelCar.find(query, callback).sort({model: 1});
 }
 
 module.exports.findAll = function (callback) {
-	ModelCar.find({}, {_id: 0, __v: 0}, callback).sort({firm: 1});
+	ModelCar.find({}, callback).sort({firm: 1});
 }
 
 module.exports.deleteByFirm = function (firm, callback) {
