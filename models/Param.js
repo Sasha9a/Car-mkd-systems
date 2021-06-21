@@ -5,7 +5,7 @@ const ParamSchema = mongoose.Schema({
 		type: String,
 		required: true
 	}
-});
+}, { versionKey: false });
 
 const Param = module.exports = mongoose.model('Param', ParamSchema);
 

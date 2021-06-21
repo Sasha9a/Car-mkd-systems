@@ -27,7 +27,7 @@ const ProductSchema = mongoose.Schema({
 		type: Boolean,
 		default: false
 	}
-});
+}, { versionKey: false });
 
 const Product = module.exports = mongoose.model('Product', ProductSchema);
 

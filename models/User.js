@@ -10,7 +10,7 @@ const ModelUser = mongoose.Schema({
 		type: String,
 		required: true
 	}
-});
+}, { versionKey: false });
 
 const User = module.exports = mongoose.model('User', ModelUser);
 
