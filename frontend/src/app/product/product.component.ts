@@ -17,7 +17,7 @@ export class ProductComponent implements OnInit {
 	urlID: String = '';
 	product: any = null;
 	countStock: Number | undefined;
-	activeFirms: any = [];
+  activeModels: any = [];
 	newNameMod: String = '';
 	editNameMod: String = '';
 	activeMod: number = -1;
@@ -31,7 +31,8 @@ export class ProductComponent implements OnInit {
 							private router: Router) {
 		this.urlID = this.router.parseUrl(this.router.url).root.children[PRIMARY_OUTLET].segments[1].path;
 		const product = {
-			task: 0
+			task: 0,
+      isAdmin: this.authService.isAuth()
 		};
 		this.sendPost('application/json', product, (data: any) => {
 			if (data.success) {
@@ -42,7 +43,7 @@ export class ProductComponent implements OnInit {
 				this.allFirms = data.allFirms;
 				this.allModels = data.allModels;
 				this.allParams = data.allParams;
-				this.activeFirms = data.activeFirms;
+				this.activeModels = data.activeModels;
 				this.param = new Array<string>(this.allParams.length);
 			}
 		});
@@ -51,9 +52,9 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
   }
 
-	isModelCar(model: String, firm: String) {
+	isModelCar(id: string) {
   	const arr = this.product.carModels.filter((cm: any) => {
-  		return cm.model == model && cm.firm == firm;
+  		return cm == id;
 		});
   	return arr.length != 0;
 	}
@@ -324,28 +325,28 @@ export class ProductComponent implements OnInit {
 		return true;
 	}
 
-	addCarModel(model: any) {
+	addCarModel(idModel: string) {
   	const product = {
-			model: model,
+      idModel: idModel,
 			task: 2
 		}
 		this.sendPost('application/json', product, (data: any) => {
 			if (data.success) {
 				this.product.carModels = data.carModels;
-				this.activeFirms = data.activeFirms;
+				this.activeModels = data.activeModels;
 			}
 		});
 	}
 
-	delCarModel(model: any) {
+	delCarModel(idModel: string) {
 		const product = {
-			model: model,
+      idModel: idModel,
 			task: 3
 		}
 		this.sendPost('application/json', product, (data: any) => {
 			if (data.success) {
 				this.product.carModels = data.carModels;
-				this.activeFirms = data.activeFirms;
+				this.activeModels = data.activeModels;
 			}
 		});
 	}

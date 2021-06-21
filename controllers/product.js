@@ -71,34 +71,35 @@ router.post('/:id', (req, res) => {
 		});
 	} else if (req.body.task === 0) {
 		Product.findById(req.params.id, (err, product) => {
-			if (err) throw err;
-			ModelCar.findAll((err, modelsCar) => {
-				if (err) throw err;
-				ModelCar.distinctFirm((err, allFirms) => {
-					if (err) throw err;
-					Param.findAll((err, allParams) => {
-						if (err) throw err;
+			if (err) return console.error(err);
+			Param.findAll((err, allParams) => {
+				if (err) return console.error(err);
+				Product.getAllCarModel(product, (activeModels) => {
+					if (req.body.isAdmin) {
+						ModelCar.findAll((err, modelsCar) => {
+							if (err) return console.error(err);
+							ModelCar.distinctFirm((err, allFirms) => {
+								if (err) return console.error(err);
+								res.json({
+									success: true,
+									product: product,
+									allModels: modelsCar,
+									allFirms: allFirms,
+									allParams: allParams,
+									activeModels: activeModels
+								});
+							});
+						});
+					} else {
 						res.json({
 							success: true,
 							product: product,
-							allModels: modelsCar,
-							allFirms: allFirms,
-							allParams: allParams
+							allParams: allParams,
+							activeModels: activeModels
 						});
-						// Product.distinct("carModels.firm", {_id: req.params.id}, (err, activeFirms) => {
-						// 	if (err) throw err;
-						// 	res.json({
-						// 		success: true,
-						// 		product: product,
-						// 		allModels: modelsCar,
-						// 		allFirms: allFirms,
-						// 		allParams: allParams,
-						// 		activeFirms: activeFirms
-						// 	});
-						// }).sort();
-					});
+					}
 				});
-			})
+			});
 		});
 	} else if (req.body.task === 1) {
 		Product.updateOne({_id: req.params.id}, {$set: {stock: req.body.stock}}, (err) => {
@@ -108,34 +109,31 @@ router.post('/:id', (req, res) => {
 	} else if (req.body.task === 2) {
 		Product.findById(req.params.id, (err, product) => {
 			if (err) throw err;
-			product.carModels.push(req.body.model);
+			product.carModels.push(req.body.idModel);
 			product.save((err) => {
 				if (err) throw err;
-				Product.distinct("carModels.firm", {_id: req.params.id}, (err, activeFirms) => {
-					if (err) throw err;
+				Product.getAllCarModel(product, (activeModels) => {
 					res.json({
 						success: true,
 						carModels: product.carModels,
-						activeFirms: activeFirms
+						activeModels: activeModels
 					});
-				}).sort();
+				});
 			});
 		});
 	} else if (req.body.task === 3) {
 		Product.findById(req.params.id, (err, product) => {
 			if (err) throw err;
-			product.carModels = product.carModels.filter((el) =>
-				el.model !== req.body.model.model || el.firm !== req.body.model.firm);
+			product.carModels = product.carModels.filter((el) => el.toString() !== req.body.idModel.toString());
 			product.save((err) => {
 				if (err) throw err;
-				Product.distinct("carModels.firm", {_id: req.params.id}, (err, activeFirms) => {
-					if (err) throw err;
+				Product.getAllCarModel(product, (activeModels) => {
 					res.json({
 						success: true,
 						carModels: product.carModels,
-						activeFirms: activeFirms
+						activeModels: activeModels
 					});
-				}).sort();
+				});
 			});
 		});
 	} else if (req.body.task === 4) {

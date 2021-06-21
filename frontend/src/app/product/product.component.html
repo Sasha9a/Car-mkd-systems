@@ -180,14 +180,12 @@
 								<li class="list-group-item" *ngIf="m.firm === f">
 									<div class="row align-items-center">
 										<div class="font-weight-bold col" [innerText]="m.model"></div>
-										<button type="button" class="btn btn-outline-success col-auto mr-2"
-														style="{{ isModelCar(m.model, f) ? 'display: none;' : '' }}"
-														[id]="'btnAddModel' + m.model + m.firm" (click)="addCarModel(m)">
+										<button type="button" *ngIf="!isModelCar(m._id)" class="btn btn-outline-success col-auto mr-2"
+														[id]="'btnAddModel' + m._id" (click)="addCarModel(m._id)">
 												Добавить
 										</button>
-										<button type="button" class="btn btn-outline-danger col-auto mr-2"
-														style="{{ isModelCar(m.model, f) ? '' : 'display: none;' }}"
-														[id]="'btnDelModel' + m.model + m.firm" (click)="delCarModel(m)">
+										<button type="button" *ngIf="isModelCar(m._id)" class="btn btn-outline-danger col-auto mr-2"
+														[id]="'btnDelModel' + m._id" (click)="delCarModel(m._id)">
 												Удалить
 										</button>
 									</div>
@@ -202,18 +200,18 @@
 		<div class="row">
 			<div class="col-4">
 				<div class="list-group" role="tablist">
-					<a *ngFor="let f of activeFirms; let ind = index"
-						 [id]="'list-list' + f" data-toggle="list" [href]="'#list' + f"  role="tab" [innerText]="f"
+					<a *ngFor="let f of activeModels; let ind = index"
+						 [id]="'list-list' + f.firm" data-toggle="list" [href]="'#list' + f.firm"  role="tab" [innerText]="f.firm"
 						 class="{{ 'list-group-item list-group-item-action' + (ind == 0 ? ' active' : '') }}"></a>
 				</div>
 			</div>
 			<div class="col-8">
 				<div class="tab-content">
-					<div *ngFor="let f of activeFirms; let ind = index"
+					<div *ngFor="let f of activeModels; let ind = index"
 							 class="{{ 'tab-pane fade' + (ind == 0 ? ' show active' : '') }}" role="tabpanel"
-							 [id]="'list' + f" [attr.aria-labelledby]="'list-list' + f">
-						<ng-container *ngFor="let m of product.carModels">
-							<h6 *ngIf="m.firm == f" [innerText]="m.model"></h6>
+							 [id]="'list' + f.firm" [attr.aria-labelledby]="'list-list' + f.firm">
+						<ng-container *ngFor="let m of f.models">
+							<h6 [innerText]="m"></h6>
 						</ng-container>
 					</div>
 				</div>
