@@ -9,6 +9,8 @@ const fs = require('fs');
 const fileUpload = require('express-fileupload');
 
 const User = require('./models/User');
+const ModelCar = require('./models/ModelCar');
+const Product = require('./models/Product');
 
 // Подключение конфигов
 const db = require('./config/db');
@@ -78,6 +80,27 @@ mongoose.connection.on('connected', () => {
 			}
 		}
 	});
+	// Изменение на новую версию БД в Моделях с v1.2
+	Product.find({}, (err, products) => {
+		if (err) return console.error(err);
+		ModelCar.findAll((err, modelsCar) => {
+			if (err) return console.error(err);
+			products.forEach((p) => {
+				let array = [];
+				p.carModels.forEach((m) => {
+					if (m.model) {
+						if (modelsCar.find((el) => m.model === el.model && m.firm === el.firm)) {
+							array.push(modelsCar.find((el) => m.model === el.model && m.firm === el.firm)._id);
+						}
+					}
+				});
+				if (array.length > 0) {
+					p.carModels = array;
+					p.save();
+				}
+			});
+		});
+	})
 });
 
 mongoose.connection.on('error', (err) => {
