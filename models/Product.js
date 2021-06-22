@@ -16,7 +16,7 @@ const ProductSchema = mongoose.Schema({
 		default: []
 	},
 	carModels: {
-		type: [mongoose.ObjectId],
+		type: [Schema.Types.Mixed],
 		default: []
 	},
 	mods: {
