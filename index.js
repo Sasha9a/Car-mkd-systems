@@ -100,7 +100,7 @@ mongoose.connection.on('connected', () => {
 				}
 			});
 		});
-	})
+	});
 });
 
 mongoose.connection.on('error', (err) => {
