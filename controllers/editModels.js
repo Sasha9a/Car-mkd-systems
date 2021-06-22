@@ -92,13 +92,16 @@ router.post('/', (req, res) => {
 				if (err) return console.error(err);
 				ModelCar.deleteByFirm(req.body.firm, (err) => {
 					if (err) return console.error(err);
+					let array = [];
+
 					modelsCar.forEach((mc) => {
-						Product.find({carModels: mc._id}, (err, products) => {
-							if (err) return console.error(err);
-							products.forEach((p) => {
-								p.carModels = p.carModels.filter((el) => el !== mc._id);
-								p.save();
-							});
+						array.push(mc._id.toString());
+					});
+					Product.find({carModels: {$in: array}}, (err, products) => {
+						if (err) return console.error(err);
+						products.forEach((p) => {
+							p.carModels = p.carModels.filter((el) => array.indexOf(el.toString()) === -1);
+							p.save();
 						});
 					});
 					ModelCar.findAll((err, modelsCar) => {
@@ -156,7 +159,7 @@ router.post('/', (req, res) => {
 					Product.find({ carModels: modelCar._id }, (err, products) => {
 						if (err) return console.error(err);
 						products.forEach((p) => {
-							p.carModels = p.carModels.filter((el) => el !== modelCar._id);
+							p.carModels = p.carModels.filter((el) => el.toString() !== modelCar._id.toString());
 							p.save();
 						});
 						ModelCar.findAll((err, modelsCar) => {

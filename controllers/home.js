@@ -6,7 +6,7 @@ const ModelCar = require('../models/ModelCar');
 router.post('/', (req, res) => {
 	Product.find({}, (err, products) => {
 		if (err) throw err;
-		ModelCar.find({}, (err, models) => {
+		ModelCar.findAll((err, models) => {
 			if (err) throw err;
 			ModelCar.distinctFirm((err, firms) => {
 				if (err) throw err;

@@ -161,17 +161,24 @@ export class HomeComponent implements OnInit {
 		let minStart = 0;
 		let max = 0;
 
+		let arrayId: string[] = [];
+
+		this.allModels.forEach((el: any) => {
+		  if (this.modelCar == '') {
+		    if ((this.firmCar != '' && el.firm == this.firmCar) || this.firmCar == '') {
+		      arrayId.push(el._id.toString());
+        }
+      } else {
+		    if (el.firm == this.firmCar && el.model == this.modelCar) {
+          arrayId.push(el._id.toString());
+        }
+      }
+    });
 		this.allProducts.forEach((p: any) => {
 			if (this.authService.isAuth() || p.isPublic) {
-				if (this.modelCar == '') {
-					if ((this.firmCar != '' && p.carModels.find((m: any) => this.firmCar == m.firm)) || this.firmCar == '') {
-						max++;
-					}
-				} else {
-					if (p.carModels.find((m: any) => this.firmCar == m.firm) && p.carModels.find((m: any) => this.modelCar == m.model)) {
-						max++;
-					}
-				}
+				if (p.carModels.some((s: any) => arrayId.indexOf(s.toString()) !== -1) || this.firmCar == '') {
+          max++;
+        }
 			}
 		});
 		let count = max / this.MAX_ITEM + (max % this.MAX_ITEM != 0 ? 1 : 0);
@@ -179,25 +186,14 @@ export class HomeComponent implements OnInit {
 
 		this.showProducts = this.allProducts.filter((p: any) => {
 			if ((this.authService.isAuth() || p.isPublic) && countProduct < this.MAX_ITEM) {
-				if (this.modelCar == '') {
-					if ((this.firmCar != '' && p.carModels.find((m: any) => this.firmCar == m.firm)) || this.firmCar == '') {
-						if (minStart < this.page * this.MAX_ITEM) {
-							minStart++;
-						} else {
-							countProduct++;
-							return true;
-						}
-					}
-				} else {
-					if (p.carModels.find((m: any) => this.firmCar == m.firm) && p.carModels.find((m: any) => this.modelCar == m.model)) {
-						if (minStart < this.page * this.MAX_ITEM) {
-							minStart++;
-						} else {
-							countProduct++;
-							return true;
-						}
-					}
-				}
+        if (p.carModels.some((s: any) => arrayId.indexOf(s.toString()) !== -1) || this.firmCar == '') {
+          if (minStart < this.page * this.MAX_ITEM) {
+            minStart++;
+          } else {
+            countProduct++;
+            return true;
+          }
+        }
 			}
 			return false;
 		});
