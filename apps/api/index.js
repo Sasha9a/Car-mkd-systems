@@ -9,7 +9,7 @@ const path = require('path');
 const db = require('./configs/db');
 
 // Подключение роутов
-const accountRoute = require('./routes/account.route');
+const accountRoute = require('./routes/accountRoute');
 
 const app = express();
 const port = 3000;
