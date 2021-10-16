@@ -1,11 +1,18 @@
 import express from "express";
-export const accountRouter = express.Router();
-import { accountModule } from '../models/account.module';
+import {AccountDto} from "../../../../libs/shared/src/dto/account.dto";
+import * as AccountModel from "../models/account.model";
+export const AccountRouter = express.Router();
 
-accountRouter.get(':id', (req, res) => {
-
-	accountModule.findById(req.params, null, null, (err, account) => {
-		if (err) throw err;
-		res.json(account);
+AccountRouter.post('', (req, res) => {
+	const account = <AccountDto>{
+		name: req.body.name,
+		password: req.body.password
+	};
+	AccountModel.createUser(account, (err: any, account: AccountDto) => {
+		if (err) {
+			res.json({ error: err });
+		} else {
+			res.json({ account: account });
+		}
 	});
 });
