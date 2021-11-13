@@ -5,7 +5,6 @@ import { UserService } from './user.service';
 import { User, UserSchema } from '@car-mkd-systems/shared/schemas/user.schema';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from '@car-mkd-systems/modules/user/jwt.strategy';
 
 @Module({
   imports: [
@@ -16,14 +15,14 @@ import { JwtStrategy } from '@car-mkd-systems/modules/user/jwt.strategy';
       session: true
     }),
     JwtModule.register({
-      secret: 'd2103dfe7288ccb50a4a7af9ff90ec52',
+      secret: process.env.SECRET,
       signOptions: {
-        expiresIn: 3600 * 24 * 30
+        expiresIn: process.env.EXPIRES_IN
       }
     })
   ],
   controllers: [UserController],
-  providers: [UserService, JwtStrategy],
+  providers: [UserService],
   exports: [
     PassportModule,
     JwtModule
