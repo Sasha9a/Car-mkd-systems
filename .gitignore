@@ -42,6 +42,7 @@ testem.log
 package-lock.json
 yarn.lock
 .env
+.angular
 
 # System Files
 .DS_Store
