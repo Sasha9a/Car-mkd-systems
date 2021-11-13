@@ -13,10 +13,25 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": "./car-mkd-systems-v2",
+    "baseUrl": ".",
     "paths": {
-      "@car-mkd-systems-v2/shared": ["libs/shared/src/index.ts"]
+      "@car-mkd-systems/shared/*": [
+        "libs/shared/src/*"
+      ],
+      "@car-mkd-systems/modules/*": [
+        "apps/api/src/app/modules/*"
+      ],
+      "@car-mkd-systems/web/*": [
+        "apps/web/src/app/*"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "include": [
+    "./libs/*/src/**/*",
+    "./apps/*/src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }
