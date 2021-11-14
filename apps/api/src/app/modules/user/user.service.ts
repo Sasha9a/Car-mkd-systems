@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from '@car-mkd-systems/shared/schemas/user.schema';
+import { User } from '@car-mkd-systems/shared/schemas/user.schema';
 import { Model } from 'mongoose';
 import { UserFormDto } from '@car-mkd-systems/shared/dtos/user.form.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {
+  constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {
   }
 
   async create(user: UserFormDto): Promise<User> {
@@ -16,6 +16,10 @@ export class UserService {
 
   async findAll(): Promise<User[]> {
     return await this.userModel.find().exec();
+  }
+
+  async findByLogin(login: string): Promise<User> {
+    return await this.userModel.findOne({ login: login }).exec();
   }
 
 }
