@@ -3,6 +3,7 @@ import { AuthService } from '@car-mkd-systems/modules/auth/auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from '@car-mkd-systems/modules/auth/jwt.strategy';
+import {environment} from "../../../environments/environment";
 
 @Module({
   imports: [
@@ -12,9 +13,9 @@ import { JwtStrategy } from '@car-mkd-systems/modules/auth/jwt.strategy';
       session: true
     }),
     JwtModule.register({
-      secret: process.env.SECRET,
+      secret: environment.connection.secret,
       signOptions: {
-        expiresIn: process.env.EXPIRES_IN
+        expiresIn: environment.connection.expiresIn
       }
     })
   ],
