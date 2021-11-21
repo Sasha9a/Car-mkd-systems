@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from '@car-mkd-systems/web/core/core.module';
+import { ShareModule } from '@car-mkd-systems/web/shared/share.module';
 
 @NgModule({
   declarations: [],
@@ -17,7 +18,8 @@ import { CoreModule } from '@car-mkd-systems/web/core/core.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CoreModule
+    CoreModule,
+    ShareModule
   ],
   bootstrap: [AppComponent],
 })
