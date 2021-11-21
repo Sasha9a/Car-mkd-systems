@@ -1,22 +1,24 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
+import { AppComponent } from './core/app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MenubarModule } from 'primeng/menubar';
-import { SharedModule } from 'primeng/api';
-import { InputTextModule } from 'primeng/inputtext';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CoreModule } from '@car-mkd-systems/web/core/core.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MenubarModule,
-    SharedModule,
-    InputTextModule
+    HttpClientModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CoreModule
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
