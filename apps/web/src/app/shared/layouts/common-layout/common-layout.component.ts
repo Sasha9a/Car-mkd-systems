@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 @Component({
   selector: 'car-common-layout',
   templateUrl: './common-layout.component.html',
-  styleUrls: ['./common-layout.component.scss']
+  styleUrls: []
 })
 export class CommonLayoutComponent implements OnInit {
 
