@@ -1,5 +1,23 @@
 <div class="bg-indigo-50 shadow-3 w-full fixed">
-  <div class="flex justify-content-between flex-wrap">
-    <p class="fw-bold text-xl text-blue-700 ml-4"><a routerLink="/" style="text-decoration: none;">Car MKD Systems</a></p>
+  <div class="flex justify-content-between align-items-center flex-wrap">
+    <p class="fw-bold text-xl ml-4"><a routerLink="/" class="text-blue-700" style="text-decoration: none">Car MKD Systems</a></p>
+
+    <div>
+      <p-avatar icon="pi pi-user" size="large" styleClass="mr-4" shape="circle" [style]="{ 'cursor': 'pointer' }" routerLink="/login"></p-avatar>
+    </div>
   </div>
 </div>
+
+<div class="pt-8">
+  <router-outlet></router-outlet>
+  <h1>Hi</h1>
+</div>
+
+<footer class="mt-5">
+  <p-divider></p-divider>
+  <div class="w-full text-center mt-5">
+    <p class="text-lg">© 2021</p>
+  </div>
+</footer>
+
+
