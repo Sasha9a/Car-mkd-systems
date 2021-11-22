@@ -11,7 +11,13 @@ import { CommonLayoutComponent } from '@car-mkd-systems/web/shared/layouts/commo
 const routes: Routes = [
   {
     path: '',
-    component: CommonLayoutComponent
+    component: CommonLayoutComponent,
+    children: [
+      {
+        path: 'login',
+        loadChildren: () => import('../modules/login/login.module').then(m => m.LoginModule)
+      }
+    ]
   }
 ];
 

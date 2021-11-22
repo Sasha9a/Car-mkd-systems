@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment-timezone';
+import moment from 'moment-timezone';
 
 @Component({
   selector: 'car-common-layout',
@@ -18,7 +18,6 @@ export class CommonLayoutComponent implements OnInit {
     } else {
       this.footerYear = `2021-${moment().year()}`;
     }
-
   }
 
 }
