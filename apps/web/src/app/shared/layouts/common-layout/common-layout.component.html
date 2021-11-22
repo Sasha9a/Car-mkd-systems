@@ -3,7 +3,7 @@
     <p class="fw-bold text-xl ml-4"><a routerLink="/" class="text-blue-700" style="text-decoration: none">Car MKD Systems</a></p>
 
     <div>
-      <p-avatar icon="pi pi-user" size="large" styleClass="mr-4" shape="circle" [style]="{ 'cursor': 'pointer' }" routerLink="/login"></p-avatar>
+      <p-avatar icon="pi pi-user" size="large" styleClass="mr-4 cursor-pointer" shape="circle" routerLink="/login"></p-avatar>
     </div>
   </div>
 </div>
@@ -16,7 +16,7 @@
 <footer class="mt-5">
   <p-divider></p-divider>
   <div class="w-full text-center mt-5">
-    <p class="text-lg">© 2021</p>
+    <p class="text-lg">© {{ footerYear }}</p>
   </div>
 </footer>
 
