@@ -13,7 +13,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "carMkdSystemsV2",
+            "prefix": "car",
             "style": "camelCase"
           }
         ],
@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "car-mkd-systems-v2",
+            "prefix": "car",
             "style": "kebab-case"
           }
         ]
