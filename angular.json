@@ -110,7 +110,9 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "allowedCommonJsDependencies": [
-              "moment-timezone"
+              "moment-timezone",
+              "class-validator",
+              "validator"
             ],
             "outputPath": "dist/apps/web",
             "index": "apps/web/src/index.html",

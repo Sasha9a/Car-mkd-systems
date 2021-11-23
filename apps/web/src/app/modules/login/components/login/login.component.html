@@ -1,1 +1,27 @@
-<p>login works!</p>
+<div class="grid justify-content-center">
+  <div class="col-12 sm:col-8 md:col-6 xl:col-4">
+    <div class="p-fluid">
+      <div class="field">
+        <label class="fw-bold required-field">Логин</label>
+        <input type="text" pInputText [(ngModel)]="user.login" [ngClass]="{ 'ng-invalid ng-dirty': errors?.login }">
+        <small *ngIf="errors?.login" class="p-error">{{ errors.login | join }}</small>
+      </div>
+
+      <div class="field">
+        <label class="fw-bold required-field">Пароль</label>
+        <p-password [(ngModel)]="user.password" [feedback]="false" [ngClass]="{ 'ng-invalid ng-dirty': errors?.password }"></p-password>
+        <small *ngIf="errors?.password" class="p-error">{{ errors.password | join }}</small>
+      </div>
+
+      <div class="field">
+        <button pButton pRipple
+                type="button"
+                label="Войти"
+                class="p-button-success"
+                [loading]="loading"
+                (click)="clickLogin()">
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

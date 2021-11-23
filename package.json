@@ -68,6 +68,8 @@
     "@typescript-eslint/eslint-plugin": "~4.33.0",
     "@typescript-eslint/parser": "~4.33.0",
     "cypress": "^8.3.0",
+    "class-validator": "^0.13.2",
+    "class-transformer": "^0.5.1",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-cypress": "^2.10.3",

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import moment from 'moment-timezone';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'car-common-layout',
