@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from '@car-mkd-systems/web/core/core.module';
 import { ShareModule } from '@car-mkd-systems/web/shared/share.module';
-import * as moment from 'moment-timezone';
+import moment from 'moment-timezone';
 
 moment.locale('ru');
 
