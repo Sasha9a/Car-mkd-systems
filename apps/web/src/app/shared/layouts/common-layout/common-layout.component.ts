@@ -10,8 +10,6 @@ export class CommonLayoutComponent implements OnInit {
 
   public footerYear: string;
 
-  public constructor() { }
-
   public ngOnInit(): void {
     if (moment().year() === 2021) {
       this.footerYear = '2021';

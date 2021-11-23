@@ -1,4 +1,4 @@
 export class UserFormDto {
-  login: string;
-  password: string;
+  public login: string;
+  public password: string;
 }
