@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserFormDto } from '@car-mkd-systems/shared/dtos/user/user.form.dto';
+import { UserStateService } from '@car-mkd-systems/web/core/services/user/user-state.service';
 import { validate } from '@car-mkd-systems/web/core/services/validation/validate.service';
 
 @Component({
@@ -13,6 +14,9 @@ export class LoginComponent {
   public errors: Record<keyof UserFormDto, any[]>;
   public loading = false;
 
+  public constructor(private readonly userStateService: UserStateService) {
+  }
+
   public clickLogin() {
     this.loading = true;
 
@@ -23,7 +27,10 @@ export class LoginComponent {
       this.loading = false;
     } else {
       this.errors = null;
-      this.loading = false;
+      this.userStateService.login(this.user).subscribe((result) => {
+        console.log(result);
+        this.loading = false;
+      }, () => this.loading = false);
     }
   }
 
