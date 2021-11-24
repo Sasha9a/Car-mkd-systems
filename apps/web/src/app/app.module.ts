@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { TokenInterceptor } from '@car-mkd-systems/web/core/interceptors/token.interceptor';
 
 import { AppComponent } from './core/app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from '@car-mkd-systems/web/core/core.module';
@@ -25,5 +26,10 @@ moment.locale('ru');
     ShareModule
   ],
   bootstrap: [AppComponent],
+  providers: [
+    [
+      { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+    ]
+  ]
 })
 export class AppModule {}

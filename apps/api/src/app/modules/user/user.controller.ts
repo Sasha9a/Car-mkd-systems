@@ -1,3 +1,4 @@
+import { UserSessionDto } from '@car-mkd-systems/shared/dtos/user/user.session.dto';
 import { Body, Controller, Get, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserFormDto } from '@car-mkd-systems/shared/dtos/user/user.form.dto';
@@ -15,33 +16,44 @@ export class UserController {
   @Get()
   public async getAll(@Res() res: Response) {
     const users = await this.userService.findAll();
-    return res.status(HttpStatus.OK).json(users);
+    return res.status(HttpStatus.OK).json(users).end();
   }
 
   @Post()
   public async addUser(@Res() res: Response, @Body() body: UserFormDto) {
     body.password = bcrypt.hashSync(body.password, 10);
     const newUser = await this.userService.create(body);
-    return res.status(HttpStatus.CREATED).json(newUser);
+    return res.status(HttpStatus.CREATED).json(newUser).end();
   }
 
   @Post('/login')
   public async login(@Res() res: Response, @Body() body: UserFormDto) {
     const user = await this.userService.findByLogin(body.login);
-    if (!user || !body.password) {
-      return res.status(HttpStatus.NOT_FOUND).send('Неверные данные');
+    const errors: Record<keyof UserFormDto, any[]> = {
+      login: null,
+      password: null
+    };
+    if (!user) {
+      errors.login = ['Нет такого аккаунта'];
+      return res.status(HttpStatus.NOT_FOUND).json(errors).end();
     }
     if (bcrypt.compareSync(body.password, user.password)) {
-      const login = await this.authService.login(user);
-      return res.status(HttpStatus.OK).json(login);
+      const token = await this.authService.login(user);
+      const login: UserSessionDto = {
+        _id: user._id,
+        login: user.login,
+        token: token.accessToken
+      }
+      return res.status(HttpStatus.OK).json(login).end();
     } else {
-      return res.status(HttpStatus.NOT_FOUND).send('Неверный пароль');
+      errors.password = ['Неверный пароль'];
+      return res.status(HttpStatus.NOT_FOUND).json(errors).end();
     }
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('/profile')
   public async profile(@Res() res: Response, @Req() req: Request) {
-    return res.status(HttpStatus.OK).json(req.user);
+    return res.status(HttpStatus.OK).json(req.user).end();
   }
 }

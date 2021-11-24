@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserFormDto } from '@car-mkd-systems/shared/dtos/user/user.form.dto';
+import { UserSessionDto } from '@car-mkd-systems/shared/dtos/user/user.session.dto';
 import { BaseService } from '@car-mkd-systems/web/core/services/base.service';
 import { Observable } from 'rxjs';
 
@@ -8,9 +9,9 @@ import { Observable } from 'rxjs';
 })
 export class UserService extends BaseService {
 
-  protected baseUrl = 'http://localhost:3333/api/user';
+  protected baseUrl = '/user';
 
-  public login(body: UserFormDto): Observable<any> {
-    return this.http.post(`${this.baseUrl}/login`, body);
+  public login(body: UserFormDto): Observable<UserSessionDto> {
+    return this.http.post<UserSessionDto>(`${this.baseUrl}/login`, body);
   }
 }
