@@ -1,11 +1,11 @@
+import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
+import { AuthService } from '@car-mkd-systems/api/modules/auth/auth.service';
 import { UserSessionDto } from '@car-mkd-systems/shared/dtos/user/user.session.dto';
 import { Body, Controller, Get, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserFormDto } from '@car-mkd-systems/shared/dtos/user/user.form.dto';
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
-import { AuthService } from '@car-mkd-systems/modules/auth/auth.service';
-import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {

@@ -17,9 +17,6 @@
       "@car-mkd-systems/shared/*": [
         "libs/shared/src/*"
       ],
-      "@car-mkd-systems/modules/*": [
-        "apps/api/src/app/modules/*"
-      ],
       "@car-mkd-systems/web/*": [
         "apps/web/src/app/*"
       ],

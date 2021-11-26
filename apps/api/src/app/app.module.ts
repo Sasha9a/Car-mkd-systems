@@ -1,8 +1,10 @@
+import { LoggingInterceptor } from '@car-mkd-systems/api/core/interceptors/logging.interceptor';
+import { UserModule } from '@car-mkd-systems/api/modules/user/user.module';
 import { Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 import { MongooseModule } from '@nestjs/mongoose';
 import { environment } from "../environments/environment";
-import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -10,6 +12,11 @@ import { UserModule } from './modules/user/user.module';
     UserModule
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor
+    }
+  ],
 })
 export class AppModule {}

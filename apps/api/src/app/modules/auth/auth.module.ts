@@ -1,8 +1,8 @@
+import { AuthService } from '@car-mkd-systems/api/modules/auth/auth.service';
+import { JwtStrategy } from '@car-mkd-systems/api/modules/auth/jwt.strategy';
 import { Module } from '@nestjs/common';
-import { AuthService } from '@car-mkd-systems/modules/auth/auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from '@car-mkd-systems/modules/auth/jwt.strategy';
 import {environment} from "../../../environments/environment";
 
 @Module({
