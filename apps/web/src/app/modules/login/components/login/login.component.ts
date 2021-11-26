@@ -42,4 +42,8 @@ export class LoginComponent {
     }
   }
 
+  public setFocus(elem: any) {
+    elem.input?.nativeElement?.focus();
+  }
+
 }

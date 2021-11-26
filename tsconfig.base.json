@@ -22,6 +22,9 @@
       ],
       "@car-mkd-systems/web/*": [
         "apps/web/src/app/*"
+      ],
+      "@car-mkd-systems/api/*": [
+        "apps/api/src/app/*"
       ]
     }
   },
