@@ -44,4 +44,11 @@ export class AuthService {
     return localStorage.getItem('JWT_TOKEN');
   }
 
+  public isAuthenticated(): Promise<any> {
+    if (!this.getToken()) {
+      return Promise.reject(false);
+    }
+    return this.userStateService.check().toPromise();
+  }
+
 }

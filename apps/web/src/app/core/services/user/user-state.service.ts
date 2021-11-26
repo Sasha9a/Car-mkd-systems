@@ -18,4 +18,8 @@ export class UserStateService extends BaseStateService {
   public login(body: UserFormDto): Observable<UserSessionDto> {
     return this.userService.login(body);
   }
+
+  public check(): Observable<null> {
+    return this.userService.check();
+  }
 }

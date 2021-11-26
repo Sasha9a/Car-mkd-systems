@@ -14,4 +14,9 @@ export class UserService extends BaseService {
   public login(body: UserFormDto): Observable<UserSessionDto> {
     return this.http.post<UserSessionDto>(`${this.baseUrl}/login`, body);
   }
+
+  public check(): Observable<null> {
+    return this.http.get<null>(`${this.baseUrl}/check`);
+  }
+
 }
