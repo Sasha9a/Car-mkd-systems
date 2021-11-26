@@ -19,6 +19,7 @@ export class UserController {
     return res.status(HttpStatus.OK).json(users).end();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/check')
   public async check(@Res() res: Response) {
     return res.status(HttpStatus.NO_CONTENT).end();
