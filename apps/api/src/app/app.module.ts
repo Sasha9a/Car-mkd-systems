@@ -1,10 +1,9 @@
-import { LoggingInterceptor } from '@car-mkd-systems/api/core/interceptors/logging.interceptor';
+import { LoggerMiddleware } from '@car-mkd-systems/api/core/middlewares/logger.middleware';
 import { UserModule } from '@car-mkd-systems/api/modules/user/user.module';
-import { Module } from '@nestjs/common';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 
 import { MongooseModule } from '@nestjs/mongoose';
-import { environment } from "../environments/environment";
+import { environment } from '../environments/environment';
 
 @Module({
   imports: [
@@ -12,11 +11,13 @@ import { environment } from "../environments/environment";
     UserModule
   ],
   controllers: [],
-  providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: LoggingInterceptor
-    }
-  ],
+  providers: []
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  public configure(consumer: MiddlewareConsumer): any {
+    consumer.apply(LoggerMiddleware).forRoutes({
+      path: '*',
+      method: RequestMethod.ALL
+    });
+  }
+}
