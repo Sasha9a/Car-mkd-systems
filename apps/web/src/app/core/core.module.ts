@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from '@car-mkd-systems/web/core/app.component';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '@car-mkd-systems/web/core/guards/auth.guard';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ScrollTopModule } from 'primeng/scrolltop';
@@ -16,6 +17,11 @@ const routes: Routes = [
       {
         path: 'login',
         loadChildren: () => import('../modules/login/login.module').then(m => m.LoginModule)
+      },
+      {
+        path: 'car-models',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../modules/car-models/car-models.module').then(m => m.CarModelsModule)
       }
     ]
   }

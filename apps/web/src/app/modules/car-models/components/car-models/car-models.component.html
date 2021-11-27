@@ -1,0 +1,60 @@
+<p-panel header="Добавить фирму">
+  <div class="grid align-items-center m-0 p-0">
+    <div class="col">
+      <span class="p-float-label">
+        <input id="float-input-firm"
+               type="text" pInputText
+               [(ngModel)]="firm.firm"
+               [ngClass]="{ 'ng-invalid ng-dirty': errorsFirm?.firm }"
+               (focusin)="errorsFirm = null"
+               class="w-full">
+        <label for="float-input-firm">Название фирмы</label>
+      </span>
+    </div>
+    <p-button label="Добавить" [loading]="loading" icon="pi pi-check" styleClass="p-button-success col-fixed" (onClick)="createFirm()"></p-button>
+  </div>
+</p-panel>
+
+<div class="flex justify-content-end mt-3">
+  <div class="p-field-checkbox">
+    <p-checkbox [(ngModel)]="folding" binary="true" inputId="folding" (onChange)="setFolding()"></p-checkbox>
+    <label [for]="'folding'" class="ml-2">Автоматическое сворачивание</label>
+  </div>
+</div>
+
+<p-accordion *ngIf="carModels && model" [multiple]="!folding" styleClass="mt-3">
+  <p-accordionTab *ngFor="let carModel of carModels; let index = index">
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center flex-wrap w-full">
+        <p class="fw-bold m-0">{{ carModel.firm }}</p>
+        <div>
+          <button pButton pRipple type="button" label="Изменить название" class="p-button-outlined p-button-warning"></button>
+          <button pButton pRipple type="button" label="Удалить" class="p-button-outlined p-button-danger ml-2"></button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <p-panel header="Добавить модель">
+        <div class="grid align-items-center m-0 p-0">
+          <div class="col">
+            <span class="p-float-label">
+              <input id="float-input-model"
+                     type="text" pInputText
+                     [(ngModel)]="model[index].model"
+                     [ngClass]="{ 'ng-invalid ng-dirty': errorsModel[index]?.model }"
+                     (focusin)="errorsModel[index] = null"
+                     class="w-full">
+              <label for="float-input-model">Название модели</label>
+            </span>
+          </div>
+          <p-button label="Добавить"
+                    [loading]="loading"
+                    icon="pi pi-check"
+                    styleClass="p-button-success col-fixed"
+                    (onClick)="createModel(carModel, index)">
+          </p-button>
+        </div>
+      </p-panel>
+    </ng-template>
+  </p-accordionTab>
+</p-accordion>

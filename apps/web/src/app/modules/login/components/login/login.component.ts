@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserFormDto } from '@car-mkd-systems/shared/dtos/user/user.form.dto';
+import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
 import { AuthService } from '@car-mkd-systems/web/core/services/user/auth.service';
 import { validate } from '@car-mkd-systems/web/core/services/validation/validate.service';
 
@@ -9,14 +10,31 @@ import { validate } from '@car-mkd-systems/web/core/services/validation/validate
   templateUrl: './login.component.html',
   styleUrls: []
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   public user = new UserFormDto();
   public errors: Record<keyof UserFormDto, any[]>;
   public loading = false;
 
+  private url: string;
+  private queryParams: any;
+
   public constructor(private readonly authService: AuthService,
-                     private readonly router: Router) {
+                     private readonly errorService: ErrorService,
+                     private readonly router: Router,
+                     private readonly route: ActivatedRoute) {
+  }
+
+  public ngOnInit() {
+    this.url = this.route.snapshot.queryParams['url'] || '/';
+    this.queryParams = this.url.split('?')[1] || '';
+
+    this.url = this.url.split('?')[0] || this.url;
+    this.queryParams = this.queryParams ? JSON.parse('{"' + decodeURI(this.queryParams.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}') : {};
+
+    if (this.authService.currentUser) {
+      this.router.navigate([this.url], { queryParams: this.queryParams }).catch(console.error);
+    }
   }
 
   public clickLogin() {
@@ -32,7 +50,8 @@ export class LoginComponent {
       this.authService.login(this.user).subscribe({
         next: () => {
           this.loading = false;
-          this.router.navigate(['']).catch(console.error);
+          this.errorService.addSuccessMessage("Вы авторизовались!");
+          this.router.navigate([this.url], { queryParams: this.queryParams }).catch(console.error);
         },
         error: (err) => {
           this.loading = false;

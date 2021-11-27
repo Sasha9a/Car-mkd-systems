@@ -7,7 +7,7 @@ export class LoggerMiddleware implements NestMiddleware {
   public use(req: Request, res: Response, next: NextFunction): any {
     let result = `[${moment().format('HH:mm:ss DD.MM.YYYY')}][${req.method} ${req.url} ${JSON.stringify(req.query)}]`;
     result = result.concat(` StatusCode: ${res.statusCode}`);
-    result = result.concat(` ${req.body.body ? req.body.body : ''}`);
+    result = result.concat(` ${JSON.stringify(req.body)}`);
     console.log(result);
     next();
   }

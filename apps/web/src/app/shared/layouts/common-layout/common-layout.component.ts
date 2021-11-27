@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
 import { AuthService } from '@car-mkd-systems/web/core/services/user/auth.service';
 import * as moment from 'moment-timezone';
 import { MenuItem } from 'primeng/api';
@@ -23,7 +24,7 @@ export class CommonLayoutComponent implements OnInit {
     },
     {
       label: 'Панель моделей автотранспорта',
-      routerLink: '/edit-models'
+      routerLink: '/car-models'
     },
     {
       label: 'Панель характеристик',
@@ -43,12 +44,14 @@ export class CommonLayoutComponent implements OnInit {
       label: 'Выйти',
       command: () => {
         this.authService.logout();
+        this.errorService.addSuccessMessage("Вы успешно вышли!");
         this.router.navigate(['']).catch(console.error);
       }
     }
   ];
 
   public constructor(public readonly authService: AuthService,
+                     private readonly errorService: ErrorService,
                      private readonly router: Router) {
   }
 
