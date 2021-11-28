@@ -1,4 +1,4 @@
-<p-panel header="Добавить фирму">
+<p-panel header="Добавить марку">
   <div class="grid align-items-center m-0 p-0">
     <div class="col">
       <span class="p-float-label">
@@ -8,7 +8,7 @@
                [ngClass]="{ 'ng-invalid ng-dirty': errorsFirm?.firm }"
                (focusin)="errorsFirm = null"
                class="w-full">
-        <label for="float-input-firm">Название фирмы</label>
+        <label for="float-input-firm">Название марки</label>
       </span>
     </div>
     <p-button label="Добавить" [loading]="loading" icon="pi pi-check" styleClass="p-button-success col-fixed" (onClick)="createFirm()"></p-button>
