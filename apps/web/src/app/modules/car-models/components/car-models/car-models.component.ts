@@ -52,6 +52,7 @@ export class CarModelsComponent implements OnInit {
 
       this.modelCarStateService.createBrand(this.brand).subscribe((result) => {
         this.loading = false;
+        this.brand.brand = undefined;
         this.errorService.addSuccessMessage(`Бренд ${result.brand} создан`);
         this.carModels.push(result);
         this.model.push(new ModelCarFormDto());
@@ -75,6 +76,7 @@ export class CarModelsComponent implements OnInit {
 
       this.modelCarStateService.createModel(this.model[index]).subscribe((result) => {
         this.loading = false;
+        this.model[index].model = undefined;
         this.errorService.addSuccessMessage(`Модель ${result.model} создана`);
       }, () => this.loading = false);
     }
