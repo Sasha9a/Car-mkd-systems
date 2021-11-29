@@ -2,8 +2,8 @@ import { Expose } from 'class-transformer';
 import { IsString } from 'class-validator';
 
 @Expose()
-export class FirmCarFormDto {
+export class BrandCarFormDto {
   @Expose()
   @IsString({ message: "Введите значение" })
-  public firm: string;
+  public brand: string;
 }

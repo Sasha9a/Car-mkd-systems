@@ -1,7 +1,7 @@
 import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
 import { ValidateObjectId } from '@car-mkd-systems/api/core/pipes/validate.object.id.pipes';
 import { ModelCarService } from '@car-mkd-systems/api/modules/model-car/model.car.service';
-import { FirmCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/firm.car.form.dto';
+import { BrandCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.form.dto';
 import { ModelCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.form.dto';
 import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
@@ -20,19 +20,19 @@ export class ModelCarController {
 
   @Post('/model')
   public async createModel(@Res() res: Response, @Body() body: ModelCarFormDto) {
-    const firm = await this.modelCarService.checkFirm(body.firm._id);
+    const firm = await this.modelCarService.checkFirm(body.brand._id);
     if (!firm) {
       return res.status(HttpStatus.NOT_FOUND).json(<ModelCarFormDto>{ model: "Фирма не существует" }).end();
     }
     const createdModel = await this.modelCarService.createModel(body);
-    await this.modelCarService.addModelToFirm(createdModel);
+    await this.modelCarService.addModelToBrand(createdModel);
     return res.status(HttpStatus.CREATED).json(createdModel).end();
   }
 
-  @Post('/firm')
-  public async createFirm(@Res() res: Response, @Body() body: FirmCarFormDto) {
-    const createdFirm = await this.modelCarService.createFirm(body);
-    return res.status(HttpStatus.CREATED).json(createdFirm).end();
+  @Post('/brand')
+  public async createBrand(@Res() res: Response, @Body() body: BrandCarFormDto) {
+    const createdBrand = await this.modelCarService.createBrand(body);
+    return res.status(HttpStatus.CREATED).json(createdBrand).end();
   }
 
   // @Delete(':id')

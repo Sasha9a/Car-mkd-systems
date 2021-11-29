@@ -4,12 +4,12 @@ import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
 
 @Schema({ versionKey: false })
-export class FirmCar extends Document {
+export class BrandCar extends Document {
   @Prop({ required: true })
-  public firm: string;
+  public brand: string;
 
   @Prop({ type: [{type: [mongoose.Schema.Types.ObjectId], ref: "ModelCar"}]})
   public models: ModelCar[];
 }
 
-export const FirmCarSchema = SchemaFactory.createForClass(FirmCar);
+export const BrandCarSchema = SchemaFactory.createForClass(BrandCar);

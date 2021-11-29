@@ -3,9 +3,9 @@ import { Expose, Type } from 'class-transformer';
 import { ModelCarDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.dto';
 
 @Expose()
-export class FirmCarDto extends BaseDto {
+export class BrandCarDto extends BaseDto {
   @Expose()
-  public firm: string;
+  public brand: string;
 
   @Expose()
   @Type(() => ModelCarDto)

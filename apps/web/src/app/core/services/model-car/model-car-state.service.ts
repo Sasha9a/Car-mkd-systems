@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FirmCarDto } from '@car-mkd-systems/shared/dtos/modelCar/firm.car.dto';
-import { FirmCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/firm.car.form.dto';
+import { BrandCarDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.dto';
+import { BrandCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.form.dto';
 import { ModelCarDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.dto';
 import { ModelCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.form.dto';
 import { BaseStateService } from '@car-mkd-systems/web/core/services/base-state.service';
@@ -17,8 +17,8 @@ export class ModelCarStateService extends BaseStateService {
     this.baseService = modelCarService;
   }
 
-  public createFirm(body: FirmCarFormDto): Observable<FirmCarDto> {
-    return this.modelCarService.createFirm(body);
+  public createBrand(body: BrandCarFormDto): Observable<BrandCarDto> {
+    return this.modelCarService.createBrand(body);
   }
 
   public createModel(body: ModelCarFormDto): Observable<ModelCarDto> {

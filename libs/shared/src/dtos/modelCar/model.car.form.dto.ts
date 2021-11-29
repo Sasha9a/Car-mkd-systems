@@ -1,4 +1,4 @@
-import { FirmCarDto } from '@car-mkd-systems/shared/dtos/modelCar/firm.car.dto';
+import { BrandCarDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.dto';
 import { Expose, Type } from 'class-transformer';
 import { IsDefined, IsString } from 'class-validator';
 
@@ -9,7 +9,7 @@ export class ModelCarFormDto {
   public model: string;
 
   @Expose()
-  @IsDefined({ message: "Не выбрана фирма" })
-  @Type(() => FirmCarDto)
-  public firm: FirmCarDto;
+  @IsDefined({ message: "Не выбран бренд" })
+  @Type(() => BrandCarDto)
+  public brand: BrandCarDto;
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FirmCarDto } from '@car-mkd-systems/shared/dtos/modelCar/firm.car.dto';
-import { FirmCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/firm.car.form.dto';
+import { BrandCarDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.dto';
+import { BrandCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.form.dto';
 import { ModelCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.form.dto';
 import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
 import { ModelCarStateService } from '@car-mkd-systems/web/core/services/model-car/model-car-state.service';
@@ -13,10 +13,10 @@ import { validate } from '@car-mkd-systems/web/core/services/validation/validate
 })
 export class CarModelsComponent implements OnInit {
 
-  public carModels: FirmCarDto[];
+  public carModels: BrandCarDto[];
 
-  public firm: FirmCarFormDto = new FirmCarFormDto();
-  public errorsFirm: Record<keyof FirmCarFormDto, any[]>;
+  public brand: BrandCarFormDto = new BrandCarFormDto();
+  public errorsBrand: Record<keyof BrandCarFormDto, any[]>;
 
   public model: ModelCarFormDto[];
   public errorsModel: Record<keyof ModelCarFormDto, any[]>[];
@@ -29,7 +29,7 @@ export class CarModelsComponent implements OnInit {
                      private readonly errorService: ErrorService) { }
 
   public ngOnInit(): void {
-    this.modelCarStateService.find<FirmCarDto>().subscribe((carModels) => {
+    this.modelCarStateService.find<BrandCarDto>().subscribe((carModels) => {
       this.carModels = carModels;
       this.model = this.carModels.map(() => new ModelCarFormDto());
       this.errorsModel = this.carModels.map(() => null);
@@ -38,21 +38,21 @@ export class CarModelsComponent implements OnInit {
     this.folding = localStorage.getItem('cms.car.models.folding') ? JSON.parse(localStorage.getItem('cms.car.models.folding')) : true;
   }
 
-  public createFirm() {
+  public createBrand() {
     this.loading = true;
 
-    const { valid, errors } = validate(this.firm, FirmCarFormDto);
+    const { valid, errors } = validate(this.brand, BrandCarFormDto);
     if (!valid) {
       console.error(errors);
-      this.errorsFirm = errors;
+      this.errorsBrand = errors;
       this.loading = false;
-      this.errorService.addCustomError(this.errorsFirm.firm.map((er) => `${er}`).join(', '));
+      this.errorService.addCustomError(this.errorsBrand.brand.map((er) => `${er}`).join(', '));
     } else {
-      this.errorsFirm = null;
+      this.errorsBrand = null;
 
-      this.modelCarStateService.createFirm(this.firm).subscribe((result) => {
+      this.modelCarStateService.createBrand(this.brand).subscribe((result) => {
         this.loading = false;
-        this.errorService.addSuccessMessage(`Фирма ${result.firm} создана`);
+        this.errorService.addSuccessMessage(`Бренд ${result.brand} создан`);
         this.carModels.push(result);
         this.model.push(new ModelCarFormDto());
         this.errorsModel.push(null);
@@ -60,10 +60,10 @@ export class CarModelsComponent implements OnInit {
     }
   }
 
-  public createModel(firm: FirmCarDto, index: number) {
+  public createModel(brand: BrandCarDto, index: number) {
     this.loading = true;
 
-    this.model[index].firm = firm;
+    this.model[index].brand = brand;
     const { valid, errors } = validate(this.model[index], ModelCarFormDto);
     if (!valid) {
       console.error(errors);
