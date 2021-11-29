@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BrandCarDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.dto';
 import { BrandCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.form.dto';
+import { ModelCarDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.dto';
 import { ModelCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.form.dto';
 import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
 import { ModelCarStateService } from '@car-mkd-systems/web/core/services/model-car/model-car-state.service';
@@ -84,6 +85,10 @@ export class CarModelsComponent implements OnInit {
 
   public setFolding() {
     localStorage.setItem('cms.car.models.folding', String(this.folding));
+  }
+
+  public toModel(model: any): ModelCarDto {
+    return model as ModelCarDto;
   }
 
 }

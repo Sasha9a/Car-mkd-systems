@@ -21,4 +21,8 @@ export class ModelCarService extends BaseService {
     return this.http.post<ModelCarDto>(`${this.baseUrl}/model`, body);
   }
 
+  public deleteBrand(id: string): Observable<null> {
+    return this.http.delete<null>(`${this.baseUrl}/brand/${id}`);
+  }
+
 }

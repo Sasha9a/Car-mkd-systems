@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { RippleModule } from 'primeng/ripple';
+import { TableModule } from "primeng/table";
 import { CarModelsComponent } from './components/car-models/car-models.component';
 import { CheckboxModule } from 'primeng/checkbox';
 
@@ -32,7 +33,8 @@ const carModelsRoutes: Routes = [
 		ShareModule,
 		AccordionModule,
 		RippleModule,
-		CheckboxModule
+		CheckboxModule,
+		TableModule
 	]
 })
 export class CarModelsModule { }

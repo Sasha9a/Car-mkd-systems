@@ -24,4 +24,8 @@ export class ModelCarStateService extends BaseStateService {
   public createModel(body: ModelCarFormDto): Observable<ModelCarDto> {
     return this.modelCarService.createModel(body);
   }
+
+  public deleteBrand(id: string): Observable<null> {
+    return this.modelCarService.deleteBrand(id);
+  }
 }

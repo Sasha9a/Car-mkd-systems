@@ -35,12 +35,13 @@ export class ModelCarController {
     return res.status(HttpStatus.CREATED).json(createdBrand).end();
   }
 
-  // @Delete(':id')
-  // public async deleteById(@Res() res: Response, @Param(':id', new ValidateObjectId()) id: string) {
-  //   const deletedModelCar = await this.modelCarService.deleteById(id);
-  //   if (!deletedModelCar) {
-  //     throw new NotFoundException('Нет такого объекта!');
-  //   }
-  //   return res.status(HttpStatus.OK).end();
-  // }
+  @Delete('/brand/:id')
+  public async deleteBrand(@Res() res: Response, @Param(':id', new ValidateObjectId()) id: string) {
+    const deletedBrand = await this.modelCarService.deleteBrand(id);
+    if (!deletedBrand) {
+      throw new NotFoundException("Нет такого объекта!");
+    }
+    return res.status(HttpStatus.OK).end();
+  }
+
 }

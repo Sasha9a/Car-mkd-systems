@@ -25,16 +25,25 @@ export class ModelCarService {
 
   public async createBrand(brand: BrandCarFormDto): Promise<BrandCarDto> {
     const createdBrand = await new this.brandCarModel(brand);
-    return createdBrand.save();
+    return await createdBrand.save();
   }
 
   public async createModel(model: ModelCarFormDto): Promise<ModelCarDto> {
     const createdModel = await new this.modelCarModel(model);
-    return createdModel.save();
+    return await createdModel.save();
   }
 
-  public async addModelToBrand(model: ModelCarDto) {
-    return this.brandCarModel.updateOne({ _id: model.brand._id }, { $push: { models: new mongoose.Types.ObjectId(model._id) } });
+  public async addModelToBrand(model: ModelCarDto): Promise<any> {
+    return await this.brandCarModel.updateOne({ _id: model.brand._id }, { $push: { models: new mongoose.Types.ObjectId(model._id) } }).exec();
+  }
+
+  public async deleteBrand(id: string): Promise<any> {
+    const brand: BrandCarDto = await this.brandCarModel.findById(id);
+    if (!brand) {
+      return null;
+    }
+    await this.modelCarModel.deleteMany({ _id: { $in: brand.models } });
+    return await this.brandCarModel.deleteOne({ _id: id }).exec();
   }
 
 }

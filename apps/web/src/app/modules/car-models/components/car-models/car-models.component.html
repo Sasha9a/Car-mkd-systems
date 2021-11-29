@@ -55,6 +55,20 @@
           </p-button>
         </div>
       </p-panel>
+
+      <p-table [value]="carModel.models" styleClass="mt-4 basic-table" responsiveLayout="scroll">
+        <ng-template pTemplate="body" let-model>
+          <tr *ngIf="toModel(model) as model">
+            <td>{{ model.model }}</td>
+            <td>
+              <div class="flex justify-content-end flex-nowrap">
+                <button pButton pRipple type="button" label="Изменить название" class="p-button-outlined p-button-warning"></button>
+                <button pButton pRipple type="button" label="Удалить" class="p-button-outlined p-button-danger ml-2"></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </ng-template>
   </p-accordionTab>
 </p-accordion>
