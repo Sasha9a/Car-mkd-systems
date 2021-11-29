@@ -3,6 +3,7 @@ import { BrandCarDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.dto
 import { BrandCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.form.dto';
 import { ModelCarDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.dto';
 import { ModelCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.form.dto';
+import { ConfirmDialogService } from '@car-mkd-systems/web/core/services/confirm-dialog.service';
 import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
 import { ModelCarStateService } from '@car-mkd-systems/web/core/services/model-car/model-car-state.service';
 import { validate } from '@car-mkd-systems/web/core/services/validation/validate.service';
@@ -27,6 +28,7 @@ export class CarModelsComponent implements OnInit {
   public folding = true;
 
   public constructor(private readonly modelCarStateService: ModelCarStateService,
+                     private readonly confirmDialogService: ConfirmDialogService,
                      private readonly errorService: ErrorService) { }
 
   public ngOnInit(): void {
@@ -47,7 +49,7 @@ export class CarModelsComponent implements OnInit {
       console.error(errors);
       this.errorsBrand = errors;
       this.loading = false;
-      this.errorService.addCustomError(this.errorsBrand.brand.map((er) => `${er}`).join(', '));
+      this.errorService.errorValues<BrandCarFormDto>(this.errorsBrand);
     } else {
       this.errorsBrand = null;
 
@@ -71,16 +73,29 @@ export class CarModelsComponent implements OnInit {
       console.error(errors);
       this.errorsModel[index] = errors;
       this.loading = false;
-      this.errorService.addCustomError(this.errorsModel[index].model.map((er) => `${er}`).join(', '));
+      this.errorService.errorValues<ModelCarFormDto>(this.errorsModel[index]);
     } else {
       this.errorsModel[index] = null;
 
       this.modelCarStateService.createModel(this.model[index]).subscribe((result) => {
         this.loading = false;
         this.model[index].model = undefined;
+        brand.models.push(result);
         this.errorService.addSuccessMessage(`Модель ${result.model} создана`);
       }, () => this.loading = false);
     }
+  }
+
+  public deleteBrand(brand: BrandCarDto) {
+    this.confirmDialogService.confirm({
+      message: `Вы действительно хотите удалить марку "${brand.brand}"?`,
+      accept: () => {
+        this.modelCarStateService.deleteBrand(brand._id).subscribe(() => {
+          this.errorService.addSuccessMessage(`Бренд ${brand.brand} удален`);
+          this.carModels = this.carModels.filter((brandCar) => brand._id !== brandCar._id);
+        });
+      }
+    });
   }
 
   public setFolding() {

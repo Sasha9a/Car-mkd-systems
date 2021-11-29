@@ -6,7 +6,6 @@ import { BrandCar } from '@car-mkd-systems/shared/schemas/brand.car.schema';
 import { ModelCar } from '@car-mkd-systems/shared/schemas/model.car.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 
 @Injectable()
@@ -34,7 +33,7 @@ export class ModelCarService {
   }
 
   public async addModelToBrand(model: ModelCarDto): Promise<any> {
-    return await this.brandCarModel.updateOne({ _id: model.brand._id }, { $push: { models: new mongoose.Types.ObjectId(model._id) } }).exec();
+    return await this.brandCarModel.updateOne({ _id: model.brand._id }, { $push: { models: model._id } }).exec();
   }
 
   public async deleteBrand(id: string): Promise<any> {

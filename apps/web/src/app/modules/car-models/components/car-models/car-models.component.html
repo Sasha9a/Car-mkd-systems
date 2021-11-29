@@ -15,7 +15,7 @@
   </div>
 </p-panel>
 
-<div class="flex justify-content-end mt-3">
+<div *ngIf="carModels?.length" class="flex justify-content-end mt-3">
   <div class="p-field-checkbox">
     <p-checkbox [(ngModel)]="folding" binary="true" inputId="folding" (onChange)="setFolding()"></p-checkbox>
     <label [for]="'folding'" class="ml-2">Автоматическое сворачивание</label>
@@ -29,7 +29,7 @@
         <p class="fw-bold m-0">{{ carModel.brand }}</p>
         <div>
           <button pButton pRipple type="button" label="Изменить название" class="p-button-outlined p-button-warning"></button>
-          <button pButton pRipple type="button" label="Удалить" class="p-button-outlined p-button-danger ml-2"></button>
+          <button pButton pRipple type="button" label="Удалить" class="p-button-outlined p-button-danger ml-2" (click)="deleteBrand(carModel)"></button>
         </div>
       </div>
     </ng-template>
@@ -56,12 +56,12 @@
         </div>
       </p-panel>
 
-      <p-table [value]="carModel.models" styleClass="mt-4 basic-table" responsiveLayout="scroll">
+      <p-table [value]="carModel.models | orderBy: 'model:string'" styleClass="mt-4 basic-table" responsiveLayout="scroll">
         <ng-template pTemplate="body" let-model>
           <tr *ngIf="toModel(model) as model">
-            <td>{{ model.model }}</td>
+            <td><p class="fw-bold">{{ model.model }}</p></td>
             <td>
-              <div class="flex justify-content-end flex-nowrap">
+              <div class="flex justify-content-end">
                 <button pButton pRipple type="button" label="Изменить название" class="p-button-outlined p-button-warning"></button>
                 <button pButton pRipple type="button" label="Удалить" class="p-button-outlined p-button-danger ml-2"></button>
               </div>

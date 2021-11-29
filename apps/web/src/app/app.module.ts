@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ErrorInterceptor } from '@car-mkd-systems/web/core/interceptors/error.interceptor';
 import { TokenInterceptor } from '@car-mkd-systems/web/core/interceptors/token.interceptor';
 
 import { AppComponent } from './core/app.component';
@@ -29,6 +30,9 @@ moment.locale('ru');
   providers: [
     [
       { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+    ],
+    [
+      { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
     ]
   ]
 })

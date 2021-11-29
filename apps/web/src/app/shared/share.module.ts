@@ -10,14 +10,17 @@ import { MenubarModule } from 'primeng/menubar';
 import { SharedModule } from 'primeng/api';
 import { CardModule } from 'primeng/card';
 import { JoinPipe } from './pipes/join.pipe';
+import { OrderByPipe } from './pipes/order-by.pipe';
 
 @NgModule({
 	declarations: [
 		CommonLayoutComponent,
-		JoinPipe
+		JoinPipe,
+  OrderByPipe
 	],
 	exports: [
-		JoinPipe
+		JoinPipe,
+		OrderByPipe
 	],
   imports: [
     CommonModule,

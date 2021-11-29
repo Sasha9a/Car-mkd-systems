@@ -30,4 +30,49 @@ body {
   }
 }
 
+.stats-up, .p-datatable.basic-table td.stats-up {
+  border-left: 2px solid #9acd32 !important;
+}
+
+.stats-down, .p-datatable.basic-table td.stats-down {
+  border-left: 2px solid #cd5c5c !important;
+}
+
+
+.p-datatable.basic-table {
+  th, td {
+    padding: 11px !important;
+    font-weight: 500;
+    font-family: "Avenir Next Cyr", "Helvetica Neue", sans-serif !important;
+  }
+
+  th {
+    border: 1px solid #eee !important;
+  }
+
+  td {
+    font-size: 14px !important;
+    border-color: #2224261a !important;
+  }
+
+  tr {
+    &:first-child td {
+      border-top: none !important;
+    }
+
+    &:last-child td {
+      border-bottom: none !important;
+    }
+
+    td:first-child {
+      border-left: none !important;
+    }
+
+    td:last-child {
+      border-right: none !important;
+    }
+  }
+}
+
+
 

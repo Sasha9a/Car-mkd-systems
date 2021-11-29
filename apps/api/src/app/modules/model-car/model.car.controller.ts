@@ -36,7 +36,7 @@ export class ModelCarController {
   }
 
   @Delete('/brand/:id')
-  public async deleteBrand(@Res() res: Response, @Param(':id', new ValidateObjectId()) id: string) {
+  public async deleteBrand(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
     const deletedBrand = await this.modelCarService.deleteBrand(id);
     if (!deletedBrand) {
       throw new NotFoundException("Нет такого объекта!");
