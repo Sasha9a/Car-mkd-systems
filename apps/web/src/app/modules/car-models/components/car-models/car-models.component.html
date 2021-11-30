@@ -32,16 +32,11 @@
     <ng-template pTemplate="header">
       <div class="grid align-items-center w-full my-0">
         <div class="col">
-          <p class="fw-bold my-0">{{ carModel.brand }}</p>
+          <p class="fw-bold my-0">
+            <span class="hover:text-blue-400" (click)="$event.stopPropagation();">{{ carModel.brand }}</span>
+          </p>
         </div>
         <div class="col-fixed py-0">
-          <button pButton pRipple
-                  type="button"
-                  label="Изменить название"
-                  class="p-button-outlined p-button-warning"
-                  [loading]="loading"
-                  (click)="$event.stopPropagation();">
-          </button>
           <button pButton pRipple
                   type="button"
                   label="Удалить"
