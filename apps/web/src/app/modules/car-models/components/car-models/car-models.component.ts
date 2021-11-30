@@ -90,9 +90,27 @@ export class CarModelsComponent implements OnInit {
     this.confirmDialogService.confirm({
       message: `Вы действительно хотите удалить марку "${brand.brand}"?`,
       accept: () => {
+        this.loading = true;
+
         this.modelCarStateService.deleteBrand(brand._id).subscribe(() => {
+          this.loading = false;
           this.errorService.addSuccessMessage(`Бренд ${brand.brand} удален`);
           this.carModels = this.carModels.filter((brandCar) => brand._id !== brandCar._id);
+        });
+      }
+    });
+  }
+
+  public deleteModel(model: ModelCarDto, brand: BrandCarDto) {
+    this.confirmDialogService.confirm({
+      message: `Вы действительно хотите удалить модель "${model.model}" марки "${brand.brand}"?`,
+      accept: () => {
+        this.loading = true;
+
+        this.modelCarStateService.deleteModel(model._id).subscribe(() => {
+          this.loading = false;
+          this.errorService.addSuccessMessage(`Модель ${model.model} удалена`);
+          brand.models = brand.models.filter((modelCar) => model._id !== modelCar._id);
         });
       }
     });

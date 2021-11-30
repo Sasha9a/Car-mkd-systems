@@ -21,8 +21,20 @@ export class ModelCarService extends BaseService {
     return this.http.post<ModelCarDto>(`${this.baseUrl}/model`, body);
   }
 
+  public updateBrand(id: string, body: BrandCarFormDto): Observable<BrandCarDto> {
+    return this.http.put<BrandCarDto>(`${this.baseUrl}/brand/${id}`, body);
+  }
+
+  public updateModel(id: string, body: ModelCarFormDto): Observable<ModelCarDto> {
+    return this.http.put<ModelCarDto>(`${this.baseUrl}/model/${id}`, body);
+  }
+
   public deleteBrand(id: string): Observable<null> {
     return this.http.delete<null>(`${this.baseUrl}/brand/${id}`);
+  }
+
+  public deleteModel(id: string): Observable<null> {
+    return this.http.delete<null>(`${this.baseUrl}/model/${id}`);
   }
 
 }

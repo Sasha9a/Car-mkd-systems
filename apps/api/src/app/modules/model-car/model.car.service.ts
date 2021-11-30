@@ -36,6 +36,14 @@ export class ModelCarService {
     return await this.brandCarModel.updateOne({ _id: model.brand._id }, { $push: { models: model._id } }).exec();
   }
 
+  public async updateBrand(id: string, brand: BrandCarFormDto): Promise<BrandCarDto> {
+    return await this.brandCarModel.findOneAndUpdate({ _id: id }, { $set: brand }).exec();
+  }
+
+  public async updateModel(id: string, model: ModelCarFormDto): Promise<ModelCarDto> {
+    return await this.modelCarModel.findOneAndUpdate({ _id: id }, { $set: model }).exec();
+  }
+
   public async deleteBrand(id: string): Promise<any> {
     const brand: BrandCarDto = await this.brandCarModel.findById(id);
     if (!brand) {
@@ -43,6 +51,10 @@ export class ModelCarService {
     }
     await this.modelCarModel.deleteMany({ _id: { $in: brand.models } });
     return await this.brandCarModel.deleteOne({ _id: id }).exec();
+  }
+
+  public async deleteModel(id: string): Promise<any> {
+    return await this.modelCarModel.findByIdAndDelete(id).exec();
   }
 
 }
