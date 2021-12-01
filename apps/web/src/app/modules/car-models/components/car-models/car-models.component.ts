@@ -24,6 +24,9 @@ export class CarModelsComponent implements OnInit {
   public errorsModel: Record<keyof ModelCarFormDto, any[]>[];
 
   public loading = false;
+  public brandEdit: BrandCarFormDto = new BrandCarFormDto();
+  public modelEdit: ModelCarFormDto = new ModelCarFormDto();
+  public editableId: string;
 
   public folding = true;
 
@@ -82,6 +85,24 @@ export class CarModelsComponent implements OnInit {
         this.model[index].model = undefined;
         brand.models.push(result);
         this.errorService.addSuccessMessage(`Модель ${result.model} создана`);
+      }, () => this.loading = false);
+    }
+  }
+
+  public updateBrand(brand: BrandCarDto, formBrand: BrandCarFormDto) {
+    this.loading = true;
+
+    const { valid, errors } = validate(formBrand, BrandCarFormDto);
+    if (!valid) {
+      console.error(errors);
+      this.loading = false;
+      this.errorService.errorValues<BrandCarFormDto>(this.errorsBrand);
+    } else {
+      this.modelCarStateService.updateBrand(brand._id, formBrand).subscribe(() => {
+        this.loading = false;
+        this.errorService.addSuccessMessage(`Бренд ${brand.brand} изменен на ${formBrand.brand}`);
+        brand.brand = formBrand.brand;
+        this.editableId = null;
       }, () => this.loading = false);
     }
   }

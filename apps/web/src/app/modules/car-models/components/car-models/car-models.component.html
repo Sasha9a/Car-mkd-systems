@@ -32,9 +32,26 @@
     <ng-template pTemplate="header">
       <div class="grid align-items-center w-full my-0">
         <div class="col">
-          <p class="fw-bold my-0">
-            <span class="hover:text-blue-400" (click)="$event.stopPropagation();">{{ carModel.brand }}</span>
+          <p *ngIf="editableId !== carModel._id" class="fw-bold my-0">
+            <span class="hover:text-blue-400"
+                  (click)="$event.stopPropagation(); editableId = carModel._id; brandEdit.brand = carModel.brand">
+              {{ carModel.brand }}
+            </span>
           </p>
+          <div *ngIf="editableId === carModel._id" class="p-inputgroup" (click)="$event.stopPropagation()">
+            <button type="button" pButton pRipple
+                    icon="pi pi-check"
+                    class="p-button-success"
+                    [loading]="loading" (click)="updateBrand(carModel, brandEdit)">
+            </button>
+            <input type="text" pInputText [(ngModel)]="brandEdit.brand" (keyup.enter)="updateBrand(carModel, brandEdit)">
+            <button type="button" pButton pRipple
+                    icon="pi pi-times"
+                    class="p-button-danger"
+                    [loading]="loading"
+                    (click)="$event.stopPropagation(); editableId = null">
+            </button>
+          </div>
         </div>
         <div class="col-fixed py-0">
           <button pButton pRipple
