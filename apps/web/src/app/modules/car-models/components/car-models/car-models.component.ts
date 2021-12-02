@@ -96,12 +96,31 @@ export class CarModelsComponent implements OnInit {
     if (!valid) {
       console.error(errors);
       this.loading = false;
-      this.errorService.errorValues<BrandCarFormDto>(this.errorsBrand);
+      this.errorService.errorValues<BrandCarFormDto>(errors);
     } else {
       this.modelCarStateService.updateBrand(brand._id, formBrand).subscribe(() => {
         this.loading = false;
         this.errorService.addSuccessMessage(`Бренд ${brand.brand} изменен на ${formBrand.brand}`);
         brand.brand = formBrand.brand;
+        this.editableId = null;
+      }, () => this.loading = false);
+    }
+  }
+
+  public updateModel(model: ModelCarDto, formModel: ModelCarFormDto) {
+    this.loading = true;
+
+    formModel.brand = model.brand;
+    const { valid, errors } = validate(formModel, ModelCarFormDto);
+    if (!valid) {
+      console.error(errors);
+      this.loading = false;
+      this.errorService.errorValues<ModelCarFormDto>(errors);
+    } else {
+      this.modelCarStateService.updateModel(model._id, formModel).subscribe(() => {
+        this.loading = false;
+        this.errorService.addSuccessMessage(`Модель ${model.model} изменена на ${formModel.model}`);
+        model.model = formModel.model;
         this.editableId = null;
       }, () => this.loading = false);
     }

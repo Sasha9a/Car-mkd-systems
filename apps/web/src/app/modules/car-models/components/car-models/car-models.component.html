@@ -44,7 +44,9 @@
                     class="p-button-success"
                     [loading]="loading" (click)="updateBrand(carModel, brandEdit)">
             </button>
-            <input type="text" pInputText [(ngModel)]="brandEdit.brand" (keyup.enter)="updateBrand(carModel, brandEdit)">
+            <input type="text" pInputText
+                   [(ngModel)]="brandEdit.brand"
+                   (keydown.enter)="$event.stopPropagation(); updateBrand(carModel, brandEdit)">
             <button type="button" pButton pRipple
                     icon="pi pi-times"
                     class="p-button-danger"
@@ -91,15 +93,30 @@
         <div *ngFor="let model of carModel.models | orderBy: 'model:string'">
           <div class="grid align-items-center">
             <div class="col">
-              <p class="fw-bold ml-2">{{ model.model }}</p>
+              <p *ngIf="editableId !== model._id" class="fw-bold ml-2">
+                <span class="hover:text-blue-400 cursor-pointer"
+                  (click)="editableId = model._id; modelEdit.model = model.model">
+                  {{ model.model }}
+                </span>
+              </p>
+              <div *ngIf="editableId === model._id" class="p-inputgroup">
+                <button type="button" pButton pRipple
+                        icon="pi pi-check"
+                        class="p-button-success"
+                        [loading]="loading" (click)="updateModel(model, modelEdit)">
+                </button>
+                <input type="text" pInputText
+                       [(ngModel)]="modelEdit.model"
+                       (keydown.enter)="updateModel(model, modelEdit)">
+                <button type="button" pButton pRipple
+                        icon="pi pi-times"
+                        class="p-button-danger"
+                        [loading]="loading"
+                        (click)="editableId = null">
+                </button>
+              </div>
             </div>
             <div class="col-fixed">
-              <button pButton pRipple
-                      type="button"
-                      label="Изменить название"
-                      class="p-button-outlined p-button-warning"
-                      [loading]="loading">
-              </button>
               <button pButton pRipple
                       type="button"
                       label="Удалить"
