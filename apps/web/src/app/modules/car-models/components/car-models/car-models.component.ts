@@ -98,9 +98,9 @@ export class CarModelsComponent implements OnInit {
       this.loading = false;
       this.errorService.errorValues<BrandCarFormDto>(errors);
     } else {
-      this.modelCarStateService.updateBrand(brand._id, formBrand).subscribe(() => {
+      this.modelCarStateService.updateBrand(brand._id, formBrand).subscribe((result) => {
         this.loading = false;
-        this.errorService.addSuccessMessage(`Бренд ${brand.brand} изменен на ${formBrand.brand}`);
+        this.errorService.addSuccessMessage(`Бренд ${brand.brand} изменен на ${result.brand}`);
         brand.brand = formBrand.brand;
         this.editableId = null;
       }, () => this.loading = false);
@@ -117,9 +117,9 @@ export class CarModelsComponent implements OnInit {
       this.loading = false;
       this.errorService.errorValues<ModelCarFormDto>(errors);
     } else {
-      this.modelCarStateService.updateModel(model._id, formModel).subscribe(() => {
+      this.modelCarStateService.updateModel(model._id, formModel).subscribe((result) => {
         this.loading = false;
-        this.errorService.addSuccessMessage(`Модель ${model.model} изменена на ${formModel.model}`);
+        this.errorService.addSuccessMessage(`Модель ${model.model} изменена на ${result.model}`);
         model.model = formModel.model;
         this.editableId = null;
       }, () => this.loading = false);
