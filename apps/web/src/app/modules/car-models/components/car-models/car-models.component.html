@@ -1,6 +1,9 @@
-<p-panel header="Добавить марку">
-  <div class="grid align-items-center m-0 p-0">
-    <div class="col">
+<car-spinner *ngIf="loading"></car-spinner>
+
+<div *ngIf="!loading">
+  <p-panel header="Добавить марку">
+    <div class="grid align-items-center m-0 p-0">
+      <div class="col">
       <span class="p-float-label">
         <input id="float-input-firm"
                type="text" pInputText
@@ -10,66 +13,66 @@
                class="w-full">
         <label for="float-input-firm">Название марки</label>
       </span>
+      </div>
+      <p-button label="Добавить"
+                [loading]="saving"
+                icon="pi pi-check"
+                styleClass="p-button-success col-fixed"
+                (onClick)="createBrand()">
+      </p-button>
     </div>
-    <p-button label="Добавить"
-              [loading]="loading"
-              icon="pi pi-check"
-              styleClass="p-button-success col-fixed"
-              (onClick)="createBrand()">
-    </p-button>
-  </div>
-</p-panel>
+  </p-panel>
 
-<div *ngIf="carModels?.length" class="flex justify-content-end mt-3">
-  <div class="p-field-checkbox">
-    <p-checkbox [(ngModel)]="folding" binary="true" inputId="folding" (onChange)="setFolding()"></p-checkbox>
-    <label [for]="'folding'" class="ml-2">Автоматическое сворачивание</label>
+  <div *ngIf="carModels?.length" class="flex justify-content-end mt-3">
+    <div class="p-field-checkbox">
+      <p-checkbox [(ngModel)]="folding" binary="true" inputId="folding" (onChange)="setFolding()"></p-checkbox>
+      <label [for]="'folding'" class="ml-2">Автоматическое сворачивание</label>
+    </div>
   </div>
-</div>
 
-<p-accordion *ngIf="carModels && model" [multiple]="!folding" styleClass="mt-3">
-  <p-accordionTab *ngFor="let carModel of carModels; let index = index">
-    <ng-template pTemplate="header">
-      <div class="grid align-items-center w-full my-0">
-        <div class="col">
-          <p *ngIf="editableId !== carModel._id" class="fw-bold my-0">
-            <span class="hover:text-blue-400"
-                  (click)="$event.stopPropagation(); editableId = carModel._id; brandEdit.brand = carModel.brand">
-              {{ carModel.brand }}
-            </span>
-          </p>
-          <div *ngIf="editableId === carModel._id" class="p-inputgroup" (click)="$event.stopPropagation()">
-            <button type="button" pButton pRipple
-                    icon="pi pi-check"
-                    class="p-button-success"
-                    [loading]="loading" (click)="updateBrand(carModel, brandEdit)">
-            </button>
-            <input type="text" pInputText
-                   [(ngModel)]="brandEdit.brand"
-                   (keydown.enter)="$event.stopPropagation(); updateBrand(carModel, brandEdit)">
-            <button type="button" pButton pRipple
-                    icon="pi pi-times"
-                    class="p-button-danger"
-                    [loading]="loading"
-                    (click)="$event.stopPropagation(); editableId = null">
+  <p-accordion *ngIf="carModels && model" [multiple]="!folding" styleClass="mt-3">
+    <p-accordionTab *ngFor="let carModel of carModels; let index = index">
+      <ng-template pTemplate="header">
+        <div class="grid align-items-center w-full my-0">
+          <div class="col">
+            <p *ngIf="editableId !== carModel._id" class="fw-bold my-0">
+              <span class="hover:text-blue-400"
+                    (click)="$event.stopPropagation(); editableId = carModel._id; brandEdit.brand = carModel.brand">
+                {{ carModel.brand }}
+              </span>
+            </p>
+            <div *ngIf="editableId === carModel._id" class="p-inputgroup" (click)="$event.stopPropagation()">
+              <button type="button" pButton pRipple
+                      icon="pi pi-check"
+                      class="p-button-success"
+                      [loading]="saving" (click)="updateBrand(carModel, brandEdit)">
+              </button>
+              <input type="text" pInputText
+                     [(ngModel)]="brandEdit.brand"
+                     (keydown.enter)="$event.stopPropagation(); updateBrand(carModel, brandEdit)">
+              <button type="button" pButton pRipple
+                      icon="pi pi-times"
+                      class="p-button-danger"
+                      [loading]="saving"
+                      (click)="$event.stopPropagation(); editableId = null">
+              </button>
+            </div>
+          </div>
+          <div class="col-fixed py-0">
+            <button pButton pRipple
+                    type="button"
+                    label="Удалить"
+                    class="p-button-outlined p-button-danger ml-2"
+                    [loading]="saving"
+                    (click)="$event.stopPropagation(); deleteBrand(carModel)">
             </button>
           </div>
         </div>
-        <div class="col-fixed py-0">
-          <button pButton pRipple
-                  type="button"
-                  label="Удалить"
-                  class="p-button-outlined p-button-danger ml-2"
-                  [loading]="loading"
-                  (click)="$event.stopPropagation(); deleteBrand(carModel)">
-          </button>
-        </div>
-      </div>
-    </ng-template>
-    <ng-template pTemplate="content">
-      <p-panel header="Добавить модель">
-        <div class="grid align-items-center m-0 p-0">
-          <div class="col">
+      </ng-template>
+      <ng-template pTemplate="content">
+        <p-panel header="Добавить модель">
+          <div class="grid align-items-center m-0 p-0">
+            <div class="col">
             <span class="p-float-label">
               <input id="float-input-model"
                      type="text" pInputText
@@ -79,55 +82,56 @@
                      class="w-full">
               <label for="float-input-model">Название модели</label>
             </span>
+            </div>
+            <p-button label="Добавить"
+                      [loading]="saving"
+                      icon="pi pi-check"
+                      styleClass="p-button-success col-fixed"
+                      (onClick)="createModel(carModel, index)">
+            </p-button>
           </div>
-          <p-button label="Добавить"
-                    [loading]="loading"
-                    icon="pi pi-check"
-                    styleClass="p-button-success col-fixed"
-                    (onClick)="createModel(carModel, index)">
-          </p-button>
-        </div>
-      </p-panel>
+        </p-panel>
 
-      <div class="mt-4">
-        <div *ngFor="let model of carModel.models | orderBy: 'model:string'">
-          <div class="grid align-items-center">
-            <div class="col">
-              <p *ngIf="editableId !== model._id" class="fw-bold ml-2">
-                <span class="hover:text-blue-400 cursor-pointer"
-                  (click)="editableId = model._id; modelEdit.model = model.model">
-                  {{ model.model }}
-                </span>
-              </p>
-              <div *ngIf="editableId === model._id" class="p-inputgroup">
-                <button type="button" pButton pRipple
-                        icon="pi pi-check"
-                        class="p-button-success"
-                        [loading]="loading" (click)="updateModel(model, modelEdit)">
-                </button>
-                <input type="text" pInputText
-                       [(ngModel)]="modelEdit.model"
-                       (keydown.enter)="updateModel(model, modelEdit)">
-                <button type="button" pButton pRipple
-                        icon="pi pi-times"
-                        class="p-button-danger"
-                        [loading]="loading"
-                        (click)="editableId = null">
+        <div class="mt-4">
+          <div *ngFor="let model of carModel.models | orderBy: 'model:string'">
+            <div class="grid align-items-center">
+              <div class="col">
+                <p *ngIf="editableId !== model._id" class="fw-bold ml-2">
+                  <span class="hover:text-blue-400 cursor-pointer"
+                        (click)="editableId = model._id; modelEdit.model = model.model">
+                    {{ model.model }}
+                  </span>
+                </p>
+                <div *ngIf="editableId === model._id" class="p-inputgroup">
+                  <button type="button" pButton pRipple
+                          icon="pi pi-check"
+                          class="p-button-success"
+                          [loading]="saving" (click)="updateModel(model, modelEdit)">
+                  </button>
+                  <input type="text" pInputText
+                         [(ngModel)]="modelEdit.model"
+                         (keydown.enter)="updateModel(model, modelEdit)">
+                  <button type="button" pButton pRipple
+                          icon="pi pi-times"
+                          class="p-button-danger"
+                          [loading]="saving"
+                          (click)="editableId = null">
+                  </button>
+                </div>
+              </div>
+              <div class="col-fixed">
+                <button pButton pRipple
+                        type="button"
+                        label="Удалить"
+                        class="p-button-outlined p-button-danger ml-2"
+                        [loading]="saving"
+                        (click)="deleteModel(model, carModel)">
                 </button>
               </div>
             </div>
-            <div class="col-fixed">
-              <button pButton pRipple
-                      type="button"
-                      label="Удалить"
-                      class="p-button-outlined p-button-danger ml-2"
-                      [loading]="loading"
-                      (click)="deleteModel(model, carModel)">
-              </button>
-            </div>
           </div>
         </div>
-      </div>
-    </ng-template>
-  </p-accordionTab>
-</p-accordion>
+      </ng-template>
+    </p-accordionTab>
+  </p-accordion>
+</div>

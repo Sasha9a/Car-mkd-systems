@@ -23,7 +23,8 @@ export class CarModelsComponent implements OnInit {
   public model: ModelCarFormDto[];
   public errorsModel: Record<keyof ModelCarFormDto, any[]>[];
 
-  public loading = false;
+  public loading = true;
+  public saving = false;
   public brandEdit: BrandCarFormDto = new BrandCarFormDto();
   public modelEdit: ModelCarFormDto = new ModelCarFormDto();
   public editableId: string;
@@ -39,90 +40,91 @@ export class CarModelsComponent implements OnInit {
       this.carModels = carModels;
       this.model = this.carModels.map(() => new ModelCarFormDto());
       this.errorsModel = this.carModels.map(() => null);
+      this.loading = false;
     });
 
     this.folding = localStorage.getItem('cms.car.models.folding') ? JSON.parse(localStorage.getItem('cms.car.models.folding')) : true;
   }
 
   public createBrand() {
-    this.loading = true;
+    this.saving = true;
 
     const { valid, errors } = validate(this.brand, BrandCarFormDto);
     if (!valid) {
       console.error(errors);
       this.errorsBrand = errors;
-      this.loading = false;
+      this.saving = false;
       this.errorService.errorValues<BrandCarFormDto>(this.errorsBrand);
     } else {
       this.errorsBrand = null;
 
       this.modelCarStateService.createBrand(this.brand).subscribe((result) => {
-        this.loading = false;
+        this.saving = false;
         this.brand.brand = undefined;
         this.errorService.addSuccessMessage(`Бренд ${result.brand} создан`);
         this.carModels.push(result);
         this.model.push(new ModelCarFormDto());
         this.errorsModel.push(null);
-      }, () => this.loading = false);
+      }, () => this.saving = false);
     }
   }
 
   public createModel(brand: BrandCarDto, index: number) {
-    this.loading = true;
+    this.saving = true;
 
     this.model[index].brand = brand;
     const { valid, errors } = validate(this.model[index], ModelCarFormDto);
     if (!valid) {
       console.error(errors);
       this.errorsModel[index] = errors;
-      this.loading = false;
+      this.saving = false;
       this.errorService.errorValues<ModelCarFormDto>(this.errorsModel[index]);
     } else {
       this.errorsModel[index] = null;
 
       this.modelCarStateService.createModel(this.model[index]).subscribe((result) => {
-        this.loading = false;
+        this.saving = false;
         this.model[index].model = undefined;
         brand.models.push(result);
         this.errorService.addSuccessMessage(`Модель ${result.model} создана`);
-      }, () => this.loading = false);
+      }, () => this.saving = false);
     }
   }
 
   public updateBrand(brand: BrandCarDto, formBrand: BrandCarFormDto) {
-    this.loading = true;
+    this.saving = true;
 
     const { valid, errors } = validate(formBrand, BrandCarFormDto);
     if (!valid) {
       console.error(errors);
-      this.loading = false;
+      this.saving = false;
       this.errorService.errorValues<BrandCarFormDto>(errors);
     } else {
       this.modelCarStateService.updateBrand(brand._id, formBrand).subscribe((result) => {
-        this.loading = false;
+        this.saving = false;
         this.errorService.addSuccessMessage(`Бренд ${brand.brand} изменен на ${result.brand}`);
         brand.brand = formBrand.brand;
         this.editableId = null;
-      }, () => this.loading = false);
+      }, () => this.saving = false);
     }
   }
 
   public updateModel(model: ModelCarDto, formModel: ModelCarFormDto) {
-    this.loading = true;
+    this.saving = true;
 
     formModel.brand = model.brand;
     const { valid, errors } = validate(formModel, ModelCarFormDto);
     if (!valid) {
       console.error(errors);
-      this.loading = false;
+      this.saving = false;
       this.errorService.errorValues<ModelCarFormDto>(errors);
     } else {
       this.modelCarStateService.updateModel(model._id, formModel).subscribe((result) => {
-        this.loading = false;
+        this.saving = false;
         this.errorService.addSuccessMessage(`Модель ${model.model} изменена на ${result.model}`);
         model.model = formModel.model;
         this.editableId = null;
-      }, () => this.loading = false);
+      }, () => this.saving = false);
     }
   }
 
@@ -130,10 +132,10 @@ export class CarModelsComponent implements OnInit {
     this.confirmDialogService.confirm({
       message: `Вы действительно хотите удалить марку "${brand.brand}"?`,
       accept: () => {
-        this.loading = true;
+        this.saving = true;
 
         this.modelCarStateService.deleteBrand(brand._id).subscribe(() => {
-          this.loading = false;
+          this.saving = false;
           this.errorService.addSuccessMessage(`Бренд ${brand.brand} удален`);
           this.carModels = this.carModels.filter((brandCar) => brand._id !== brandCar._id);
         });
@@ -145,10 +147,10 @@ export class CarModelsComponent implements OnInit {
     this.confirmDialogService.confirm({
       message: `Вы действительно хотите удалить модель "${model.model}" марки "${brand.brand}"?`,
       accept: () => {
-        this.loading = true;
+        this.saving = true;
 
         this.modelCarStateService.deleteModel(model._id).subscribe(() => {
-          this.loading = false;
+          this.saving = false;
           this.errorService.addSuccessMessage(`Модель ${model.model} удалена`);
           brand.models = brand.models.filter((modelCar) => model._id !== modelCar._id);
         });
@@ -158,10 +160,6 @@ export class CarModelsComponent implements OnInit {
 
   public setFolding() {
     localStorage.setItem('cms.car.models.folding', String(this.folding));
-  }
-
-  public toModel(model: any): ModelCarDto {
-    return model as ModelCarDto;
   }
 
 }
