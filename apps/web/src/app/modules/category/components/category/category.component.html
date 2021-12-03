@@ -93,7 +93,7 @@
         </p-panel>
 
         <div class="mt-4">
-          <div *ngFor="let characteristic of category.characteristics | orderBy: 'name:string'">
+          <div *ngFor="let characteristic of category.characteristics | orderBy: 'order:number'">
             <div class="grid align-items-center">
               <div class="col">
                 <p *ngIf="editableId !== characteristic._id" class="fw-bold ml-2">

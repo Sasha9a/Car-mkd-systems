@@ -72,6 +72,8 @@ export class CategoryComponent implements OnInit {
   public createCharacteristic(category: CategoryDto, index: number) {
     this.saving = true;
 
+    this.characteristic[index].category = category;
+    this.characteristic[index].order = category.characteristics.length;
     const { valid, errors } = validate(this.characteristic[index], CharacteristicFormDto);
     if (!valid) {
       console.error(errors);
