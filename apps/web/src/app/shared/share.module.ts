@@ -18,8 +18,8 @@ import { SpinnerComponent } from './dumbs/spinner/spinner.component';
 	declarations: [
 		CommonLayoutComponent,
 		JoinPipe,
-  OrderByPipe,
-  SpinnerComponent
+    OrderByPipe,
+    SpinnerComponent
 	],
   exports: [
     JoinPipe,
