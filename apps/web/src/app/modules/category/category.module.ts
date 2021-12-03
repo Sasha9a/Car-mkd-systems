@@ -9,6 +9,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { RippleModule } from 'primeng/ripple';
+import { TableModule } from 'primeng/table';
 import { CategoryComponent } from './components/category/category.component';
 
 const categoryRoutes: Routes = [
@@ -32,7 +33,8 @@ const categoryRoutes: Routes = [
     ButtonModule,
     CheckboxModule,
     AccordionModule,
-    RippleModule
+    RippleModule,
+    TableModule
   ]
 })
 export class CategoryModule { }
