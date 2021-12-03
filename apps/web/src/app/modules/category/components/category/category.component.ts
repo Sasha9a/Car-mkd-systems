@@ -158,6 +158,14 @@ export class CategoryComponent implements OnInit {
     });
   }
 
+  public toCharacteristic(characteristic: any): CharacteristicDto {
+    return characteristic as CharacteristicDto;
+  }
+
+  public rowReorder(category: CategoryDto) {
+    category.characteristics.forEach((c, index) => c.order = index);
+  }
+
   public setFolding() {
     localStorage.setItem('cms.category.folding', String(this.folding));
   }
