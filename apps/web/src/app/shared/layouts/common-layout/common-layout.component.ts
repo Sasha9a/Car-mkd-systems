@@ -27,8 +27,8 @@ export class CommonLayoutComponent implements OnInit {
       routerLink: '/car-models'
     },
     {
-      label: 'Панель характеристик',
-      routerLink: '/edit-params'
+      label: 'Панель категорий',
+      routerLink: '/category'
     },
     {
       separator: true
