@@ -62,8 +62,8 @@ export class BaseService {
    * @param {BaseEntity} model
    * @returns {Observable<T>}
    */
-  public update<T>(model): Observable<T> {
-    return this.http.put<T>(this.baseUrl + '/' + model.id, model);
+  public update<T>(id, model): Observable<T> {
+    return this.http.put<T>(this.baseUrl + '/' + id, model);
   }
 
   /**
@@ -71,7 +71,7 @@ export class BaseService {
    * @returns {Observable<T>}
    * @param id
    */
-  public deleteById<T>(id: number): Observable<T> {
+  public deleteById<T>(id: string): Observable<T> {
     return this.http.delete<T>(this.baseUrl + '/' + id);
   }
 

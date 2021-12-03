@@ -18,7 +18,7 @@ export class BaseStateService {
 
   public create<T, K extends BaseModel>(model: T): Observable<K> {
     return this.baseService.create<K>(model).pipe(
-      tap(entity => this.cachedEntities[entity.id] = entity)
+      tap((entity) => this.cachedEntities[entity._id] = entity)
     );
   }
 
@@ -29,15 +29,15 @@ export class BaseStateService {
       return of(cachedEntity);
     }
     return this.baseService.findById<T>(id).pipe(
-      tap(entity => this.cachedEntities[entity.id] = entity)
+      tap((entity) => this.cachedEntities[entity._id] = entity)
     );
   }
 
-  public update<T>(model: T): Observable<T> {
-    return this.baseService.update<T>(model);
+  public update<T>(id, model: T): Observable<T> {
+    return this.baseService.update<T>(id, model);
   }
 
-  public deleteById(id: number): Observable<null> {
+  public deleteById(id: string): Observable<null> {
     return this.baseService.deleteById(id);
   }
 
