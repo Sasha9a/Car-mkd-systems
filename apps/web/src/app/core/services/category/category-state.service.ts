@@ -23,6 +23,10 @@ export class CategoryStateService extends BaseStateService {
     return this.categoryService.updateCharacteristic(id, body);
   }
 
+  public updateOrderCharacteristics(body: CharacteristicDto[]): Observable<null> {
+    return this.categoryService.updateOrderCharacteristics(body);
+  }
+
   public deleteCharacteristic(id: string): Observable<null> {
     return this.categoryService.deleteCharacteristic(id);
   }

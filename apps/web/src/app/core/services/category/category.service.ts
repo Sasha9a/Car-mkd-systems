@@ -15,7 +15,11 @@ export class CategoryService extends BaseService {
   }
 
   public updateCharacteristic(id: string, body: CharacteristicFormDto): Observable<CharacteristicDto> {
-    return this.http.put<CharacteristicDto>(`${this.baseUrl}/characteristic/${id}`, body);
+    return this.http.put<CharacteristicDto>(`${this.baseUrl}/characteristic/object/${id}`, body);
+  }
+
+  public updateOrderCharacteristics(body: CharacteristicDto[]): Observable<null> {
+    return this.http.put<null>(`${this.baseUrl}/characteristic/order`, body);
   }
 
   public deleteCharacteristic(id: string): Observable<null> {

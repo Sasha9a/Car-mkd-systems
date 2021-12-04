@@ -93,9 +93,14 @@
         </p-panel>
 
         <div class="mt-4">
-          <p-table [value]="category.characteristics | orderBy: 'order:number'" [reorderableColumns]="true" (onRowReorder)="rowReorder(category)">
+          <p-table [value]="category.characteristics | orderBy: 'order:number'"
+                   [reorderableColumns]="true"
+                   (onRowReorder)="rowReorder($event, category)" styleClass="basic-table">
             <ng-template pTemplate="body" let-characteristic let-index="rowIndex">
               <tr *ngIf="toCharacteristic(characteristic) as characteristic" [pReorderableRow]="index">
+                <td class="w-3rem">
+                  <span class="pi pi-bars" pReorderableRowHandle></span>
+                </td>
                 <td>
                   <p *ngIf="editableId !== characteristic._id" class="fw-bold ml-2">
                   <span class="hover:text-blue-400 cursor-pointer"
@@ -120,11 +125,11 @@
                     </button>
                   </div>
                 </td>
-                <td>
+                <td class="w-6rem">
                   <button pButton pRipple
                           type="button"
                           label="Удалить"
-                          class="p-button-outlined p-button-danger ml-2"
+                          class="p-button-outlined p-button-danger"
                           [loading]="saving"
                           (click)="deleteCharacteristic(characteristic, category)">
                   </button>

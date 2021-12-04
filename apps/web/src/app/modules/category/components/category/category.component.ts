@@ -85,7 +85,7 @@ export class CategoryComponent implements OnInit {
 
       this.categoryStateService.createCharacteristic(this.characteristic[index]).subscribe((result) => {
         this.saving = false;
-        this.characteristic[index] = undefined;
+        this.characteristic[index].name = undefined;
         category.characteristics.push(result);
         this.errorService.addSuccessMessage(`Характеристика ${result.name} создана`);
       }, () => this.saving = false);
@@ -113,6 +113,8 @@ export class CategoryComponent implements OnInit {
   public updateCharacteristic(characteristic: CharacteristicDto, formCharacteristic: CharacteristicFormDto) {
     this.saving = true;
 
+    formCharacteristic.category = characteristic.category;
+    formCharacteristic.order = characteristic.order;
     const { valid, errors } = validate(formCharacteristic, CharacteristicFormDto);
     if (!valid) {
       console.error(errors);
@@ -162,8 +164,19 @@ export class CategoryComponent implements OnInit {
     return characteristic as CharacteristicDto;
   }
 
-  public rowReorder(category: CategoryDto) {
+  public rowReorder(event: {dragIndex: number, dropIndex: number}, category: CategoryDto) {
+    if (event.dragIndex === event.dropIndex) {
+      return;
+    }
     category.characteristics.forEach((c, index) => c.order = index);
+    const characteristics = category.characteristics.filter((c, index) => {
+      if (event.dragIndex > event.dropIndex) {
+        return index >= event.dropIndex && index <= event.dragIndex;
+      } else {
+        return index >= event.dragIndex && index <= event.dropIndex;
+      }
+    });
+    this.categoryStateService.updateOrderCharacteristics(characteristics).subscribe();
   }
 
   public setFolding() {

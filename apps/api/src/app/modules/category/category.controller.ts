@@ -2,6 +2,7 @@ import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
 import { ValidateObjectId } from '@car-mkd-systems/api/core/pipes/validate.object.id.pipes';
 import { CategoryService } from '@car-mkd-systems/api/modules/category/category.service';
 import { CategoryFormDto } from '@car-mkd-systems/shared/dtos/category/category.form.dto';
+import { CharacteristicDto } from '@car-mkd-systems/shared/dtos/category/characteristic.dto';
 import { CharacteristicFormDto } from '@car-mkd-systems/shared/dtos/category/characteristic.form.dto';
 import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
@@ -20,8 +21,8 @@ export class CategoryController {
 
   @Post('/characteristic')
   public async createCharacteristic(@Res() res: Response, @Body() body: CharacteristicFormDto) {
-    const characteristic = await this.categoryService.checkCategory(body.category._id);
-    if (!characteristic) {
+    const category = await this.categoryService.checkCategory(body.category._id);
+    if (!category) {
       return res.status(HttpStatus.NOT_FOUND).json({ category: "Категория не существует" }).end();
     }
     const createdCharacteristic = await this.categoryService.createCharacteristic(body);
@@ -44,13 +45,19 @@ export class CategoryController {
     return res.status(HttpStatus.OK).json(updatedCategory).end();
   }
 
-  @Put('/characteristic/:id')
+  @Put('/characteristic/object/:id')
   public async updateCharacteristic(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: CharacteristicFormDto) {
     const updatedCharacteristic = await this.categoryService.updateCharacteristic(id, body);
     if (!updatedCharacteristic) {
       throw new NotFoundException("Нет такого объекта!");
     }
     return res.status(HttpStatus.OK).json(updatedCharacteristic).end();
+  }
+
+  @Put('/characteristic/order')
+  public async updateOrderCharacteristics(@Res() res: Response, @Body() body: CharacteristicDto[]) {
+    await this.categoryService.updateOrderCharacteristics(body);
+    return res.status(HttpStatus.OK).end();
   }
 
   @Delete('/:id')

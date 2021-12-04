@@ -33,7 +33,7 @@ export class CategoryService {
   }
 
   public async addCharacteristicToCategory(characteristic: CharacteristicDto): Promise<any> {
-    return await this.categoryModel.updateOne({ _id: characteristic.category._id }, { $push: { models: characteristic._id } }).exec();
+    return await this.categoryModel.updateOne({ _id: characteristic.category._id }, { $push: { characteristics: characteristic._id } }).exec();
   }
 
   public async updateCategory(id: string, category: CategoryFormDto): Promise<CategoryDto> {
@@ -42,6 +42,12 @@ export class CategoryService {
 
   public async updateCharacteristic(id: string, characteristic: CharacteristicFormDto): Promise<CharacteristicDto> {
     return await this.characteristicModel.findOneAndUpdate({ _id: id }, { $set: characteristic }, {new: true}).exec();
+  }
+
+  public async updateOrderCharacteristics(characteristics: CharacteristicDto[]) {
+    for (const characteristic of characteristics) {
+      await this.characteristicModel.updateOne({ _id: characteristic._id }, { order: characteristic.order });
+    }
   }
 
   public async deleteCategory(id: string): Promise<any> {
