@@ -1,3 +1,4 @@
+import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { Expose } from 'class-transformer';
 import { IsString } from 'class-validator';
 
@@ -15,5 +16,8 @@ export class UserSessionDto {
   @Expose()
   @IsString()
   public token: string;
+
+  @Expose()
+  public roles: RoleEnum[];
 
 }
