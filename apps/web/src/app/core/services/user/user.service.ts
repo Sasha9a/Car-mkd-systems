@@ -19,4 +19,8 @@ export class UserService extends BaseService {
     return this.http.get<null>(`${this.baseUrl}/check`);
   }
 
+  public logout(body: UserSessionDto): Observable<null> {
+    return this.http.post<null>(`${this.baseUrl}/logout`, body);
+  }
+
 }

@@ -8,7 +8,7 @@ import { MenuItem } from 'primeng/api';
 @Component({
   selector: 'car-common-layout',
   templateUrl: './common-layout.component.html',
-  styleUrls: []
+  styleUrls: ['common-layout.component.scss']
 })
 export class CommonLayoutComponent implements OnInit {
 

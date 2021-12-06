@@ -22,4 +22,12 @@ export class UserService {
     return await this.userModel.findOne({ login: login }).exec();
   }
 
+  public async setToken(id: string, token: string): Promise<any> {
+    return await this.userModel.updateOne({ _id: id }, { $set: { token: token } }).exec();
+  }
+
+  public async logout(id: string): Promise<any> {
+    return await this.userModel.updateOne({ _id: id }, { $unset: { token: '' } }).exec();
+  }
+
 }

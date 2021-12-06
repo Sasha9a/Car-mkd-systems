@@ -13,6 +13,12 @@ export class ModificationDto {
   public discount: number;
 
   @Expose()
+  public pricePartner: number;
+
+  @Expose()
+  public discountPartner: number;
+
+  @Expose()
   @Type(() => ParamModificationDto)
   public params: ParamModificationDto[];
 }

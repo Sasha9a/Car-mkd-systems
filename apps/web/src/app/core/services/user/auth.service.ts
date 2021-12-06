@@ -33,6 +33,8 @@ export class AuthService {
     localStorage.removeItem('JWT_TOKEN');
     localStorage.removeItem('JWT_USER');
 
+    this.userStateService.logout(this.user).subscribe();
+
     this.user = undefined;
   }
 

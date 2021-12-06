@@ -22,4 +22,8 @@ export class UserStateService extends BaseStateService {
   public check(): Observable<null> {
     return this.userService.check();
   }
+
+  public logout(body: UserSessionDto): Observable<null> {
+    return this.userService.logout(body);
+  }
 }

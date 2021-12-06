@@ -1,16 +1,16 @@
 import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
 import { AuthService } from '@car-mkd-systems/api/modules/auth/auth.service';
 import { UserSessionDto } from '@car-mkd-systems/shared/dtos/user/user.session.dto';
-import { Body, Controller, Get, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserFormDto } from '@car-mkd-systems/shared/dtos/user/user.form.dto';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import * as bcrypt from 'bcrypt';
 
 @Controller('user')
 export class UserController {
   public constructor(private readonly userService: UserService,
-              private readonly authService: AuthService) {
+                     private readonly authService: AuthService) {
   }
 
   @Get()
@@ -48,8 +48,10 @@ export class UserController {
       const login: UserSessionDto = {
         _id: user._id,
         login: user.login,
-        token: token.accessToken
+        token: token.accessToken,
+        roles: user.roles
       }
+      await this.userService.setToken(user._id, token.accessToken);
       return res.status(HttpStatus.OK).json(login).end();
     } else {
       errors.password = ['Неверный пароль'];
@@ -57,9 +59,10 @@ export class UserController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('/profile')
-  public async profile(@Res() res: Response, @Req() req: Request) {
-    return res.status(HttpStatus.OK).json(req.user).end();
+  @Post('/logout')
+  public async logout(@Res() res: Response, @Body() body: UserSessionDto) {
+    const userData = await this.authService.getData(body);
+    await this.userService.logout(body._id);
   }
+
 }

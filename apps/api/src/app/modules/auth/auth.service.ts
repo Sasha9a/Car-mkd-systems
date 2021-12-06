@@ -1,3 +1,4 @@
+import { UserSessionDto } from '@car-mkd-systems/shared/dtos/user/user.session.dto';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@car-mkd-systems/shared/schemas/user.schema';
@@ -12,5 +13,9 @@ export class AuthService {
     return {
       accessToken: this.jwtService.sign(payload)
     }
+  }
+
+  public async getData(user: UserSessionDto): Promise<{ username: string, sub: string }> {
+    return this.jwtService.verify(user.token);
   }
 }
