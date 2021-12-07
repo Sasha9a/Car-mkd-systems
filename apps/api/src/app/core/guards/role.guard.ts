@@ -1,26 +1,32 @@
-import { ROLE_KEY } from '@car-mkd-systems/api/core/decorators/role.decorator';
+import { ROLES_KEY } from '@car-mkd-systems/api/core/decorators/role.decorator';
+import { UserService } from '@car-mkd-systems/api/modules/user/user.service';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, forwardRef, Inject, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
-  public constructor(private readonly reflector: Reflector) {
+  public constructor(private readonly reflector: Reflector,
+                     @Inject(forwardRef(() => UserService))
+                     private readonly userService: UserService) {
   }
 
-  public canActivate(context: ExecutionContext): boolean {
-    const requiredRoles = this.reflector.getAllAndOverride<RoleEnum[]>(ROLE_KEY, [
+  public async canActivate(context: ExecutionContext): Promise<boolean> {
+    const requiredRoles = this.reflector.getAllAndOverride<RoleEnum[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass()
     ]);
     if (!requiredRoles) {
       return true;
     }
-    const { headers } = context.switchToHttp().getRequest();
-    if (!headers.authorization) {
+    const { user } = context.switchToHttp().getRequest();
+    if (!user) {
       return false;
     }
-    headers.authorization = headers.authorization.replace("Bearer ", "");
-    return true;
+    const verifyUser = await this.userService.findById(user._id);
+    if (!verifyUser) {
+      return false;
+    }
+    return requiredRoles.some((role) => verifyUser.roles?.includes(role));
   }
 }

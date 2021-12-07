@@ -61,7 +61,6 @@ export class UserController {
 
   @Post('/logout')
   public async logout(@Res() res: Response, @Body() body: UserSessionDto) {
-    const userData = await this.authService.getData(body);
     await this.userService.logout(body._id);
   }
 

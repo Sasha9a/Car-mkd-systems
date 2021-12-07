@@ -22,8 +22,12 @@ const routes: Routes = [
       },
       {
         path: 'car-models',
-        canActivate: [AuthGuard],
-        loadChildren: () => import('../modules/car-models/car-models.module').then(m => m.CarModelsModule)
+        canActivate: [AuthGuard, RoleGuard],
+        loadChildren: () => import('../modules/car-models/car-models.module').then(m => m.CarModelsModule),
+        data: {
+          roles: [RoleEnum.ADMIN],
+          included: true
+        }
       },
       {
         path: 'category',

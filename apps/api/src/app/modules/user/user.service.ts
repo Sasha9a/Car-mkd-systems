@@ -18,6 +18,10 @@ export class UserService {
     return await this.userModel.find().exec();
   }
 
+  public async findById(id: string): Promise<User> {
+    return await this.userModel.findById(id).exec();
+  }
+
   public async findByLogin(login: string): Promise<User> {
     return await this.userModel.findOne({ login: login }).exec();
   }
