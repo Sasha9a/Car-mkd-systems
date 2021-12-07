@@ -1,13 +1,16 @@
+import { Role } from '@car-mkd-systems/api/core/decorators/role.decorator';
 import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
 import { ValidateObjectId } from '@car-mkd-systems/api/core/pipes/validate.object.id.pipes';
 import { ModelCarService } from '@car-mkd-systems/api/modules/model-car/model.car.service';
 import { BrandCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.form.dto';
 import { ModelCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.form.dto';
+import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 @UseGuards(JwtAuthGuard)
 @Controller('car-model')
+@Role(RoleEnum.ADMIN)
 export class ModelCarController {
   public constructor(private readonly modelCarService: ModelCarService) {
   }

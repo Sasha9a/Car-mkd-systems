@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor
-} from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
 import { AuthService } from '@car-mkd-systems/web/core/services/user/auth.service';
 import { catchError, Observable, throwError } from 'rxjs';
