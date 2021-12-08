@@ -2,6 +2,7 @@ import { LoggerMiddleware } from '@car-mkd-systems/api/core/middlewares/logger.m
 import { AuthModule } from '@car-mkd-systems/api/modules/auth/auth.module';
 import { CategoryModule } from '@car-mkd-systems/api/modules/category/category.module';
 import { ModelCarModule } from '@car-mkd-systems/api/modules/model-car/model.car.module';
+import { ProductModule } from '@car-mkd-systems/api/modules/product/product.module';
 import { UserModule } from '@car-mkd-systems/api/modules/user/user.module';
 import { forwardRef, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 
@@ -14,7 +15,8 @@ import { environment } from '../environments/environment';
     forwardRef(() => AuthModule),
     UserModule,
     ModelCarModule,
-    CategoryModule
+    CategoryModule,
+    ProductModule
   ],
   controllers: [],
   providers: []
