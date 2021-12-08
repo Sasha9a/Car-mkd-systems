@@ -37,6 +37,10 @@ const routes: Routes = [
           roles: [RoleEnum.ADMIN],
           included: true
         }
+      },
+      {
+        path: 'product',
+        loadChildren: () => import('../modules/product/product.module').then(m => m.ProductModule)
       }
     ]
   }
