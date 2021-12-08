@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CategoryDto } from '@car-mkd-systems/shared/dtos/category/category.dto';
 import { CharacteristicDto } from '@car-mkd-systems/shared/dtos/category/characteristic.dto';
 import { CharacteristicFormDto } from '@car-mkd-systems/shared/dtos/category/characteristic.form.dto';
 import { BaseService } from '@car-mkd-systems/web/core/services/base.service';
@@ -9,6 +10,10 @@ import { Observable } from 'rxjs';
 })
 export class CategoryService extends BaseService {
   protected baseUrl = '/category';
+
+  public findAllDropdown(): Observable<CategoryDto[]> {
+    return this.http.get<CategoryDto[]>(`${this.baseUrl}/all`);
+  }
 
   public createCharacteristic(body: CharacteristicFormDto): Observable<CharacteristicDto> {
     return this.http.post<CharacteristicDto>(`${this.baseUrl}/characteristic`, body);

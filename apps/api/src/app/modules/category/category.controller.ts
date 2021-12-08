@@ -10,19 +10,27 @@ import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
-@Roles(RoleEnum.ADMIN)
-@UseGuards(JwtAuthGuard, RoleGuard)
 @Controller('category')
 export class CategoryController {
   public constructor(private readonly categoryService: CategoryService) {
   }
 
+  @Roles(RoleEnum.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Get()
   public async getAll(@Res() res: Response) {
     const category = await this.categoryService.findAll();
     return res.status(HttpStatus.OK).json(category).end();
   }
 
+  @Get('/all')
+  public async getAllDropdown(@Res() res: Response) {
+    const category = await this.categoryService.findAllDropdown();
+    return res.status(HttpStatus.OK).json(category).end();
+  }
+
+  @Roles(RoleEnum.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Post('/characteristic')
   public async createCharacteristic(@Res() res: Response, @Body() body: CharacteristicFormDto) {
     const category = await this.categoryService.checkCategory(body.category._id);
@@ -34,12 +42,16 @@ export class CategoryController {
     return res.status(HttpStatus.CREATED).json(createdCharacteristic).end();
   }
 
+  @Roles(RoleEnum.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()
   public async createCategory(@Res() res: Response, @Body() body: CategoryFormDto) {
     const createdCategory = await this.categoryService.createCategory(body);
     return res.status(HttpStatus.CREATED).json(createdCategory).end();
   }
 
+  @Roles(RoleEnum.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Put('/:id')
   public async updateCategory(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: CategoryFormDto) {
     const updatedCategory = await this.categoryService.updateCategory(id, body);
@@ -49,6 +61,8 @@ export class CategoryController {
     return res.status(HttpStatus.OK).json(updatedCategory).end();
   }
 
+  @Roles(RoleEnum.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Put('/characteristic/object/:id')
   public async updateCharacteristic(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: CharacteristicFormDto) {
     const updatedCharacteristic = await this.categoryService.updateCharacteristic(id, body);
@@ -58,12 +72,16 @@ export class CategoryController {
     return res.status(HttpStatus.OK).json(updatedCharacteristic).end();
   }
 
+  @Roles(RoleEnum.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Put('/characteristic/order')
   public async updateOrderCharacteristics(@Res() res: Response, @Body() body: CharacteristicDto[]) {
     await this.categoryService.updateOrderCharacteristics(body);
     return res.status(HttpStatus.OK).end();
   }
 
+  @Roles(RoleEnum.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Delete('/:id')
   public async deleteCategory(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
     const deletedCategory = await this.categoryService.deleteCategory(id);
@@ -73,6 +91,8 @@ export class CategoryController {
     return res.status(HttpStatus.OK).end();
   }
 
+  @Roles(RoleEnum.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Delete('/characteristic/:id')
   public async deleteCharacteristic(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
     const deletedCharacteristic = await this.categoryService.deleteCharacteristic(id);

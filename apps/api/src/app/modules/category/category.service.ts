@@ -18,6 +18,10 @@ export class CategoryService {
     return await this.categoryModel.find().sort({ name: 1 }).populate('characteristics').exec();
   }
 
+  public async findAllDropdown(): Promise<CategoryDto[]> {
+    return await this.categoryModel.find({}, '_id name').sort({ name: 1 }).exec();
+  }
+
   public async checkCategory(id: string): Promise<boolean> {
     return await this.categoryModel.exists({ _id: id });
   }

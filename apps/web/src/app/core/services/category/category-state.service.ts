@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CategoryDto } from '@car-mkd-systems/shared/dtos/category/category.dto';
 import { CharacteristicDto } from '@car-mkd-systems/shared/dtos/category/characteristic.dto';
 import { CharacteristicFormDto } from '@car-mkd-systems/shared/dtos/category/characteristic.form.dto';
 import { BaseStateService } from '@car-mkd-systems/web/core/services/base-state.service';
@@ -13,6 +14,10 @@ export class CategoryStateService extends BaseStateService {
   public constructor(private readonly categoryService: CategoryService) {
     super();
     this.baseService = categoryService;
+  }
+
+  public findAllDropdown(): Observable<CategoryDto[]> {
+    return this.categoryService.findAllDropdown();
   }
 
   public createCharacteristic(body: CharacteristicFormDto): Observable<CharacteristicDto> {
