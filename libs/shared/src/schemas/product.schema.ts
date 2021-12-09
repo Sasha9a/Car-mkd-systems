@@ -2,6 +2,7 @@ import { ModificationDto } from '@car-mkd-systems/shared/dtos/product/modificati
 import { Category } from '@car-mkd-systems/shared/schemas/category.schema';
 import { ModelCar } from '@car-mkd-systems/shared/schemas/model.car.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Type } from 'class-transformer';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
 
@@ -25,7 +26,8 @@ export class Product extends Document {
   @Prop({ type: [{type: [mongoose.Schema.Types.ObjectId], ref: "ModelCar"}], default: []})
   public modelsCar: ModelCar[];
 
-  @Prop({ type: [ModificationDto], default: [] })
+  @Prop({ type: [mongoose.Schema.Types.Mixed], default: [] })
+  @Type(() => ModificationDto)
   public modifications: ModificationDto[];
 }
 
