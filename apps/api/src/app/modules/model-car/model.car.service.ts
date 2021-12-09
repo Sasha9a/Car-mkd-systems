@@ -18,7 +18,7 @@ export class ModelCarService {
     return await this.brandCarModel.find().sort({ brand: 1 }).populate('models').exec();
   }
 
-  public async checkFirm(id: string): Promise<boolean> {
+  public async checkBrand(id: string): Promise<boolean> {
     return await this.brandCarModel.exists({ _id: id });
   }
 

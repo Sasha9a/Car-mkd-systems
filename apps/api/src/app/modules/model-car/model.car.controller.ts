@@ -24,7 +24,7 @@ export class ModelCarController {
 
   @Post('/model')
   public async createModel(@Res() res: Response, @Body() body: ModelCarFormDto) {
-    const firm = await this.modelCarService.checkFirm(body.brand._id);
+    const firm = await this.modelCarService.checkBrand(body.brand._id);
     if (!firm) {
       return res.status(HttpStatus.NOT_FOUND).json(<ModelCarFormDto>{ model: "Фирма не существует" }).end();
     }
