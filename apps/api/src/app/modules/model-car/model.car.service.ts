@@ -18,6 +18,14 @@ export class ModelCarService {
     return await this.brandCarModel.find().sort({ brand: 1 }).populate('models').exec();
   }
 
+  public async findAllBrandDropdown(): Promise<BrandCarDto[]> {
+    return await this.brandCarModel.find({}, '_id brand').sort({ brand: 1 }).exec();
+  }
+
+  public async findAllModelDropdown(): Promise<ModelCarDto[]> {
+    return await this.modelCarModel.find({}, '_id model').sort({ model: 1 }).exec();
+  }
+
   public async checkBrand(id: string): Promise<boolean> {
     return await this.brandCarModel.exists({ _id: id });
   }

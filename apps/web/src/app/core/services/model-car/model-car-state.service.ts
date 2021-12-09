@@ -17,6 +17,14 @@ export class ModelCarStateService extends BaseStateService {
     this.baseService = modelCarService;
   }
 
+  public findAllBrand(): Observable<BrandCarDto[]> {
+    return this.modelCarService.findAllBrand();
+  }
+
+  public findAllModel(): Observable<ModelCarDto[]> {
+    return this.modelCarService.findAllModel();
+  }
+
   public createBrand(body: BrandCarFormDto): Observable<BrandCarDto> {
     return this.modelCarService.createBrand(body);
   }

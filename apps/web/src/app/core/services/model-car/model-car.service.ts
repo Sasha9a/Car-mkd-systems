@@ -13,6 +13,14 @@ export class ModelCarService extends BaseService {
 
   protected baseUrl = '/car-model';
 
+  public findAllBrand(): Observable<BrandCarDto[]> {
+    return this.http.get<BrandCarDto[]>(`${this.baseUrl}/brand/all`);
+  }
+
+  public findAllModel(): Observable<ModelCarDto[]> {
+    return this.http.get<ModelCarDto[]>(`${this.baseUrl}/model/all`);
+  }
+
   public createBrand(body: BrandCarFormDto): Observable<BrandCarDto> {
     return this.http.post<BrandCarDto>(`${this.baseUrl}/brand`, body);
   }
