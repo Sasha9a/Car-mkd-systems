@@ -6,6 +6,7 @@ import { AuthGuard } from '@car-mkd-systems/web/core/guards/auth.guard';
 import { RoleGuard } from '@car-mkd-systems/web/core/guards/role.guard';
 import { ShareModule } from '@car-mkd-systems/web/shared/share.module';
 import { ProductAddComponent } from './components/add/product-add.component';
+import { ProductFormComponent } from './dumbs/product-form/product-form.component';
 
 const productRoutes: Routes = [
   {
@@ -21,7 +22,8 @@ const productRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    ProductAddComponent
+    ProductAddComponent,
+    ProductFormComponent
   ],
   imports: [
     CommonModule,
