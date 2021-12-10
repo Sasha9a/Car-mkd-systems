@@ -1,9 +1,40 @@
+<h3 class="dividing-header">Товар</h3>
+
 <div class="grid">
-  <div class="col-12 lg:col-6 xl:col-5">
-    <h3 class="dividing-header">Товар</h3>
+  <div class="col-12 xl:col-6">
     <div class="p-fluid">
 
+      <div class="field">
+        <label class="fw-bold required-field">Название</label>
+        <input type="text" pInputText [ngClass]="{ 'ng-invalid ng-dirty': errors?.name }" [(ngModel)]="product.name">
+        <small *ngIf="errors?.name" class="p-error">{{ errors.name | join }}</small>
+      </div>
 
+      <div class="field">
+        <label class="fw-bold required-field">Количество</label>
+        <div class="p-inputgroup">
+          <p-inputNumber [(ngModel)]="product.amount" [ngClass]="{ 'ng-invalid ng-dirty': errors?.amount }"></p-inputNumber>
+          <span class="p-inputgroup-addon">шт.</span>
+        </div>
+        <small *ngIf="errors?.amount" class="p-error">{{ errors.amount | join }}</small>
+      </div>
+
+      <div class="field">
+        <label class="fw-bold required-field">Категория</label>
+        <car-category-single-select [categories]="categories"
+                                    [class]="errors?.category ? 'ng-invalid ng-dirty' : ''"
+                                    [(selectedCategory)]="product.category">
+        </car-category-single-select>
+        <small *ngIf="errors?.category" class="p-error">{{ errors.category | join }}</small>
+      </div>
+
+      <div class="field">
+        <label class="fw-bold">Модели автотранспорта</label>
+        <car-model-car-multi-select [modelsCar]="modelsCar"
+                                    [class]="errors?.modelsCar ? 'ng-invalid ng-dirty' : ''"
+                                    [(selectedModelsCar)]="product.modelsCar">
+        </car-model-car-multi-select>
+      </div>
 
     </div>
   </div>

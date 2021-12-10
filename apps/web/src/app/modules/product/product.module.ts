@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { AuthGuard } from '@car-mkd-systems/web/core/guards/auth.guard';
 import { RoleGuard } from '@car-mkd-systems/web/core/guards/role.guard';
 import { ShareModule } from '@car-mkd-systems/web/shared/share.module';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { ProductAddComponent } from './components/add/product-add.component';
 import { ProductFormComponent } from './dumbs/product-form/product-form.component';
+import { InputTextModule } from 'primeng/inputtext';
 
 const productRoutes: Routes = [
   {
@@ -28,7 +31,10 @@ const productRoutes: Routes = [
   imports: [
     CommonModule,
     ShareModule,
-    RouterModule.forChild(productRoutes)
+    RouterModule.forChild(productRoutes),
+    InputTextModule,
+    FormsModule,
+    InputNumberModule
   ]
 })
 export class ProductModule { }

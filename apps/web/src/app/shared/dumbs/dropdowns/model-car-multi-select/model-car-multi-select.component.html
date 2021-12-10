@@ -1,0 +1,16 @@
+<car-multi-select [options]="modelsCar"
+                  [(selectedItems)]="selectedModelsCar"
+                  (selectedItemsChange)="selectedModelsCarChange.emit($event)"
+                  [label]="labelInput ? 'Модели' : ''"
+                  filterBy="model,brand.brand"
+                  sort="model:string">
+  <ng-template #selectedItemsTemplate let-models="items">
+    <ng-container *ngFor="let model of models; last as isLast">{{ toModelCar(model).model}} ({{toModelCar(model).brand.brand }}){{ isLast ? '' : ', ' }}</ng-container>
+  </ng-template>
+  <ng-template #itemTemplate let-model="item">
+    <div *ngIf="toModelCar(model) as model">
+      <div>{{ model.model }}</div>
+      <div class="text-green-400">{{ model.brand.brand }}</div>
+    </div>
+  </ng-template>
+</car-multi-select>
