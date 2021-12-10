@@ -5,6 +5,20 @@
     <div class="p-fluid">
 
       <div class="field">
+        <label class="fw-bold">Фотографии</label>
+        <p-fileUpload #fileUpload
+                      mode="basic"
+                      customUpload="true"
+                      chooseIcon="pi-paperclip"
+                      chooseLabel="Прикрепить фотографии"
+                      [multiple]="true"
+                      [disabled]="uploadingFiles"
+                      (uploadHandler)="uploadFiles($event)"
+                      [auto]="true">
+        </p-fileUpload>
+      </div>
+
+      <div class="field">
         <label class="fw-bold required-field">Название</label>
         <input type="text" pInputText [ngClass]="{ 'ng-invalid ng-dirty': errors?.name }" [(ngModel)]="product.name">
         <small *ngIf="errors?.name" class="p-error">{{ errors.name | join }}</small>

@@ -10,6 +10,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ProductAddComponent } from './components/add/product-add.component';
 import { ProductFormComponent } from './dumbs/product-form/product-form.component';
 import { InputTextModule } from 'primeng/inputtext';
+import { FileUploadModule } from 'primeng/fileupload';
 
 const productRoutes: Routes = [
   {
@@ -28,13 +29,14 @@ const productRoutes: Routes = [
     ProductAddComponent,
     ProductFormComponent
   ],
-  imports: [
-    CommonModule,
-    ShareModule,
-    RouterModule.forChild(productRoutes),
-    InputTextModule,
-    FormsModule,
-    InputNumberModule
-  ]
+	imports: [
+		CommonModule,
+		ShareModule,
+		RouterModule.forChild(productRoutes),
+		InputTextModule,
+		FormsModule,
+		InputNumberModule,
+		FileUploadModule
+	]
 })
 export class ProductModule { }

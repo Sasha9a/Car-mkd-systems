@@ -46,7 +46,8 @@ import { FileTypePipe } from './pipes/file-type.pipe';
     OrderByPipe,
     SpinnerComponent,
     CategorySingleSelectComponent,
-    ModelCarMultiSelectComponent
+    ModelCarMultiSelectComponent,
+    FileComponent
   ],
 	imports: [
 		CommonModule,
