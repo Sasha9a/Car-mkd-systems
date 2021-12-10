@@ -31,6 +31,17 @@ export class CategoryController {
 
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
+  @Get('/:id')
+  public async getCategory(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
+    const category = await this.categoryService.findCategory(id);
+    if (!category) {
+      return res.status(HttpStatus.NOT_FOUND).send("Категория не существует").end();
+    }
+    return res.status(HttpStatus.OK).json(category).end();
+  }
+
+  @Roles(RoleEnum.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Post('/characteristic')
   public async createCharacteristic(@Res() res: Response, @Body() body: CharacteristicFormDto) {
     const category = await this.categoryService.checkCategory(body.category._id);

@@ -22,6 +22,10 @@ export class CategoryService {
     return await this.categoryModel.find({}, 'name').sort({ name: 1 }).exec();
   }
 
+  public async findCategory(id: string): Promise<CategoryDto> {
+    return await this.categoryModel.findById(id).populate('characteristics').exec();
+  }
+
   public async checkCategory(id: string): Promise<boolean> {
     return await this.categoryModel.exists({ _id: id });
   }
