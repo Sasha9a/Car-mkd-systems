@@ -19,7 +19,7 @@ export class CategoryService {
   }
 
   public async findAllDropdown(): Promise<CategoryDto[]> {
-    return await this.categoryModel.find({}, '_id name').sort({ name: 1 }).exec();
+    return await this.categoryModel.find({}, 'name').sort({ name: 1 }).exec();
   }
 
   public async checkCategory(id: string): Promise<boolean> {
