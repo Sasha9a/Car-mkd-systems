@@ -23,7 +23,7 @@ export class ProductService {
   //   return await this.productModel.find().exec();
   // }
 
-  public async createProduct(product: ProductFormDto): Promise<ProductDto> {
+  public async createProduct(product: ProductFormDto): Promise<Product> {
     const createdProduct = await new this.productModel(product);
     return await createdProduct.save();
   }

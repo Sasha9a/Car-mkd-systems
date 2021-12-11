@@ -14,7 +14,7 @@ export class FileService {
     return uploadFile.save();
   }
 
-  public async getFile(path: string): Promise<File> {
-    return await this.fileModel.findOne({ path: path }).exec();
+  public async deleteFile(path: string): Promise<any> {
+    return await this.fileModel.findOneAndDelete({ path: path }).exec();
   }
 }

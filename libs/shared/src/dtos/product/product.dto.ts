@@ -1,5 +1,6 @@
 import { BaseDto } from '@car-mkd-systems/shared/dtos/base.dto';
 import { CategoryDto } from '@car-mkd-systems/shared/dtos/category/category.dto';
+import { FileDto } from '@car-mkd-systems/shared/dtos/file.dto';
 import { ModelCarDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.dto';
 import { ModificationDto } from '@car-mkd-systems/shared/dtos/product/modification.dto';
 import { Expose, Type } from 'class-transformer';
@@ -17,7 +18,8 @@ export class ProductDto extends BaseDto {
   public category: CategoryDto;
 
   @Expose()
-  public images: string[];
+  @Type(() => FileDto)
+  public images: FileDto[];
 
   @Expose()
   public isPublic: boolean;

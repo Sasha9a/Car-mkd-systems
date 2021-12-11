@@ -124,3 +124,19 @@ body {
   object-fit: cover;
   border-radius: 3px;
 }
+
+.p-scrollpanel {
+
+  .p-scrollpanel-wrapper {
+    border-right: 9px solid var(--layer-1);
+  }
+
+  .p-scrollpanel-bar {
+    background: #b6ddff !important;
+    opacity: 1;
+
+    &:hover {
+      background: #007ad9 !important;
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import { CategoryDto } from '@car-mkd-systems/shared/dtos/category/category.dto';
+import { FileDto } from '@car-mkd-systems/shared/dtos/file.dto';
 import { ModelCarDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.dto';
 import { ModificationDto } from '@car-mkd-systems/shared/dtos/product/modification.dto';
 import { Expose, Type } from 'class-transformer';
@@ -21,7 +22,8 @@ export class ProductFormDto {
 
   @Expose()
   @IsOptional()
-  public images?: string[];
+  @Type(() => FileDto)
+  public images?: FileDto[];
 
   @Expose()
   @IsOptional()

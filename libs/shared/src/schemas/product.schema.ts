@@ -17,8 +17,8 @@ export class Product extends Document {
   @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: "Category" })
   public category: Category;
 
-  @Prop({ default: [] })
-  public images: string[];
+  @Prop({ type: [{type: [mongoose.Schema.Types.ObjectId], ref: "File"}], default: [] })
+  public images: File[];
 
   @Prop({ default: false })
   public isPublic: boolean;
