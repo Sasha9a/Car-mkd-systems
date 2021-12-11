@@ -12,6 +12,9 @@ export class User extends Document {
 
   @Prop({ required: true })
   public roles: RoleEnum[];
+
+  @Prop()
+  public token: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

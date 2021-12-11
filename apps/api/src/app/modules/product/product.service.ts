@@ -23,6 +23,10 @@ export class ProductService {
   //   return await this.productModel.find().exec();
   // }
 
+  public async findById(id: string): Promise<Product> {
+    return await this.productModel.findById(id).populate('category').populate('images').populate('modelsCar').exec();
+  }
+
   public async createProduct(product: ProductFormDto): Promise<Product> {
     const createdProduct = await new this.productModel(product);
     return await createdProduct.save();

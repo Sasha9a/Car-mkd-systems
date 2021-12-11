@@ -3,14 +3,35 @@ import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
 import { RoleGuard } from '@car-mkd-systems/api/core/guards/role.guard';
 import { ValidateObjectId } from '@car-mkd-systems/api/core/pipes/validate.object.id.pipes';
 import { ProductService } from '@car-mkd-systems/api/modules/product/product.service';
+import { UserService } from '@car-mkd-systems/api/modules/user/user.service';
 import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
-import { Body, Controller, Delete, HttpStatus, NotFoundException, Param, Post, Res, UseGuards } from '@nestjs/common';
-import { Response } from 'express';
+import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Request, Response } from 'express';
 
 @Controller('product')
 export class ProductController {
-  public constructor(private readonly productService: ProductService) {
+  public constructor(private readonly productService: ProductService,
+                     private readonly userService: UserService) {
+  }
+
+  @Get(':id')
+  public async findById(@Res() res: Response, @Req() req: Request, @Param('id', new ValidateObjectId()) id: string) {
+    const product = await this.productService.findById(id);
+    if (!product) {
+      return res.status(HttpStatus.NOT_FOUND).send("Товар не существует").end();
+    }
+    const user = req.headers.authorization ? await this.userService.findByToken(req.headers.authorization.replace("Bearer ", "")) : null;
+    if ((!user || !user.roles?.includes(RoleEnum.ADMIN)) && !product.isPublic) {
+      return res.status(HttpStatus.NOT_FOUND).send("Ошибка доступа").end();
+    }
+    if (!user) {
+      product.modifications.forEach((modification) => {
+        delete modification.pricePartner;
+        delete modification.discountPartner;
+      });
+    }
+    return res.status(HttpStatus.OK).json(product).end();
   }
 
   @Roles(RoleEnum.ADMIN)

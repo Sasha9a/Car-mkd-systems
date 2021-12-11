@@ -23,7 +23,7 @@ export class ProductFormDto {
   @Expose()
   @IsOptional()
   @Type(() => FileDto)
-  public images?: FileDto[];
+  public images?: FileDto[] = [];
 
   @Expose()
   @IsOptional()
@@ -32,10 +32,10 @@ export class ProductFormDto {
   @Expose()
   @IsOptional()
   @Type(() => ModelCarDto)
-  public modelsCar?: ModelCarDto[];
+  public modelsCar?: ModelCarDto[] = [];
 
   @Expose()
   @IsOptional()
   @Type(() => ModificationDto)
-  public modifications?: ModificationDto[];
+  public modifications?: ModificationDto[] = [];
 }

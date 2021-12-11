@@ -44,7 +44,7 @@ export class BaseService {
    * @param {number} id
    * @returns {Observable<T>}
    */
-  public findById<T>(id: number): Observable<T> {
+  public findById<T>(id: string): Observable<T> {
     return this.http.get<T>(this.baseUrl + '/' + id);
   }
 

@@ -6,6 +6,8 @@ import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { AuthGuard } from '@car-mkd-systems/web/core/guards/auth.guard';
 import { RoleGuard } from '@car-mkd-systems/web/core/guards/role.guard';
 import { ShareModule } from '@car-mkd-systems/web/shared/share.module';
+import { AccordionModule } from 'primeng/accordion';
+import { CardModule } from 'primeng/card';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RippleModule } from 'primeng/ripple';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
@@ -14,6 +16,8 @@ import { ProductFormComponent } from './dumbs/product-form/product-form.componen
 import { InputTextModule } from 'primeng/inputtext';
 import { FileUploadModule } from 'primeng/fileupload';
 import { TableModule } from 'primeng/table';
+import { ProductCardComponent } from './components/card/product-card.component';
+import { GalleriaModule } from 'primeng/galleria';
 
 const productRoutes: Routes = [
   {
@@ -24,25 +28,33 @@ const productRoutes: Routes = [
       roles: [RoleEnum.ADMIN],
       included: true
     }
+  },
+  {
+    path: 'card/:id',
+    component: ProductCardComponent
   }
 ];
 
 @NgModule({
   declarations: [
     ProductAddComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    ProductCardComponent
   ],
-  imports: [
-    CommonModule,
-    ShareModule,
-    RouterModule.forChild(productRoutes),
-    InputTextModule,
-    FormsModule,
-    InputNumberModule,
-    FileUploadModule,
-    TableModule,
-    RippleModule,
-    ScrollPanelModule
-  ]
+	imports: [
+		CommonModule,
+		ShareModule,
+		RouterModule.forChild(productRoutes),
+		InputTextModule,
+		FormsModule,
+		InputNumberModule,
+		FileUploadModule,
+		TableModule,
+		RippleModule,
+		ScrollPanelModule,
+		CardModule,
+		AccordionModule,
+		GalleriaModule
+	]
 })
 export class ProductModule { }

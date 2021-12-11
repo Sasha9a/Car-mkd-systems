@@ -1,5 +1,4 @@
-import { ParamModificationDto } from '@car-mkd-systems/shared/dtos/product/param.modification.dto';
-import { Expose, Type } from 'class-transformer';
+import { Expose } from 'class-transformer';
 
 @Expose()
 export class ModificationDto {
@@ -19,6 +18,5 @@ export class ModificationDto {
   public discountPartner: number;
 
   @Expose()
-  @Type(() => ParamModificationDto)
-  public params: ParamModificationDto[];
+  public params: Record<string, string> = {};
 }

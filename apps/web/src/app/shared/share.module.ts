@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {AvatarModule} from "primeng/avatar";
+import { ButtonModule } from 'primeng/button';
 import {DividerModule} from "primeng/divider";
 import { ListboxModule } from 'primeng/listbox';
 import { MenuModule } from 'primeng/menu';
@@ -25,6 +26,7 @@ import { FileComponent } from './dumbs/file/file.component';
 import { ImageModule } from 'primeng/image';
 import { ApiUrlPipe } from './pipes/api-url.pipe';
 import { FileTypePipe } from './pipes/file-type.pipe';
+import { GoBackButtonComponent } from './dumbs/go-back-button/go-back-button.component';
 
 @NgModule({
 	declarations: [
@@ -39,31 +41,35 @@ import { FileTypePipe } from './pipes/file-type.pipe';
     ModelCarMultiSelectComponent,
     FileComponent,
     ApiUrlPipe,
-    FileTypePipe
+    FileTypePipe,
+    GoBackButtonComponent
 	],
-  exports: [
-    JoinPipe,
-    OrderByPipe,
-    SpinnerComponent,
-    CategorySingleSelectComponent,
-    ModelCarMultiSelectComponent,
-    FileComponent
-  ],
-	imports: [
-		CommonModule,
-		MenubarModule,
-		SharedModule,
-		CardModule,
-		AvatarModule,
-		DividerModule,
-		OverlayPanelModule,
-		ListboxModule,
-		MenuModule,
-		ProgressSpinnerModule,
-		DropdownModule,
-		MultiSelectModule,
-		FormsModule,
-		ImageModule
-	]
+	exports: [
+		JoinPipe,
+		OrderByPipe,
+		SpinnerComponent,
+		CategorySingleSelectComponent,
+		ModelCarMultiSelectComponent,
+		FileComponent,
+		GoBackButtonComponent,
+		ApiUrlPipe
+	],
+  imports: [
+    CommonModule,
+    MenubarModule,
+    SharedModule,
+    CardModule,
+    AvatarModule,
+    DividerModule,
+    OverlayPanelModule,
+    ListboxModule,
+    MenuModule,
+    ProgressSpinnerModule,
+    DropdownModule,
+    MultiSelectModule,
+    FormsModule,
+    ImageModule,
+    ButtonModule
+  ]
 })
 export class ShareModule { }

@@ -19,7 +19,7 @@ export class BaseStateService {
     return this.baseService.create<K>(model);
   }
 
-  public findById<T extends BaseModel>(id: number): Observable<T> {
+  public findById<T extends BaseModel>(id: string): Observable<T> {
     return this.baseService.findById<T>(id);
   }
 
