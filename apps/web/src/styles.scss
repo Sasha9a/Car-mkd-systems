@@ -120,6 +120,12 @@ body {
   padding: 0 !important;
 }
 
+.card-product {
+  .p-card-body {
+    padding: 0 !important;
+  }
+}
+
 .p-avatar img {
   object-fit: cover;
   border-radius: 3px;

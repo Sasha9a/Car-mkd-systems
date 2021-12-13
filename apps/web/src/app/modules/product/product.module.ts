@@ -18,6 +18,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { TableModule } from 'primeng/table';
 import { ProductCardComponent } from './components/card/product-card.component';
 import { GalleriaModule } from 'primeng/galleria';
+import { StyleClassModule } from 'primeng/styleclass';
 
 const productRoutes: Routes = [
   {
@@ -54,7 +55,8 @@ const productRoutes: Routes = [
 		ScrollPanelModule,
 		CardModule,
 		AccordionModule,
-		GalleriaModule
+		GalleriaModule,
+		StyleClassModule
 	]
 })
 export class ProductModule { }

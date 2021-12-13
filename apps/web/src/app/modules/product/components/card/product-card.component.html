@@ -1,15 +1,20 @@
 <car-spinner *ngIf="!product"></car-spinner>
 
 <div *ngIf="product">
-  <p-card styleClass="p-0 m-0">
+  <p-card styleClass="card-product">
     <div class="grid grid-nogutter">
-      <p-galleria class="col-6" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '640px', 'margin-top':'2em'}" [(value)]="product.images" [numVisible]="5"
-                  [circular]="true" [showItemNavigators]="true" [showThumbnails]="false"
-                  [showIndicators]="true" [showItemNavigatorsOnHover]="true" [showIndicatorsOnItem]="true">
+      <p-galleria class="col-12 lg:col-6" [(value)]="product.images"
+                  [responsiveOptions]="responsiveOptions" [numVisible]="5" indicatorsPosition="top"
+                  [showThumbnails]="false" [showIndicators]="true" [changeItemOnIndicatorHover]="true">
         <ng-template pTemplate="item" let-item>
           <img [src]="('file/' + item.path) | apiUrl" style="width: 100%; display: block;" alt="{{ item.name }}">
         </ng-template>
       </p-galleria>
+      <div class="col-12 lg:col-6">
+        <div class="flex justify-content-center shadow-1 bg-gray-50">
+          <p class="fw-bold text-xl my-3">{{ product.name }}</p>
+        </div>
+      </div>
     </div>
   </p-card>
 </div>
