@@ -140,3 +140,9 @@ body {
     }
   }
 }
+
+.create-product {
+  .p-scrollpanel-wrapper {
+    z-index: initial !important;
+  }
+}
