@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RoutingService } from '@car-mkd-systems/web/core/services/routing.service';
 
 @Component({
   selector: 'car-root',
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: [],
 })
 export class AppComponent {
+  public constructor(public readonly routingService: RoutingService) {
+  }
 }
