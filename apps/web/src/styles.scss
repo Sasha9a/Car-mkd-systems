@@ -152,3 +152,7 @@ body {
     z-index: initial !important;
   }
 }
+
+.greytext, .greytext a {
+  color: rgba(0, 0, 0, 0.4) !important;
+}

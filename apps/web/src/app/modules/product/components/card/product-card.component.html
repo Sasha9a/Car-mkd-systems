@@ -1,6 +1,27 @@
 <car-spinner *ngIf="!product"></car-spinner>
 
 <div *ngIf="product">
+  <div *ngIf="authService.currentUser?.roles.includes(RoleEnum.ADMIN)" class="flex flex-wrap lg:justify-content-end">
+    <button *ngIf="!product.isPublic"
+            pButton [label]="'Опубликовать'"
+            icon="pi pi-eye" class="p-button-warning mr-2 mb-3"
+            (click)="publicProduct()">
+    </button>
+    <button pButton [label]="'Редактировать'"
+            icon="pi pi-pencil" class="p-button-success mr-2 mb-3"
+            routerLink="/product/edit/{{ cardId }}">
+    </button>
+    <button pButton [label]="'Копировать'"
+            icon="pi pi-copy" class="mr-2 mb-3"
+            routerLink="/product/add"
+            [queryParams]="{ copyId: cardId }">
+    </button>
+    <button pButton [label]="'Удалить'"
+            icon="pi pi-trash" class="p-button-danger mb-3"
+            (click)="deleteProduct()">
+    </button>
+  </div>
+
   <p-card styleClass="card-product">
     <div class="grid grid-nogutter">
       <p-galleria class="col-12 lg:col-6" [(value)]="product.images"
@@ -14,7 +35,56 @@
         <div class="flex justify-content-center shadow-1 bg-gray-50">
           <p class="fw-bold text-xl my-3">{{ product.name }}</p>
         </div>
+        <div class="ml-2">
+          <div class="flex align-items-center mt-3">
+            <p class="fw-bold">{{ isPartner() ? 'Рыночная цена' : 'Цена' }}:</p>
+            <p *ngIf="activeModification.discount > 0"
+               class="ml-2 fw-bold text-2xl m-0" style="color: #ce0400">
+              {{ activeModification.discount | number }} ₽
+            </p>
+            <p *ngIf="!activeModification.discount && activeModification.price"
+               class="ml-2 fw-bold text-2xl text-blue-500 m-0">
+              {{ activeModification.price | number }} ₽
+            </p>
+            <p *ngIf="activeModification.discount > 0 && activeModification.price"
+               class="ml-3 fw-bold text-xl text-gray-400 line-through m-0">
+              {{ activeModification.price | number }} ₽
+            </p>
+          </div>
+
+          <div *ngIf="isPartner()" class="flex align-items-center">
+            <p class="fw-bold">Оптовая цена:</p>
+            <p *ngIf="activeModification.discountPartner > 0"
+               class="ml-2 fw-bold text-2xl m-0" style="color: #ce0400">
+              {{ activeModification.discountPartner | number }} ₽
+            </p>
+            <p *ngIf="!activeModification.discountPartner && activeModification.pricePartner"
+               class="ml-2 fw-bold text-2xl text-blue-500 m-0">
+              {{ activeModification.pricePartner | number }} ₽
+            </p>
+            <p *ngIf="activeModification.discountPartner > 0 && activeModification.pricePartner"
+               class="ml-3 fw-bold text-xl text-gray-400 line-through m-0">
+              {{ activeModification.pricePartner | number }} ₽
+            </p>
+          </div>
+          <p *ngIf="product.amount" class="greytext">В наличии: {{ product.amount | number }} шт.</p>
+          <p *ngIf="!product.amount" style="color: #ae0400">Нет в наличии</p>
+        </div>
       </div>
     </div>
   </p-card>
+
+  <p-panel styleClass="mt-4">
+    <ng-template pTemplate="header">
+      <div class="w-full">
+        <p class="text-center fw-bold m-0 text-lg">Тип комплектации</p>
+      </div>
+    </ng-template>
+    <span class="p-buttonset">
+      <button *ngFor="let modification of product.modifications"
+              class="p-button-secondary {{ modification === activeModification ? '' : 'p-button-outlined' }}"
+              pButton pRipple [label]="modification.name" (click)="activeModification = modification">
+      </button>
+    </span>
+  </p-panel>
 </div>

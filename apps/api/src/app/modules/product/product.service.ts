@@ -24,7 +24,10 @@ export class ProductService {
   // }
 
   public async findById(id: string): Promise<Product> {
-    return await this.productModel.findById(id).populate('category').populate('images').populate('modelsCar').exec();
+    return await this.productModel.findById(id)
+                     .populate('category')
+                     .populate('images')
+                     .populate({ path: 'modelsCar', populate: { path: 'brand' } }).exec();
   }
 
   public async createProduct(product: ProductFormDto): Promise<Product> {

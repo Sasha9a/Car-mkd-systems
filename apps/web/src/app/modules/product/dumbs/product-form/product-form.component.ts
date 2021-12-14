@@ -14,7 +14,7 @@ import { FileUpload } from 'primeng/fileupload';
 @Component({
   selector: 'car-product-form',
   templateUrl: './product-form.component.html',
-  styleUrls: ['./product-form.component.css']
+  styleUrls: []
 })
 export class ProductFormComponent extends BaseFormComponent<ProductFormDto> {
 

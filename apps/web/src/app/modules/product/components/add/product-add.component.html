@@ -1,4 +1,5 @@
 <car-product-form *ngIf="!saving && categories && modelsCar"
+                  [product]="product"
                   [categories]="categories"
                   [modelsCar]="modelsCar"
                   (save)="createProduct($event)">

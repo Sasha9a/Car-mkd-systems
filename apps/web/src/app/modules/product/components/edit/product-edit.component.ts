@@ -10,11 +10,13 @@ import { ModelCarStateService } from '@car-mkd-systems/web/core/services/model-c
 import { ProductStateService } from '@car-mkd-systems/web/core/services/product/product-state.service';
 
 @Component({
-  selector: 'car-product-add',
-  templateUrl: './product-add.component.html',
+  selector: 'car-edit',
+  templateUrl: './product-edit.component.html',
   styleUrls: []
 })
-export class ProductAddComponent implements OnInit {
+export class ProductEditComponent implements OnInit {
+
+  public productId: string;
 
   public product: ProductFormDto;
 
@@ -31,13 +33,14 @@ export class ProductAddComponent implements OnInit {
                      private readonly router: Router) { }
 
   public ngOnInit(): void {
-    const copyId = this.route.snapshot.queryParams.copyId;
-    if (copyId) {
-      this.productStateService.findById<ProductDto>(copyId).subscribe((product) => {
-        product.images = [];
-        this.product = { ...product };
-      });
+    this.productId = this.route.snapshot.params.id;
+    if (!this.productId) {
+      return this.errorService.addCustomError('Ошибка', 'Произошла ошибка, вернитесь на главную и попробуйте снова.');
     }
+
+    this.productStateService.findById<ProductDto>(this.productId).subscribe((product) => {
+      this.product = { ...product };
+    });
 
     this.categoryStateService.findAllDropdown().subscribe((categories) => {
       this.categories = categories;
@@ -49,13 +52,13 @@ export class ProductAddComponent implements OnInit {
 
   }
 
-  public createProduct(product: ProductFormDto) {
+  public editProduct(product: ProductFormDto) {
     this.saving = true;
 
-    this.productStateService.create<ProductFormDto, ProductDto>(product).subscribe((result) => {
+    this.productStateService.update<ProductFormDto>(this.productId, product).subscribe(() => {
       this.saving = false;
-      this.errorService.addSuccessMessage("Успешно создан товар");
-      this.router.navigate(['/product/card', result._id]).catch(console.error);
+      this.errorService.addSuccessMessage("Товар изменен");
+      this.router.navigate(['/product/card', this.productId]).catch(console.error);
     }, () => this.saving = false);
   }
 
