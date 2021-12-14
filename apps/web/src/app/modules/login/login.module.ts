@@ -12,7 +12,10 @@ import { ShareModule } from '@car-mkd-systems/web/shared/share.module';
 const loginRoutes: Routes = [
   {
     path: '',
-    component: LoginComponent
+    component: LoginComponent,
+    data: {
+      title: 'Логин - CMS'
+    }
   }
 ];
 

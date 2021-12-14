@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { RoutingService } from '@car-mkd-systems/web/core/services/routing.service';
 
 @Component({
   selector: 'car-go-back-button',
@@ -15,11 +16,16 @@ export class GoBackButtonComponent {
 
   @Input() public route = '/';
 
-  public constructor(private readonly router: Router) {
+  public constructor(private readonly router: Router,
+                     public readonly routingService: RoutingService) {
   }
 
   public btnClick() {
-    this.router.navigate([this.route]).catch(console.error);
+    if (this.routingService.previousUrl === '/') {
+      this.router.navigate([this.route]).catch(console.error);
+    } else {
+      this.routingService.goToPreviousUrl();
+    }
   }
 
 

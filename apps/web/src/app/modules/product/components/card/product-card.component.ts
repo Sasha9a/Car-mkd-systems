@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
 import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
@@ -32,7 +33,8 @@ export class ProductCardComponent implements OnInit {
 
   public constructor(private readonly productStateService: ProductStateService,
                      private readonly errorService: ErrorService,
-                     private readonly route: ActivatedRoute) { }
+                     private readonly route: ActivatedRoute,
+                     private readonly title: Title) { }
 
   public ngOnInit(): void {
     this.cardId = this.route.snapshot.params.id;
@@ -43,6 +45,7 @@ export class ProductCardComponent implements OnInit {
 
     this.productStateService.findById<ProductDto>(this.cardId).subscribe((product) => {
       this.product = product;
+      this.title.setTitle(`${this.product.name} - CMS`);
     });
   }
 

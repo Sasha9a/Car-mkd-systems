@@ -26,6 +26,7 @@ const productRoutes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     component: ProductAddComponent,
     data: {
+      title: 'Добавить товар - CMS',
       roles: [RoleEnum.ADMIN],
       included: true
     }

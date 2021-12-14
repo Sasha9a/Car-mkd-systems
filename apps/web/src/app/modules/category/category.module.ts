@@ -15,7 +15,10 @@ import { CategoryComponent } from './components/category/category.component';
 const categoryRoutes: Routes = [
   {
     path: '',
-    component: CategoryComponent
+    component: CategoryComponent,
+    data: {
+      title: 'Категории - CMS'
+    }
   }
 ];
 

@@ -15,7 +15,10 @@ import { CheckboxModule } from 'primeng/checkbox';
 const carModelsRoutes: Routes = [
   {
     path: '',
-    component: CarModelsComponent
+    component: CarModelsComponent,
+    data: {
+      title: 'Панель автотранспорта - CMS'
+    }
   }
 ];
 
