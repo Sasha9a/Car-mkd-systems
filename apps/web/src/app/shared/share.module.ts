@@ -27,6 +27,7 @@ import { ImageModule } from 'primeng/image';
 import { ApiUrlPipe } from './pipes/api-url.pipe';
 import { FileTypePipe } from './pipes/file-type.pipe';
 import { GoBackButtonComponent } from './dumbs/go-back-button/go-back-button.component';
+import { BrandCarMultiSelectComponent } from './dumbs/dropdowns/brand-car-multi-select/brand-car-multi-select.component';
 
 @NgModule({
 	declarations: [
@@ -42,7 +43,8 @@ import { GoBackButtonComponent } from './dumbs/go-back-button/go-back-button.com
     FileComponent,
     ApiUrlPipe,
     FileTypePipe,
-    GoBackButtonComponent
+    GoBackButtonComponent,
+    BrandCarMultiSelectComponent
 	],
 	exports: [
 		JoinPipe,

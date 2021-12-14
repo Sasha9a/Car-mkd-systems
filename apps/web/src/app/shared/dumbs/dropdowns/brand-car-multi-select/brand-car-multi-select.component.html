@@ -1,0 +1,7 @@
+<car-multi-select [options]="brandsCar"
+                  [(selectedItems)]="selectedBrandsCar"
+                  (selectedItemsChange)="selectedBrandsCarChange.emit($event)"
+                  [label]="labelInput ? 'Марки' : ''"
+                  filterBy="brand"
+                  sort="brand:string">
+</car-multi-select>
