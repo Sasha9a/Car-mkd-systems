@@ -6,7 +6,7 @@ import { ProductService } from '@car-mkd-systems/api/modules/product/product.ser
 import { UserService } from '@car-mkd-systems/api/modules/user/user.service';
 import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
-import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
 
 @Controller('product')
@@ -40,6 +40,17 @@ export class ProductController {
   public async createProduct(@Res() res: Response, @Body() body: ProductFormDto) {
     const createdProduct = await this.productService.createProduct(body);
     return res.status(HttpStatus.CREATED).json(createdProduct).end();
+  }
+
+  @Roles(RoleEnum.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Put(':id')
+  public async updateProduct(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: ProductFormDto) {
+    const updatedProduct = await this.productService.updateProduct(id, body);
+    if (!updatedProduct) {
+      throw new NotFoundException("Нет такого товара!");
+    }
+    return res.status(HttpStatus.OK).json(updatedProduct).end();
   }
 
   @Roles(RoleEnum.ADMIN)

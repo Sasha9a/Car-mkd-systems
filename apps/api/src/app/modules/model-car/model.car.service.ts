@@ -45,11 +45,11 @@ export class ModelCarService {
   }
 
   public async updateBrand(id: string, brand: BrandCarFormDto): Promise<BrandCarDto> {
-    return await this.brandCarModel.findOneAndUpdate({ _id: id }, { $set: brand }, {new: true}).exec();
+    return await this.brandCarModel.findOneAndUpdate({ _id: id }, { $set: brand }, { new: true }).exec();
   }
 
   public async updateModel(id: string, model: ModelCarFormDto): Promise<ModelCarDto> {
-    return await this.modelCarModel.findOneAndUpdate({ _id: id }, { $set: model }, {new: true}).exec();
+    return await this.modelCarModel.findOneAndUpdate({ _id: id }, { $set: model }, { new: true }).exec();
   }
 
   public async deleteBrand(id: string): Promise<any> {

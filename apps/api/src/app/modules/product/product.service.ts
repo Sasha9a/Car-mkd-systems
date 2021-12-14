@@ -32,6 +32,10 @@ export class ProductService {
     return await createdProduct.save();
   }
 
+  public async updateProduct(id: string, product: ProductFormDto): Promise<Product> {
+    return await this.productModel.findOneAndUpdate({ _id: id }, { $set: product }, { new: true }).exec();
+  }
+
   public async deleteProduct(id: string): Promise<any> {
     return await this.productModel.findByIdAndDelete(id).exec();
   }
