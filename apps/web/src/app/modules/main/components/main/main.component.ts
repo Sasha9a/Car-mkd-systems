@@ -16,7 +16,7 @@ import { ProductStateService } from '@car-mkd-systems/web/core/services/product/
 export class MainComponent implements OnInit {
 
   public loading = false;
-  public queryParams: ProductQueryDto = {};
+  public queryParams: ProductQueryDto;
 
   public products: ProductDto[];
 
@@ -29,6 +29,11 @@ export class MainComponent implements OnInit {
                      private readonly productStateService: ProductStateService) { }
 
   public ngOnInit(): void {
+    this.queryParams = <ProductQueryDto>{
+      limit: 50,
+      offset: 0
+    };
+
     this.categoryStateService.findAllDropdown().subscribe((categories) => {
       this.categories = categories;
     });
