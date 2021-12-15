@@ -52,18 +52,19 @@ import { ObjectKeyValuePipe } from './pipes/object-key-value.pipe';
     KeyValueFilterPipe,
     ObjectKeyValuePipe
 	],
-  exports: [
-    JoinPipe,
-    OrderByPipe,
-    SpinnerComponent,
-    CategorySingleSelectComponent,
-    ModelCarMultiSelectComponent,
-    FileComponent,
-    GoBackButtonComponent,
-    ApiUrlPipe,
-    KeyValueFilterPipe,
-    ObjectKeyValuePipe
-  ],
+	exports: [
+		JoinPipe,
+		OrderByPipe,
+		SpinnerComponent,
+		CategorySingleSelectComponent,
+		ModelCarMultiSelectComponent,
+		FileComponent,
+		GoBackButtonComponent,
+		ApiUrlPipe,
+		KeyValueFilterPipe,
+		ObjectKeyValuePipe,
+		BrandCarMultiSelectComponent
+	],
   imports: [
     CommonModule,
     MenubarModule,

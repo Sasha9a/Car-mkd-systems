@@ -16,7 +16,7 @@ import { ProductStateService } from '@car-mkd-systems/web/core/services/product/
 })
 export class ProductAddComponent implements OnInit {
 
-  public product: ProductFormDto;
+  public product: ProductFormDto = new ProductFormDto();
 
   public saving = false;
 

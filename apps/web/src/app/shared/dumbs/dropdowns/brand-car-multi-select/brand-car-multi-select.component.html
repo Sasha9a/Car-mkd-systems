@@ -2,6 +2,7 @@
                   [(selectedItems)]="selectedBrandsCar"
                   (selectedItemsChange)="selectedBrandsCarChange.emit($event)"
                   [label]="labelInput ? 'Марки' : ''"
+                  optionLabel="brand"
                   filterBy="brand"
                   sort="brand:string">
 </car-multi-select>

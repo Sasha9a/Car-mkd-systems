@@ -17,6 +17,10 @@ const routes: Routes = [
     component: CommonLayoutComponent,
     children: [
       {
+        path: '',
+        loadChildren: () => import('../modules/main/main.module').then(m => m.MainModule)
+      },
+      {
         path: 'login',
         loadChildren: () => import('../modules/login/login.module').then(m => m.LoginModule)
       },
