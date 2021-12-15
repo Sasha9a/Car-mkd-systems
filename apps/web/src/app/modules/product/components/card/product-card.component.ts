@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CategoryDto } from '@car-mkd-systems/shared/dtos/category/category.dto';
+import { CharacteristicDto } from '@car-mkd-systems/shared/dtos/category/characteristic.dto';
 import { ModificationDto } from '@car-mkd-systems/shared/dtos/product/modification.dto';
 import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
 import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
+import { CategoryStateService } from '@car-mkd-systems/web/core/services/category/category-state.service';
 import { ConfirmDialogService } from '@car-mkd-systems/web/core/services/confirm-dialog.service';
 import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
 import { ProductStateService } from '@car-mkd-systems/web/core/services/product/product-state.service';
@@ -21,6 +24,7 @@ export class ProductCardComponent implements OnInit {
   public loading = false;
 
   public product: ProductDto;
+  public category: CategoryDto;
 
   public responsiveOptions: any[] = [
     {
@@ -39,11 +43,14 @@ export class ProductCardComponent implements OnInit {
 
   public activeModification: ModificationDto;
 
+  public brandsProduct: string[];
+
   public get RoleEnum() {
     return RoleEnum;
   }
 
   public constructor(private readonly productStateService: ProductStateService,
+                     private readonly categoryStateService: CategoryStateService,
                      private readonly errorService: ErrorService,
                      private readonly route: ActivatedRoute,
                      private readonly router: Router,
@@ -60,9 +67,21 @@ export class ProductCardComponent implements OnInit {
 
     this.productStateService.findById<ProductDto>(this.cardId).subscribe((product) => {
       this.product = product;
-      if (product.modifications.length) {
-        this.activeModification = product.modifications[0];
+      if (this.product.modifications.length) {
+        this.activeModification = this.product.modifications[0];
       }
+      if (this.product.modelsCar?.length) {
+        this.brandsProduct = this.product.modelsCar.map((model) => model.brand.brand)
+                                 .filter((brand, index, self) => self.indexOf(brand) === index)
+                                 .sort();
+      }
+
+      if (this.product.category) {
+        this.categoryStateService.findById<CategoryDto>(this.product.category._id).subscribe((category) => {
+          this.category = category;
+        });
+      }
+
       this.title.setTitle(`${this.product.name} - CMS`);
     });
   }
@@ -101,6 +120,10 @@ export class ProductCardComponent implements OnInit {
 
   public isPartner(): boolean {
     return this.authService.currentUser?.roles.some((role) => [RoleEnum.ADMIN, RoleEnum.PARTNER].includes(role));
+  }
+
+  public toCharacteristic(characteristic: any): CharacteristicDto {
+    return characteristic as CharacteristicDto;
   }
 
 }

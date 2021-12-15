@@ -8,6 +8,7 @@ import { RoleGuard } from '@car-mkd-systems/web/core/guards/role.guard';
 import { ShareModule } from '@car-mkd-systems/web/shared/share.module';
 import { AccordionModule } from 'primeng/accordion';
 import { CardModule } from 'primeng/card';
+import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { PanelModule } from 'primeng/panel';
 import { RippleModule } from 'primeng/ripple';
@@ -71,7 +72,8 @@ const productRoutes: Routes = [
     AccordionModule,
     GalleriaModule,
     StyleClassModule,
-    PanelModule
+    PanelModule,
+    FieldsetModule
   ]
 })
 export class ProductModule { }

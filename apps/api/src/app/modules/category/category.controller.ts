@@ -29,8 +29,6 @@ export class CategoryController {
     return res.status(HttpStatus.OK).json(category).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
-  @UseGuards(JwtAuthGuard, RoleGuard)
   @Get('/:id')
   public async getCategory(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
     const category = await this.categoryService.findCategory(id);

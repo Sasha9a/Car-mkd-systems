@@ -28,6 +28,9 @@ import { ApiUrlPipe } from './pipes/api-url.pipe';
 import { FileTypePipe } from './pipes/file-type.pipe';
 import { GoBackButtonComponent } from './dumbs/go-back-button/go-back-button.component';
 import { BrandCarMultiSelectComponent } from './dumbs/dropdowns/brand-car-multi-select/brand-car-multi-select.component';
+import { FilterByPipe } from './pipes/filter-by.pipe';
+import { KeyValueFilterPipe } from './pipes/key-value-filter.pipe';
+import { ObjectKeyValuePipe } from './pipes/object-key-value.pipe';
 
 @NgModule({
 	declarations: [
@@ -44,18 +47,23 @@ import { BrandCarMultiSelectComponent } from './dumbs/dropdowns/brand-car-multi-
     ApiUrlPipe,
     FileTypePipe,
     GoBackButtonComponent,
-    BrandCarMultiSelectComponent
+    BrandCarMultiSelectComponent,
+    FilterByPipe,
+    KeyValueFilterPipe,
+    ObjectKeyValuePipe
 	],
-	exports: [
-		JoinPipe,
-		OrderByPipe,
-		SpinnerComponent,
-		CategorySingleSelectComponent,
-		ModelCarMultiSelectComponent,
-		FileComponent,
-		GoBackButtonComponent,
-		ApiUrlPipe
-	],
+  exports: [
+    JoinPipe,
+    OrderByPipe,
+    SpinnerComponent,
+    CategorySingleSelectComponent,
+    ModelCarMultiSelectComponent,
+    FileComponent,
+    GoBackButtonComponent,
+    ApiUrlPipe,
+    KeyValueFilterPipe,
+    ObjectKeyValuePipe
+  ],
   imports: [
     CommonModule,
     MenubarModule,
