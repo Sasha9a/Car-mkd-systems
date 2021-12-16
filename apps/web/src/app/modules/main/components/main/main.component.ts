@@ -20,10 +20,10 @@ export class MainComponent implements OnInit {
   public filters = {
     categories: [],
     brands: [],
-    models: []
+    models: [],
   };
   public selectedFilters = {
-    categories: [],
+    category: undefined,
     brands: [],
     models: []
   };

@@ -83,8 +83,8 @@ export class QueryParamsService {
       }).catch(console.error);
   }
 
-  public getFilteredEntities<T = any>(filters: T, queryParams: Record<string, { value: any, toApi: boolean }>): T {
-    const result = {} as T;
+  public getFilteredEntities<T = any>(filters: T, queryParams: Record<string, { value: any, toApi: boolean }>): any {
+    const result = {};
 
     Object.keys(paramsMap).forEach((key) => {
       const [fieldName, fieldKey] = paramsMap[key].split(':');
