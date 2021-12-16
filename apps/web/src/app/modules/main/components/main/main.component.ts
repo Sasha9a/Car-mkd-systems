@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryDto } from '@car-mkd-systems/shared/dtos/category/category.dto';
-import { BrandCarDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.dto';
-import { ModelCarDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.dto';
 import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
-import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { CategoryStateService } from '@car-mkd-systems/web/core/services/category/category-state.service';
 import { ModelCarStateService } from '@car-mkd-systems/web/core/services/model-car/model-car-state.service';
 import { ProductStateService } from '@car-mkd-systems/web/core/services/product/product-state.service';
+import { QueryParamsService } from '@car-mkd-systems/web/core/services/query-params.service';
 
 @Component({
   selector: 'car-main',
@@ -16,35 +13,41 @@ import { ProductStateService } from '@car-mkd-systems/web/core/services/product/
 export class MainComponent implements OnInit {
 
   public loading = false;
-  public queryParams: ProductQueryDto;
+  public queryParams: Record<string, { value: any, toApi: boolean }>;
 
   public products: ProductDto[];
 
-  public categories: CategoryDto[];
-  public brands: BrandCarDto[];
-  public models: ModelCarDto[];
+  public filters = {
+    categories: [],
+    brands: [],
+    models: []
+  };
+  public selectedFilters = {
+    categories: [],
+    brands: [],
+    models: []
+  };
 
   public constructor(private readonly modelCarStateService: ModelCarStateService,
                      private readonly categoryStateService: CategoryStateService,
-                     private readonly productStateService: ProductStateService) { }
+                     private readonly productStateService: ProductStateService,
+                     private readonly queryParamsService: QueryParamsService) { }
 
   public ngOnInit(): void {
-    this.queryParams = <ProductQueryDto>{
-      limit: 50,
-      offset: 0
-    };
-
     this.categoryStateService.findAllDropdown().subscribe((categories) => {
-      this.categories = categories;
+      this.filters.categories = categories;
     });
 
     this.modelCarStateService.findAllBrand().subscribe((brands) => {
-      this.brands = brands;
+      this.filters.brands = brands;
     });
 
     this.modelCarStateService.findAllModel().subscribe((models) => {
-      this.models = models;
+      this.filters.models = models;
     });
+
+    this.queryParams = this.queryParamsService.getFilteredQueryParams(this.queryParams);
+    this.queryParamsService.setQueryParams(this.queryParams);
 
     this.loadProducts();
   }
@@ -52,9 +55,10 @@ export class MainComponent implements OnInit {
   public loadProducts() {
     this.loading = true;
 
-    this.productStateService.find<ProductDto>(this.queryParams).subscribe((products) => {
+    this.productStateService.find<ProductDto>(this.queryParamsService.parseQueryParamsForApi(this.queryParams)).subscribe((products) => {
       this.products = products;
       this.loading = false;
+      this.selectedFilters = this.queryParamsService.getFilteredEntities(this.filters, this.queryParams);
     }, () => this.loading = false);
   }
 
