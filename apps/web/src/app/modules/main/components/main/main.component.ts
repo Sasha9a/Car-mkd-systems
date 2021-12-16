@@ -13,7 +13,20 @@ import { QueryParamsService } from '@car-mkd-systems/web/core/services/query-par
 export class MainComponent implements OnInit {
 
   public loading = false;
-  public queryParams: Record<string, { value: any, toApi: boolean }>;
+  public queryParams: Record<string, { value: any, toApi: boolean }> = {
+    categoryId: {
+      value: undefined,
+      toApi: true
+    },
+    brandId: {
+      value: [],
+      toApi: true
+    },
+    modelId: {
+      value: [],
+      toApi: true
+    }
+  };
 
   public products: ProductDto[];
 
