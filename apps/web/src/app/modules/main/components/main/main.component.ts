@@ -4,6 +4,7 @@ import { CategoryStateService } from '@car-mkd-systems/web/core/services/categor
 import { ModelCarStateService } from '@car-mkd-systems/web/core/services/model-car/model-car-state.service';
 import { ProductStateService } from '@car-mkd-systems/web/core/services/product/product-state.service';
 import { QueryParamsService } from '@car-mkd-systems/web/core/services/query-params.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'car-main',
@@ -44,25 +45,26 @@ export class MainComponent implements OnInit {
   public constructor(private readonly modelCarStateService: ModelCarStateService,
                      private readonly categoryStateService: CategoryStateService,
                      private readonly productStateService: ProductStateService,
-                     public readonly queryParamsService: QueryParamsService) { }
+                     public readonly queryParamsService: QueryParamsService) {
+  }
 
   public ngOnInit(): void {
-    this.categoryStateService.findAllDropdown().subscribe((categories) => {
-      this.filters.categories = categories;
-    });
+    forkJoin(
+      this.categoryStateService.findAllDropdown(),
+      this.modelCarStateService.findAllBrand(),
+      this.modelCarStateService.findAllModel())
+      .subscribe(([categories, brands, models]) => {
+        this.filters = {
+          categories: categories,
+          brands: brands,
+          models: models
+        };
+        this.queryParams = this.queryParamsService.getFilteredQueryParams(this.queryParams);
+        this.queryParamsService.setQueryParams(this.queryParams);
+        this.selectedFilters = this.queryParamsService.getFilteredEntities(this.filters, this.queryParams);
 
-    this.modelCarStateService.findAllBrand().subscribe((brands) => {
-      this.filters.brands = brands;
-    });
-
-    this.modelCarStateService.findAllModel().subscribe((models) => {
-      this.filters.models = models;
-    });
-
-    this.queryParams = this.queryParamsService.getFilteredQueryParams(this.queryParams);
-    this.queryParamsService.setQueryParams(this.queryParams);
-
-    this.loadProducts();
+        this.loadProducts();
+      });
   }
 
   public loadProducts() {
@@ -71,7 +73,6 @@ export class MainComponent implements OnInit {
     this.productStateService.find<ProductDto>(this.queryParamsService.parseQueryParamsForApi(this.queryParams)).subscribe((products) => {
       this.products = products;
       this.loading = false;
-      this.selectedFilters = this.queryParamsService.getFilteredEntities(this.filters, this.queryParams);
     }, () => this.loading = false);
   }
 
