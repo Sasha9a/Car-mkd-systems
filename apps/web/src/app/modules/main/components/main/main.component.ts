@@ -44,7 +44,7 @@ export class MainComponent implements OnInit {
   public constructor(private readonly modelCarStateService: ModelCarStateService,
                      private readonly categoryStateService: CategoryStateService,
                      private readonly productStateService: ProductStateService,
-                     private readonly queryParamsService: QueryParamsService) { }
+                     public readonly queryParamsService: QueryParamsService) { }
 
   public ngOnInit(): void {
     this.categoryStateService.findAllDropdown().subscribe((categories) => {
