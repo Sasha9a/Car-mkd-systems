@@ -2,15 +2,15 @@
   <div class="col">
     <div class="grid">
       <div class="col-4 pb-0">
-        <car-category-single-select [categories]="categories" labelInput="Категория"></car-category-single-select>
+        <car-category-single-select [categories]="filters.categories" labelInput="Категория"></car-category-single-select>
       </div>
 
       <div class="col-4 pb-0">
-        <car-brand-car-multi-select [brandsCar]="brands" [labelInput]="true"></car-brand-car-multi-select>
+        <car-brand-car-multi-select [brandsCar]="filters.brands" [labelInput]="true"></car-brand-car-multi-select>
       </div>
 
       <div class="col-4 pb-0">
-        <car-model-car-multi-select [modelsCar]="models" [labelInput]="true"></car-model-car-multi-select>
+        <car-model-car-multi-select [modelsCar]="filters.models" [labelInput]="true"></car-model-car-multi-select>
       </div>
     </div>
   </div>
