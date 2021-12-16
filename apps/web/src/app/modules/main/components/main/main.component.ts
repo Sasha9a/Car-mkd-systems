@@ -15,7 +15,7 @@ export class MainComponent implements OnInit {
   public loading = false;
   public queryParams: Record<string, { value: any, toApi: boolean }> = {
     categoryId: {
-      value: undefined,
+      value: null,
       toApi: true
     },
     brandId: {

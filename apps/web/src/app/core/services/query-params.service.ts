@@ -94,9 +94,16 @@ export class QueryParamsService {
       }
 
       if (queryParams[key]) {
-        result[fieldName] = queryParams[key].value && fieldKey
-          ? filters[fieldName].filter((option) => queryParams[key].value.map((param) => String(param)).includes(String(option['_id'])))
-          : (queryParams[key].value || []);
+        if (Array.isArray(queryParams[key].value)) {
+          result[fieldName] = queryParams[key].value && fieldKey
+            ? filters[fieldName].filter((option) => queryParams[key].value.map((param) => String(param)).includes(String(option['_id'])))
+            : (queryParams[key].value || []);
+        } else {
+          const select = filters[fieldName]?.filter((option) => queryParams[key].value === String(option['_id']));
+          result[fieldName] = queryParams[key].value && fieldKey
+            ? (select[0] ? select[0] : null)
+            : (queryParams[key].value || null);
+        }
       }
     });
 
