@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 const paramsMap = {
-  'categoryId': 'categories:string',
+  'categoryId': 'category:string',
   'brandId': 'brands:string',
   'modelId': 'models:string'
 };
@@ -83,7 +83,7 @@ export class QueryParamsService {
       }).catch(console.error);
   }
 
-  public getFilteredEntities<T = any>(filters: T, queryParams: Record<string, { value: any, toApi: boolean }>): any {
+  public getFilteredEntities(filters: any, queryParams: Record<string, { value: any, toApi: boolean }>): any {
     const result = {};
 
     Object.keys(paramsMap).forEach((key) => {
