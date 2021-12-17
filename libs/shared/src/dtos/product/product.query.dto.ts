@@ -8,7 +8,7 @@ export class ProductQueryDto extends PaginationDto {
   @Expose()
   @IsArray()
   @IsOptional()
-  public categories?: string[];
+  public category?: string;
 
   @Expose()
   @IsArray()

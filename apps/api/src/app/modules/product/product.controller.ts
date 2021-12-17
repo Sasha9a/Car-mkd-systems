@@ -5,14 +5,21 @@ import { ValidateObjectId } from '@car-mkd-systems/api/core/pipes/validate.objec
 import { ProductService } from '@car-mkd-systems/api/modules/product/product.service';
 import { UserService } from '@car-mkd-systems/api/modules/user/user.service';
 import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
+import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
-import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
 
 @Controller('product')
 export class ProductController {
   public constructor(private readonly productService: ProductService,
                      private readonly userService: UserService) {
+  }
+
+  @Get()
+  public async findAll(@Res() res: Response, @Req() req: Request, @Query() query: ProductQueryDto) {
+    const products = await this.productService.findAll(query);
+    return res.status(HttpStatus.OK).json(products).end();
   }
 
   @Get(':id')

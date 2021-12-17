@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
+import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { CategoryStateService } from '@car-mkd-systems/web/core/services/category/category-state.service';
 import { ModelCarStateService } from '@car-mkd-systems/web/core/services/model-car/model-car-state.service';
 import { ProductStateService } from '@car-mkd-systems/web/core/services/product/product-state.service';
@@ -14,17 +15,25 @@ import { forkJoin } from 'rxjs';
 export class MainComponent implements OnInit {
 
   public loading = false;
-  public queryParams: Record<string, { value: any, toApi: boolean }> = {
-    categoryId: {
+  public queryParams: Record<keyof ProductQueryDto | string, { value: any, toApi: boolean }> = {
+    category: {
       value: null,
       toApi: true
     },
-    brandId: {
+    brands: {
       value: [],
       toApi: true
     },
-    modelId: {
+    models: {
       value: [],
+      toApi: true
+    },
+    limit: {
+      value: 30,
+      toApi: true
+    },
+    offset: {
+      value: 0,
       toApi: true
     }
   };
