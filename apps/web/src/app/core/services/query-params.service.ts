@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 const paramsMap = {
-  'categoryId': 'category:string',
-  'brandId': 'brands:string',
-  'modelId': 'models:string'
+  'category': 'category:string',
+  'brands': 'brands:string',
+  'models': 'models:string'
 };
 
 @Injectable({
