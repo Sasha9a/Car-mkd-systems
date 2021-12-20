@@ -46,7 +46,7 @@ export class MainComponent implements OnInit {
     models: [],
   };
   public selectedFilters = {
-    category: undefined,
+    categories: [],
     brands: [],
     models: []
   };

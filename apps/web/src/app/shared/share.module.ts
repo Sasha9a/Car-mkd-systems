@@ -31,6 +31,7 @@ import { BrandCarMultiSelectComponent } from './dumbs/dropdowns/brand-car-multi-
 import { FilterByPipe } from './pipes/filter-by.pipe';
 import { KeyValueFilterPipe } from './pipes/key-value-filter.pipe';
 import { ObjectKeyValuePipe } from './pipes/object-key-value.pipe';
+import { CategoryMultiSelectComponent } from './dumbs/dropdowns/category-multi-select/category-multi-select.component';
 
 @NgModule({
 	declarations: [
@@ -50,7 +51,8 @@ import { ObjectKeyValuePipe } from './pipes/object-key-value.pipe';
     BrandCarMultiSelectComponent,
     FilterByPipe,
     KeyValueFilterPipe,
-    ObjectKeyValuePipe
+    ObjectKeyValuePipe,
+    CategoryMultiSelectComponent
 	],
 	exports: [
 		JoinPipe,
@@ -63,7 +65,8 @@ import { ObjectKeyValuePipe } from './pipes/object-key-value.pipe';
 		ApiUrlPipe,
 		KeyValueFilterPipe,
 		ObjectKeyValuePipe,
-		BrandCarMultiSelectComponent
+		BrandCarMultiSelectComponent,
+		CategoryMultiSelectComponent
 	],
   imports: [
     CommonModule,

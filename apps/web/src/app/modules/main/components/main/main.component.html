@@ -2,17 +2,17 @@
   <div class="col">
     <div class="grid">
       <div class="col-4 pb-0">
-        <car-category-single-select [categories]="filters.categories"
-                                    [(selectedCategory)]="selectedFilters.category"
-                                    (selectedCategoryChange)="queryParamsService.setQueryParam(queryParams, 'categoryId', $event)"
-                                    labelInput="Категория">
-        </car-category-single-select>
+        <car-category-multi-select [categories]="filters.categories"
+                                   [(selectedCategories)]="selectedFilters.categories"
+                                   (selectedCategoriesChange)="queryParamsService.setQueryParam(queryParams, 'categories', $event)"
+                                   [labelInput]="true">
+        </car-category-multi-select>
       </div>
 
       <div class="col-4 pb-0">
         <car-brand-car-multi-select [brandsCar]="filters.brands"
                                     [(selectedBrandsCar)]="selectedFilters.brands"
-                                    (selectedBrandsCarChange)="queryParamsService.setQueryParam(queryParams, 'brandId', $event)"
+                                    (selectedBrandsCarChange)="queryParamsService.setQueryParam(queryParams, 'brands', $event)"
                                     [labelInput]="true">
         </car-brand-car-multi-select>
       </div>
@@ -20,7 +20,7 @@
       <div class="col-4 pb-0">
         <car-model-car-multi-select [modelsCar]="filters.models"
                                     [(selectedModelsCar)]="selectedFilters.models"
-                                    (selectedModelsCarChange)="queryParamsService.setQueryParam(queryParams, 'modelId', $event)"
+                                    (selectedModelsCarChange)="queryParamsService.setQueryParam(queryParams, 'models', $event)"
                                     [labelInput]="true">
         </car-model-car-multi-select>
       </div>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 const paramsMap = {
-  'category': 'category:string',
+  'categories': 'categories:string',
   'brands': 'brands:string',
   'models': 'models:string'
 };
