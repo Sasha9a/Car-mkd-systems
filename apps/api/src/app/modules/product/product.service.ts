@@ -1,6 +1,7 @@
 import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
 import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { Product } from '@car-mkd-systems/shared/schemas/product.schema';
+import { User } from '@car-mkd-systems/shared/schemas/user.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -11,13 +12,16 @@ export class ProductService {
   public constructor(@InjectModel(Product.name) private readonly productModel: Model<Product>) {
   }
 
-  public async findAll(queryParams: ProductQueryDto): Promise<Product[]> {
+  public async findAll(queryParams: ProductQueryDto, user: User): Promise<Product[]> {
     const parser = new MongooseQueryParser({
       skipKey: 'offset',
       limitKey: 'limit'
     });
     const filter = parser.parse(queryParams);
-    return await this.productModel.find(filter.filter).skip(filter.skip).limit(filter.limit).exec();
+    return await this.productModel.find(filter.filter)
+                     .skip(filter.skip)
+                     .limit(filter.limit)
+                     .populate('images').exec();
   }
 
   public async findById(id: string): Promise<Product> {

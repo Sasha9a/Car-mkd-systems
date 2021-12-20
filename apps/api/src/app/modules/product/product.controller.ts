@@ -18,7 +18,8 @@ export class ProductController {
 
   @Get()
   public async findAll(@Res() res: Response, @Req() req: Request, @Query() query: ProductQueryDto) {
-    const products = await this.productService.findAll(query);
+    const user = req.headers.authorization ? await this.userService.findByToken(req.headers.authorization.replace("Bearer ", "")) : null;
+    const products = await this.productService.findAll(query, user);
     return res.status(HttpStatus.OK).json(products).end();
   }
 
