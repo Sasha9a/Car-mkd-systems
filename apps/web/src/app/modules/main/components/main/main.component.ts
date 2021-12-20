@@ -85,4 +85,8 @@ export class MainComponent implements OnInit {
     }, () => this.loading = false);
   }
 
+  public setQueryParam(key: string, value: any[]) {
+    this.queryParamsService.setQueryParam(this.queryParams, key, value.map((val) => val._id));
+  }
+
 }

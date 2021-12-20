@@ -4,7 +4,7 @@
       <div class="col-4 pb-0">
         <car-category-multi-select [categories]="filters.categories"
                                    [(selectedCategories)]="selectedFilters.categories"
-                                   (selectedCategoriesChange)="queryParamsService.setQueryParam(queryParams, 'categories', $event)"
+                                   (selectedCategoriesChange)="setQueryParam('categories', $event)"
                                    [labelInput]="true">
         </car-category-multi-select>
       </div>
@@ -12,7 +12,7 @@
       <div class="col-4 pb-0">
         <car-brand-car-multi-select [brandsCar]="filters.brands"
                                     [(selectedBrandsCar)]="selectedFilters.brands"
-                                    (selectedBrandsCarChange)="queryParamsService.setQueryParam(queryParams, 'brands', $event)"
+                                    (selectedBrandsCarChange)="setQueryParam('brands', $event)"
                                     [labelInput]="true">
         </car-brand-car-multi-select>
       </div>
@@ -20,7 +20,7 @@
       <div class="col-4 pb-0">
         <car-model-car-multi-select [modelsCar]="filters.models"
                                     [(selectedModelsCar)]="selectedFilters.models"
-                                    (selectedModelsCarChange)="queryParamsService.setQueryParam(queryParams, 'models', $event)"
+                                    (selectedModelsCarChange)="setQueryParam('models', $event)"
                                     [labelInput]="true">
         </car-model-car-multi-select>
       </div>
