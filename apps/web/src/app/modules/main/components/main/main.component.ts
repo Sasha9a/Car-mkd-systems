@@ -14,7 +14,7 @@ import { forkJoin } from 'rxjs';
 })
 export class MainComponent implements OnInit {
 
-  public loading = false;
+  public loading = true;
   public queryParams: Record<keyof ProductQueryDto | string, { value: any, toApi: boolean }> = {
     categories: {
       value: [],
