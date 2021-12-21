@@ -79,6 +79,10 @@ export class MainComponent implements OnInit {
   public loadProducts() {
     this.loading = true;
 
+    this.setQueryParam('categories', this.selectedFilters.categories);
+    this.setQueryParam('brands', this.selectedFilters.brands);
+    this.setQueryParam('models', this.selectedFilters.models);
+
     this.productStateService.find<ProductDto>(this.queryParamsService.parseQueryParamsForApi(this.queryParams)).subscribe((products) => {
       this.products = products;
       this.loading = false;

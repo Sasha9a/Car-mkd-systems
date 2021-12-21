@@ -5,12 +5,12 @@ import { IsNumber } from 'class-validator';
 export class PaginationDto {
   @Expose()
   @IsNumber()
-  @Transform(param => parseInt(param.value, 0))
+  @Transform((param) => parseInt(param.value, 0))
   public limit: number;
 
   @Expose()
   @IsNumber()
-  @Transform(param => parseInt(param.value, 0))
+  @Transform((param) => parseInt(param.value, 0))
   public offset: number;
 
 }
