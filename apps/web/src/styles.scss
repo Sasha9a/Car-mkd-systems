@@ -82,6 +82,26 @@ body {
   text-transform: uppercase;
 }
 
+.p-multiselect, .p-dropdown {
+  border-radius: 0 !important;
+
+  .p-checkbox .p-checkbox-box {
+    border-color: #a6a6a6 !important;
+
+    &.p-highlight {
+      background: #737373;
+
+      &:hover {
+        background: #878c90;
+      }
+    }
+  }
+}
+
+.p-multiselect-label-empty {
+  visibility: initial !important;
+}
+
 .p-multiselect-panel {
   left: 0 !important;
   max-width: 100%;
@@ -152,4 +172,8 @@ body {
 
 .greytext, .greytext a {
   color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.text-black {
+  color: #000000 !important;
 }

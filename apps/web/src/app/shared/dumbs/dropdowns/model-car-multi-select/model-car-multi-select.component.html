@@ -5,7 +5,7 @@
                   filterBy="model,brand.brand"
                   sort="model:string">
   <ng-template #selectedItemsTemplate let-models="items">
-    <ng-container *ngFor="let model of models; last as isLast">{{ toModelCar(model).model}} ({{toModelCar(model).brand.brand }}){{ isLast ? '' : ', ' }}</ng-container>
+    <span *ngFor="let model of models; last as isLast" class="text-black">{{ toModelCar(model).model}} ({{toModelCar(model).brand.brand }}){{ isLast ? '' : ', ' }}</span>
   </ng-template>
   <ng-template #itemTemplate let-model="item">
     <div *ngIf="toModelCar(model) as model">

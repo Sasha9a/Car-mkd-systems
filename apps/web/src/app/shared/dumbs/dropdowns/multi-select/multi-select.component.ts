@@ -60,7 +60,7 @@ export class MultiSelectComponent implements OnChanges {
 
   public setNamedValue(items: string[] | number[], fieldToRewrite: 'options' | 'selectedItems') {
     if (typeof items[0] === 'string' || typeof items[0] === 'number') {
-      this[fieldToRewrite] = items.map(item => ({
+      this[fieldToRewrite] = items.map((item) => ({
         name: item,
         value: item
       }));
@@ -76,7 +76,7 @@ export class MultiSelectComponent implements OnChanges {
 
   public onChangeValue(event: any) {
     if (this.isNotNamedArray) {
-      const values = event.value.map(v => v.value);
+      const values = event.value.map((v) => v.value);
       this.changeValue.emit(values);
       this.selectedItemsChange.emit(values);
     } else {
