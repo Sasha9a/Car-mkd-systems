@@ -15,6 +15,7 @@ import { forkJoin } from 'rxjs';
 export class MainComponent implements OnInit {
 
   public loading = true;
+  public countProducts = 0;
   public queryParams: Record<keyof ProductQueryDto | string, { value: any, toApi: boolean }> = {
     categories: {
       value: [],
@@ -83,8 +84,9 @@ export class MainComponent implements OnInit {
     this.setQueryParam('brands', this.selectedFilters.brands);
     this.setQueryParam('models', this.selectedFilters.models);
 
-    this.productStateService.find<ProductDto>(this.queryParamsService.parseQueryParamsForApi(this.queryParams)).subscribe((products) => {
-      this.products = products;
+    this.productStateService.findAll(this.queryParamsService.parseQueryParamsForApi(this.queryParams)).subscribe((products) => {
+      this.products = products.items;
+      this.countProducts = products.count;
       this.loading = false;
     }, () => this.loading = false);
   }

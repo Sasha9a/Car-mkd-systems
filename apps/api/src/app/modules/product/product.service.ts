@@ -19,13 +19,25 @@ export class ProductService {
       limitKey: 'limit'
     });
     const filter = parser.parse(queryParams);
-    if (!user.roles.includes(RoleEnum.ADMIN)) {
+    if (!user || !user.roles?.includes(RoleEnum.ADMIN)) {
       filter.filter.isPublic = true;
     }
     return await this.productModel.find(filter.filter)
                      .skip(filter.skip)
                      .limit(filter.limit)
                      .populate('images').exec();
+  }
+
+  public async countFindAll(queryParams: ProductQueryDto, user: User) {
+    const parser = new MongooseQueryParser({
+      skipKey: 'offset',
+      limitKey: 'limit'
+    });
+    const filter = parser.parse(queryParams);
+    if (!user || !user.roles?.includes(RoleEnum.ADMIN)) {
+      filter.filter.isPublic = true;
+    }
+    return await this.productModel.count(filter.filter).exec();
   }
 
   public async findById(id: string): Promise<Product> {

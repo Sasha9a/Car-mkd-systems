@@ -31,6 +31,14 @@
 
 <car-spinner *ngIf="loading"></car-spinner>
 
-<div *ngIf="!loading" class="mt-3">
+<div *ngIf="!loading">
+  <div class="flex justify-content-end">
+    <p-paginator [rows]="queryParams.limit.value" [totalRecords]="countProducts"></p-paginator>
+  </div>
 
+
+
+  <div class="flex justify-content-end">
+    <p-paginator [rows]="queryParams.limit.value" [totalRecords]="countProducts"></p-paginator>
+  </div>
 </div>

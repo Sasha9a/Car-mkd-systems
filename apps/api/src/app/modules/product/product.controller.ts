@@ -4,7 +4,9 @@ import { RoleGuard } from '@car-mkd-systems/api/core/guards/role.guard';
 import { ValidateObjectId } from '@car-mkd-systems/api/core/pipes/validate.object.id.pipes';
 import { ProductService } from '@car-mkd-systems/api/modules/product/product.service';
 import { UserService } from '@car-mkd-systems/api/modules/user/user.service';
+import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
 import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
+import { ProductItemDto } from '@car-mkd-systems/shared/dtos/product/product.item.dto';
 import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Query, Req, Res, UseGuards } from '@nestjs/common';
@@ -28,7 +30,11 @@ export class ProductController {
         });
       });
     }
-    return res.status(HttpStatus.OK).json(products).end();
+    const count = await this.productService.countFindAll(query, user);
+    return res.status(HttpStatus.OK).json(<ProductItemDto>{
+      items: products as any[],
+      count: count
+    }).end();
   }
 
   @Get(':id')
