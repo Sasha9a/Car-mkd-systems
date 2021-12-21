@@ -1,5 +1,6 @@
 import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
 import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
+import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { Product } from '@car-mkd-systems/shared/schemas/product.schema';
 import { User } from '@car-mkd-systems/shared/schemas/user.schema';
 import { Injectable } from '@nestjs/common';
@@ -18,6 +19,9 @@ export class ProductService {
       limitKey: 'limit'
     });
     const filter = parser.parse(queryParams);
+    if (!user.roles.includes(RoleEnum.ADMIN)) {
+      filter.filter.isPublic = true;
+    }
     return await this.productModel.find(filter.filter)
                      .skip(filter.skip)
                      .limit(filter.limit)
