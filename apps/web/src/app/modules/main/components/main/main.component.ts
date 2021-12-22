@@ -60,6 +60,11 @@ export class MainComponent implements OnInit {
     models: []
   };
 
+  public minPriceProducts: number[] = [];
+  public minPricePartnerProducts: number[] = [];
+  public isDiscountProducts: boolean[] = [];
+  public isDiscountPartnerProducts: boolean[] = [];
+
   public constructor(private readonly modelCarStateService: ModelCarStateService,
                      private readonly categoryStateService: CategoryStateService,
                      private readonly productStateService: ProductStateService,
