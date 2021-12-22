@@ -38,7 +38,7 @@
         </div>
         <div class="ml-2">
           <div class="flex align-items-center mt-3">
-            <p class="fw-bold">{{ isPartner() ? 'Рыночная цена' : 'Цена' }}:</p>
+            <p class="fw-bold">{{ isPartner() ? 'Розничная цена' : 'Цена' }}:</p>
             <p *ngIf="activeModification?.discount > 0"
                class="ml-2 fw-bold text-2xl m-0" style="color: #ce0400">
               {{ activeModification?.discount | number }} ₽
@@ -54,7 +54,7 @@
           </div>
 
           <div *ngIf="isPartner()" class="flex align-items-center">
-            <p class="fw-bold">Оптовая цена:</p>
+            <p class="fw-bold">Партнерская цена:</p>
             <p *ngIf="activeModification?.discountPartner > 0"
                class="ml-2 fw-bold text-2xl m-0" style="color: #ce0400">
               {{ activeModification?.discountPartner | number }} ₽
