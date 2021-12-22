@@ -38,33 +38,33 @@
         <div class="ml-2">
           <div class="flex align-items-center mt-3">
             <p class="fw-bold">{{ isPartner() ? 'Рыночная цена' : 'Цена' }}:</p>
-            <p *ngIf="activeModification.discount > 0"
+            <p *ngIf="activeModification?.discount > 0"
                class="ml-2 fw-bold text-2xl m-0" style="color: #ce0400">
-              {{ activeModification.discount | number }} ₽
+              {{ activeModification?.discount | number }} ₽
             </p>
-            <p *ngIf="!activeModification.discount && activeModification.price"
+            <p *ngIf="!activeModification?.discount && activeModification?.price"
                class="ml-2 fw-bold text-2xl text-blue-500 m-0">
-              {{ activeModification.price | number }} ₽
+              {{ activeModification?.price | number }} ₽
             </p>
-            <p *ngIf="activeModification.discount > 0 && activeModification.price"
+            <p *ngIf="activeModification?.discount > 0 && activeModification?.price"
                class="ml-3 fw-bold text-xl text-gray-400 line-through m-0">
-              {{ activeModification.price | number }} ₽
+              {{ activeModification?.price | number }} ₽
             </p>
           </div>
 
           <div *ngIf="isPartner()" class="flex align-items-center">
             <p class="fw-bold">Оптовая цена:</p>
-            <p *ngIf="activeModification.discountPartner > 0"
+            <p *ngIf="activeModification?.discountPartner > 0"
                class="ml-2 fw-bold text-2xl m-0" style="color: #ce0400">
-              {{ activeModification.discountPartner | number }} ₽
+              {{ activeModification?.discountPartner | number }} ₽
             </p>
-            <p *ngIf="!activeModification.discountPartner && activeModification.pricePartner"
+            <p *ngIf="!activeModification?.discountPartner && activeModification?.pricePartner"
                class="ml-2 fw-bold text-2xl text-blue-500 m-0">
-              {{ activeModification.pricePartner | number }} ₽
+              {{ activeModification?.pricePartner | number }} ₽
             </p>
-            <p *ngIf="activeModification.discountPartner > 0 && activeModification.pricePartner"
+            <p *ngIf="activeModification?.discountPartner > 0 && activeModification?.pricePartner"
                class="ml-3 fw-bold text-xl text-gray-400 line-through m-0">
-              {{ activeModification.pricePartner | number }} ₽
+              {{ activeModification?.pricePartner | number }} ₽
             </p>
           </div>
           <p *ngIf="product.amount" class="greytext">В наличии: {{ product.amount | number }} шт.</p>
@@ -95,7 +95,7 @@
       </div>
     </ng-template>
     <div class="grid">
-      <div *ngIf="product.modelsCar?.length" class="col-12{{ activeModification.params ? ' lg:col-6' : '' }}">
+      <div *ngIf="product.modelsCar?.length" class="col-12{{ activeModification?.params ? ' lg:col-6' : '' }}">
         <p-fieldset legend="Подходит для автомобилей">
           <p-accordion>
             <p-accordionTab *ngFor="let brand of brandsProduct" header="{{ brand }}">
@@ -105,13 +105,13 @@
         </p-fieldset>
       </div>
 
-      <div *ngIf="activeModification.params" class="col-12{{ product.modelsCar?.length ? ' lg:col-6' : '' }}">
+      <div *ngIf="activeModification?.params" class="col-12{{ product.modelsCar?.length ? ' lg:col-6' : '' }}">
         <p-fieldset legend="Характеристики">
           <p-table [value]="category?.characteristics | orderBy: 'order:number'" styleClass="basic-table">
             <ng-template pTemplate="body" let-characteristic>
-              <tr *ngIf="activeModification.params[toCharacteristic(characteristic)._id]">
+              <tr *ngIf="activeModification?.params[toCharacteristic(characteristic)._id]">
                 <td class="greytext">{{ toCharacteristic(characteristic).name }}:</td>
-                <td>{{ activeModification.params[toCharacteristic(characteristic)._id] }}</td>
+                <td>{{ activeModification?.params[toCharacteristic(characteristic)._id] }}</td>
               </tr>
             </ng-template>
           </p-table>

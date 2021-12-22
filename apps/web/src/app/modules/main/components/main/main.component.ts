@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
 import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { CategoryStateService } from '@car-mkd-systems/web/core/services/category/category-state.service';
 import { ModelCarStateService } from '@car-mkd-systems/web/core/services/model-car/model-car-state.service';
 import { ProductStateService } from '@car-mkd-systems/web/core/services/product/product-state.service';
 import { QueryParamsService } from '@car-mkd-systems/web/core/services/query-params.service';
+import { Paginator } from 'primeng/paginator';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -13,6 +14,9 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+
+  @ViewChild('paginatorStart', { static: false }) public paginatorStart: Paginator;
+  @ViewChild('paginatorEnd', { static: false }) public paginatorEnd: Paginator;
 
   public loading = true;
   public countProducts = 0;
@@ -30,12 +34,16 @@ export class MainComponent implements OnInit {
       toApi: true
     },
     limit: {
-      value: 30,
+      value: 1,
       toApi: true
     },
     offset: {
       value: 0,
       toApi: true
+    },
+    page: {
+      value: 0,
+      toApi: false
     }
   };
 
@@ -87,12 +95,31 @@ export class MainComponent implements OnInit {
     this.productStateService.findAll(this.queryParamsService.parseQueryParamsForApi(this.queryParams)).subscribe((products) => {
       this.products = products.items;
       this.countProducts = products.count;
+      setTimeout(() => {
+        this.paginatorStart.changePage(this.queryParams.page.value);
+        this.paginatorEnd.changePage(this.queryParams.page.value);
+      });
       this.loading = false;
     }, () => this.loading = false);
   }
 
   public setQueryParam(key: string, value: any[]) {
     this.queryParamsService.setQueryParam(this.queryParams, key, value.map((val) => val._id));
+  }
+
+  public paginate(event: { first: number, rows: string, page: number, pageCount: number }) {
+    if (this.queryParams.page.value !== Number(event.page)) {
+      this.queryParamsService.setQueryParam(this.queryParams, 'page', Number(event.page));
+    }
+    if (this.queryParams.offset.value !== Number(event.page) * this.queryParams.limit.value) {
+      this.queryParamsService.setQueryParam(this.queryParams, 'offset', Number(event.page) * this.queryParams.limit.value);
+    }
+    if (this.paginatorStart.getPage() !== Number(event.page)) {
+      setTimeout(() => this.paginatorStart.changePage(Number(event.page)));
+    }
+    if (this.paginatorEnd.getPage() !== Number(event.page)) {
+      setTimeout(() => this.paginatorEnd.changePage(Number(event.page)));
+    }
   }
 
 }
