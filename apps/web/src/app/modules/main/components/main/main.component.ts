@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
 import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
+import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { CategoryStateService } from '@car-mkd-systems/web/core/services/category/category-state.service';
 import { ModelCarStateService } from '@car-mkd-systems/web/core/services/model-car/model-car-state.service';
 import { ProductStateService } from '@car-mkd-systems/web/core/services/product/product-state.service';
 import { QueryParamsService } from '@car-mkd-systems/web/core/services/query-params.service';
+import { AuthService } from '@car-mkd-systems/web/core/services/user/auth.service';
 import { Paginator } from 'primeng/paginator';
 import { forkJoin } from 'rxjs';
 
@@ -60,15 +62,18 @@ export class MainComponent implements OnInit {
     models: []
   };
 
-  public minPriceProducts: number[] = [];
-  public minPricePartnerProducts: number[] = [];
-  public isDiscountProducts: boolean[] = [];
-  public isDiscountPartnerProducts: boolean[] = [];
+  public priceInfo: Record<string, {
+    minPriceProduct: number,
+    minPricePartnerProduct: number,
+    isDiscountProduct: boolean,
+    isDiscountPartnerProduct: boolean
+  }> = {};
 
   public constructor(private readonly modelCarStateService: ModelCarStateService,
                      private readonly categoryStateService: CategoryStateService,
                      private readonly productStateService: ProductStateService,
-                     public readonly queryParamsService: QueryParamsService) {
+                     public readonly queryParamsService: QueryParamsService,
+                     private readonly authService: AuthService) {
   }
 
   public ngOnInit(): void {
@@ -100,6 +105,18 @@ export class MainComponent implements OnInit {
     this.productStateService.findAll(this.queryParamsService.parseQueryParamsForApi(this.queryParams)).subscribe((products) => {
       this.products = products.items;
       this.countProducts = products.count;
+      this.products.forEach((product) => {
+        this.priceInfo[product._id] = {
+          minPriceProduct: Math.min(...product.modifications
+                                              .map((modification) => modification.price)
+                                              .filter((modification) => !isNaN(modification))),
+          minPricePartnerProduct: Math.min(...product.modifications
+                                                     .map((modification) => modification.pricePartner)
+                                                     .filter((modification) => !isNaN(modification))),
+          isDiscountProduct: !!product.modifications.find((modification) => modification.discount),
+          isDiscountPartnerProduct: !!product.modifications.find((modification) => modification.discountPartner)
+        };
+      });
       setTimeout(() => {
         this.paginatorStart.changePage(this.queryParams.page.value);
         this.paginatorEnd.changePage(this.queryParams.page.value);
@@ -125,6 +142,10 @@ export class MainComponent implements OnInit {
     if (this.paginatorEnd.getPage() !== Number(event.page)) {
       setTimeout(() => this.paginatorEnd.changePage(Number(event.page)));
     }
+  }
+
+  public isPartner(): boolean {
+    return this.authService.currentUser?.roles.some((role) => [RoleEnum.ADMIN, RoleEnum.PARTNER].includes(role));
   }
 
 }

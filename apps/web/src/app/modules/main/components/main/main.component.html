@@ -44,11 +44,23 @@
             <p-image *ngIf="product.images[0]" [src]="('file/' + product.images[0].path) | apiUrl" [alt]="product.images[0].name" width="100%" height="250px"></p-image>
             <p-skeleton *ngIf="!product.images[0]" width="100%" height="250px"></p-skeleton>
           </ng-template>
-          <div class="mx-2">
-            <p class="fw-bold mt-1 {{ product.isPublic ? 'text-black' : 'text-red' }}">{{ product.name }}</p>
-            <p *ngIf="product.amount" class="greytext text-sm">В наличии {{ product.amount }} шт.</p>
-            <p *ngIf="!product.amount" class="text-red text-sm">Нет в наличии</p>
-          </div>
+          <p class="fw-bold mt-1 {{ product.isPublic ? 'text-black' : 'text-red' }}">{{ product.name }}</p>
+          <p class="mb-1">
+            {{ isPartner() ? 'Розн.цена:' : 'Цена:' }}
+            <span class="fw-bold text-blue-500">
+              <span *ngIf="product.modifications?.length > 1">от </span> {{ priceInfo[product._id].minPriceProduct | number }} ₽
+            </span>
+            <span *ngIf="priceInfo[product._id].isDiscountProduct" style="color: #ce0400">(Есть скидка)</span>
+          </p>
+          <p *ngIf="isPartner()" class="my-0">
+            Парт.цена:
+            <span class="fw-bold text-blue-500">
+              <span *ngIf="product.modifications?.length > 1">от </span> {{ priceInfo[product._id].minPricePartnerProduct | number }} ₽
+            </span>
+            <span *ngIf="priceInfo[product._id].isDiscountPartnerProduct" style="color: #ce0400">(Есть скидка)</span>
+          </p>
+          <p *ngIf="product.amount" class="greytext text-sm">В наличии {{ product.amount }} шт.</p>
+          <p *ngIf="!product.amount" class="text-red text-sm">Нет в наличии</p>
         </p-card>
       </a>
     </div>
