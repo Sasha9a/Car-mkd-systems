@@ -177,3 +177,20 @@ body {
 .text-black {
   color: #000000 !important;
 }
+
+.text-red {
+  color: #ff0000 !important;
+}
+
+a {
+  text-decoration: none;
+  color: #5892dc;
+}
+
+a:visited {
+  color: #5892dc;
+}
+
+a:hover {
+  color: #86aede;
+}

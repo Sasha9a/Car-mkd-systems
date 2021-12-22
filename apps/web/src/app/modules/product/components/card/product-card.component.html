@@ -24,13 +24,14 @@
 
   <p-card styleClass="card-product">
     <div class="grid grid-nogutter">
-      <p-galleria class="col-12 lg:col-6" [(value)]="product.images"
+      <p-galleria *ngIf="product.images[0]" class="col-12 lg:col-6" [(value)]="product.images"
                   [responsiveOptions]="responsiveOptions" [numVisible]="5" indicatorsPosition="top"
                   [showThumbnails]="false" [showIndicators]="true" [changeItemOnIndicatorHover]="true">
         <ng-template pTemplate="item" let-item>
           <img [src]="('file/' + item.path) | apiUrl" style="width: 100%; display: block;" alt="{{ item.name }}">
         </ng-template>
       </p-galleria>
+      <p-skeleton *ngIf="!product.images[0]" class="col-12 lg:col-6" width="100%" height="300px"></p-skeleton>
       <div class="col-12 lg:col-6">
         <div class="flex justify-content-center shadow-1 bg-gray-50">
           <p class="fw-bold text-xl my-3">{{ product.name }}</p>

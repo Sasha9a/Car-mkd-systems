@@ -13,6 +13,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { PanelModule } from 'primeng/panel';
 import { RippleModule } from 'primeng/ripple';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { SkeletonModule } from 'primeng/skeleton';
 import { ProductAddComponent } from './components/add/product-add.component';
 import { ProductFormComponent } from './dumbs/product-form/product-form.component';
 import { InputTextModule } from 'primeng/inputtext';
@@ -73,7 +74,8 @@ const productRoutes: Routes = [
     GalleriaModule,
     StyleClassModule,
     PanelModule,
-    FieldsetModule
+    FieldsetModule,
+    SkeletonModule
   ]
 })
 export class ProductModule { }

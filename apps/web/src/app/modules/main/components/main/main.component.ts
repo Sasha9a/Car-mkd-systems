@@ -34,7 +34,7 @@ export class MainComponent implements OnInit {
       toApi: true
     },
     limit: {
-      value: 1,
+      value: 4,
       toApi: true
     },
     offset: {
