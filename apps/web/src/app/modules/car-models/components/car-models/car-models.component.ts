@@ -130,7 +130,7 @@ export class CarModelsComponent implements OnInit {
 
   public deleteBrand(brand: BrandCarDto) {
     this.confirmDialogService.confirm({
-      message: `Вы действительно хотите удалить марку "${brand.brand}"?`,
+      message: `Вы действительно хотите удалить марку "${brand.brand}"?\n\nВНИМАНИЕ! У товаров удалятся все модели с такой маркой`,
       accept: () => {
         this.saving = true;
 
@@ -145,7 +145,7 @@ export class CarModelsComponent implements OnInit {
 
   public deleteModel(model: ModelCarDto, brand: BrandCarDto) {
     this.confirmDialogService.confirm({
-      message: `Вы действительно хотите удалить модель "${model.model}" марки "${brand.brand}"?`,
+      message: `Вы действительно хотите удалить модель "${model.model}" марки "${brand.brand}"?\n\nВНИМАНИЕ! У товаров удалится модель`,
       accept: () => {
         this.saving = true;
 
