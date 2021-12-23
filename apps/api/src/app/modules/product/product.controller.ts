@@ -63,6 +63,9 @@ export class ProductController {
   @Post()
   public async createProduct(@Res() res: Response, @Body() body: ProductFormDto) {
     const createdProduct = await this.productService.createProduct(body);
+    if (!createdProduct) {
+      throw new NotFoundException("Произошла ошибка!");
+    }
     return res.status(HttpStatus.CREATED).json(createdProduct).end();
   }
 

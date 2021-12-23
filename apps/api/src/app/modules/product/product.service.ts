@@ -48,8 +48,12 @@ export class ProductService {
   }
 
   public async createProduct(product: ProductFormDto): Promise<Product> {
-    const createdProduct = await new this.productModel(product);
-    return await createdProduct.save();
+    try {
+      const createdProduct = new this.productModel(product);
+      return await createdProduct.save();
+    } catch {
+      return null;
+    }
   }
 
   public async updateProduct(id: string, product: ProductFormDto): Promise<Product> {
