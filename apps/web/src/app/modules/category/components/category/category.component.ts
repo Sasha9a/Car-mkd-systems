@@ -132,7 +132,7 @@ export class CategoryComponent implements OnInit {
 
   public deleteCategory(category: CategoryDto) {
     this.confirmDialogService.confirm({
-      message: `Вы действительно хотите удалить категорию "${category.name}"?`,
+      message: `Вы действительно хотите удалить категорию "${category.name}"?\n\nВНИМАНИЕ! Товар снимется с публикации. Категория у всех товаров удалятся вместе с характеристиками`,
       accept: () => {
         this.saving = true;
 

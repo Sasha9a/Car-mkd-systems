@@ -58,13 +58,13 @@ export class CategoryService {
     }
   }
 
-  public async deleteCategory(id: string): Promise<any> {
+  public async deleteCategory(id: string): Promise<Category> {
     const category: CategoryDto = await this.categoryModel.findById(id);
     if (!category) {
       return null;
     }
     await this.characteristicModel.deleteMany({ _id: { $in: category.characteristics } });
-    return await this.categoryModel.deleteOne({ _id: id }).exec();
+    return await this.categoryModel.findByIdAndDelete(id).exec();
   }
 
   public async deleteCharacteristic(id: string): Promise<any> {

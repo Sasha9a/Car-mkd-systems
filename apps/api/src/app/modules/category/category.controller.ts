@@ -3,6 +3,7 @@ import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
 import { RoleGuard } from '@car-mkd-systems/api/core/guards/role.guard';
 import { ValidateObjectId } from '@car-mkd-systems/api/core/pipes/validate.object.id.pipes';
 import { CategoryService } from '@car-mkd-systems/api/modules/category/category.service';
+import { ProductService } from '@car-mkd-systems/api/modules/product/product.service';
 import { CategoryFormDto } from '@car-mkd-systems/shared/dtos/category/category.form.dto';
 import { CharacteristicDto } from '@car-mkd-systems/shared/dtos/category/characteristic.dto';
 import { CharacteristicFormDto } from '@car-mkd-systems/shared/dtos/category/characteristic.form.dto';
@@ -12,7 +13,8 @@ import { Response } from 'express';
 
 @Controller('category')
 export class CategoryController {
-  public constructor(private readonly categoryService: CategoryService) {
+  public constructor(private readonly categoryService: CategoryService,
+                     private readonly productService: ProductService) {
   }
 
   @Roles(RoleEnum.ADMIN)
@@ -97,6 +99,7 @@ export class CategoryController {
     if (!deletedCategory) {
       throw new NotFoundException("Нет такого объекта!");
     }
+    await this.productService.deleteCategory(deletedCategory);
     return res.status(HttpStatus.OK).end();
   }
 

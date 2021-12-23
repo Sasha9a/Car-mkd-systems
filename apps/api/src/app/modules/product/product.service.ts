@@ -1,6 +1,7 @@
 import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
 import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
+import { Category } from '@car-mkd-systems/shared/schemas/category.schema';
 import { Product } from '@car-mkd-systems/shared/schemas/product.schema';
 import { User } from '@car-mkd-systems/shared/schemas/user.schema';
 import { Injectable } from '@nestjs/common';
@@ -62,6 +63,10 @@ export class ProductService {
 
   public async deleteProduct(id: string): Promise<Product> {
     return await this.productModel.findByIdAndDelete(id).exec();
+  }
+
+  public async deleteCategory(category: Category): Promise<any> {
+    return await this.productModel.updateMany({ category: category }, { $unset: { category: '' }, $set: { isPublic: false } }).exec();
   }
 
 }

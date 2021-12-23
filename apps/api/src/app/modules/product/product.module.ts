@@ -13,6 +13,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     FileModule
   ],
   controllers: [ProductController],
-  providers: [ProductService]
+  providers: [ProductService],
+  exports: [ProductService]
 })
 export class ProductModule {}
