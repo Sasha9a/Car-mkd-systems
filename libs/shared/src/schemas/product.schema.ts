@@ -1,5 +1,6 @@
 import { ModificationDto } from '@car-mkd-systems/shared/dtos/product/modification.dto';
 import { Category } from '@car-mkd-systems/shared/schemas/category.schema';
+import { File } from '@car-mkd-systems/shared/schemas/file.schema';
 import { ModelCar } from '@car-mkd-systems/shared/schemas/model.car.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Type } from 'class-transformer';

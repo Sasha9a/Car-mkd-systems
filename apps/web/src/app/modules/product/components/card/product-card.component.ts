@@ -87,20 +87,24 @@ export class ProductCardComponent implements OnInit {
   }
 
   public publicProduct() {
-    this.confirmDialogService.confirm({
-      message: `Вы действительно хотите опубликовать товар "${this.product.name}"?`,
-      accept: () => {
-        this.loading = true;
+    if (this.product.category) {
+      this.confirmDialogService.confirm({
+        message: `Вы действительно хотите опубликовать товар "${this.product.name}"?`,
+        accept: () => {
+          this.loading = true;
 
-        const product: ProductFormDto = { ...this.product };
-        product.isPublic = true;
-        this.productStateService.update<ProductFormDto>(this.product._id, product).subscribe(() => {
-          this.product.isPublic = true;
-          this.loading = false;
-          this.errorService.addSuccessMessage(`Товар ${this.product.name} опубликован`);
-        });
-      }
-    });
+          const product: ProductFormDto = { ...this.product };
+          product.isPublic = true;
+          this.productStateService.update<ProductFormDto>(this.product._id, product).subscribe(() => {
+            this.product.isPublic = true;
+            this.loading = false;
+            this.errorService.addSuccessMessage(`Товар ${this.product.name} опубликован`);
+          });
+        }
+      });
+    } else {
+      this.errorService.addCustomError('Ошибка', 'Добавьте категорию к товару');
+    }
   }
 
   public deleteProduct() {

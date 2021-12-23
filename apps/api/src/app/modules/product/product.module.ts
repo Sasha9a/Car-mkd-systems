@@ -1,3 +1,4 @@
+import { FileModule } from '@car-mkd-systems/api/modules/file/file.module';
 import { ProductController } from '@car-mkd-systems/api/modules/product/product.controller';
 import { ProductService } from '@car-mkd-systems/api/modules/product/product.service';
 import { UserModule } from '@car-mkd-systems/api/modules/user/user.module';
@@ -8,7 +9,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
-    UserModule
+    UserModule,
+    FileModule
   ],
   controllers: [ProductController],
   providers: [ProductService]

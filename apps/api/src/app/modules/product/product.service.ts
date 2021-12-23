@@ -56,7 +56,7 @@ export class ProductService {
     return await this.productModel.findOneAndUpdate({ _id: id }, { $set: product }, { new: true }).exec();
   }
 
-  public async deleteProduct(id: string): Promise<any> {
+  public async deleteProduct(id: string): Promise<Product> {
     return await this.productModel.findByIdAndDelete(id).exec();
   }
 

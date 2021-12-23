@@ -2,20 +2,22 @@ import { Roles } from '@car-mkd-systems/api/core/decorators/role.decorator';
 import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
 import { RoleGuard } from '@car-mkd-systems/api/core/guards/role.guard';
 import { ValidateObjectId } from '@car-mkd-systems/api/core/pipes/validate.object.id.pipes';
+import { FileService } from '@car-mkd-systems/api/modules/file/file.service';
 import { ProductService } from '@car-mkd-systems/api/modules/product/product.service';
 import { UserService } from '@car-mkd-systems/api/modules/user/user.service';
-import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
 import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
 import { ProductItemDto } from '@car-mkd-systems/shared/dtos/product/product.item.dto';
 import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
+import * as fs from 'fs';
 
 @Controller('product')
 export class ProductController {
   public constructor(private readonly productService: ProductService,
-                     private readonly userService: UserService) {
+                     private readonly userService: UserService,
+                     private readonly fileService: FileService) {
   }
 
   @Get()
@@ -82,6 +84,10 @@ export class ProductController {
     const deletedProduct = await this.productService.deleteProduct(id);
     if (!deletedProduct) {
       throw new NotFoundException("Нет такого объекта!");
+    }
+    for (const image of deletedProduct.images) {
+      await this.fileService.deleteFile(image.path);
+      fs.unlinkSync('./public/' + image.path);
     }
     return res.status(HttpStatus.OK).end();
   }

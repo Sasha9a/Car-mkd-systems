@@ -11,6 +11,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     UserModule
   ],
   controllers: [FileController],
-  providers: [FileService]
+  providers: [FileService],
+  exports: [FileService]
 })
 export class FileModule {}
