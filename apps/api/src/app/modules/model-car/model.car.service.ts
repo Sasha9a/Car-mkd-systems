@@ -61,7 +61,7 @@ export class ModelCarService {
     return await this.brandCarModel.deleteOne({ _id: id }).exec();
   }
 
-  public async deleteModel(id: string): Promise<any> {
+  public async deleteModel(id: string): Promise<ModelCar> {
     return await this.modelCarModel.findByIdAndDelete(id).exec();
   }
 
