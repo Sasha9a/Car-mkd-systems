@@ -52,13 +52,13 @@ export class ModelCarService {
     return await this.modelCarModel.findOneAndUpdate({ _id: id }, { $set: model }, { new: true }).exec();
   }
 
-  public async deleteBrand(id: string): Promise<any> {
+  public async deleteBrand(id: string): Promise<BrandCar> {
     const brand: BrandCarDto = await this.brandCarModel.findById(id);
     if (!brand) {
       return null;
     }
     await this.modelCarModel.deleteMany({ _id: { $in: brand.models } });
-    return await this.brandCarModel.deleteOne({ _id: id }).exec();
+    return await this.brandCarModel.findByIdAndDelete(id).exec();
   }
 
   public async deleteModel(id: string): Promise<ModelCar> {

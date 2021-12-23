@@ -87,6 +87,7 @@ export class ModelCarController {
     if (!deletedBrand) {
       throw new NotFoundException("Нет такого объекта!");
     }
+    await this.productService.deleteBrandCar(deletedBrand);
     return res.status(HttpStatus.OK).end();
   }
 

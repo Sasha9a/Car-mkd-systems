@@ -1,6 +1,7 @@
 import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
 import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
+import { BrandCar } from '@car-mkd-systems/shared/schemas/brand.car.schema';
 import { Category } from '@car-mkd-systems/shared/schemas/category.schema';
 import { ModelCar } from '@car-mkd-systems/shared/schemas/model.car.schema';
 import { Product } from '@car-mkd-systems/shared/schemas/product.schema';
@@ -68,6 +69,10 @@ export class ProductService {
 
   public async deleteCategory(category: Category): Promise<any> {
     return await this.productModel.updateMany({ category: category }, { $unset: { category: '' }, $set: { isPublic: false } }).exec();
+  }
+
+  public async deleteBrandCar(brandCar: BrandCar): Promise<any> {
+    return await this.productModel.updateMany({ modelsCar: { $in: brandCar.models } }, { $pullAll: { modelsCar: brandCar.models } }).exec();
   }
 
   public async deleteModelCar(modelCar: ModelCar): Promise<any> {
