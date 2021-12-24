@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CategoryDto } from '@car-mkd-systems/shared/dtos/category/category.dto';
 import { FileDto } from '@car-mkd-systems/shared/dtos/file.dto';
 import { ModelCarDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.dto';
@@ -16,7 +16,7 @@ import { FileUpload } from 'primeng/fileupload';
   templateUrl: './product-form.component.html',
   styleUrls: []
 })
-export class ProductFormComponent extends BaseFormComponent<ProductFormDto> {
+export class ProductFormComponent extends BaseFormComponent<ProductFormDto> implements OnInit {
 
   @Input() public product: ProductFormDto = new ProductFormDto();
   public dto = ProductFormDto;
@@ -37,6 +37,17 @@ export class ProductFormComponent extends BaseFormComponent<ProductFormDto> {
                      private readonly confirmDialogService: ConfirmDialogService,
                      public readonly errorService: ErrorService) {
     super(errorService);
+  }
+
+  public ngOnInit() {
+    if (this.product?.category) {
+      this.selectCategory();
+    }
+    this.product?.modifications?.forEach((modification) => {
+      if (!modification.params) {
+        modification.params = {};
+      }
+    });
   }
 
   public uploadFiles(data: { files: FileList }) {

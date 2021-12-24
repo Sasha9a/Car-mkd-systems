@@ -3,7 +3,6 @@ import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
 import { RoleGuard } from '@car-mkd-systems/api/core/guards/role.guard';
 import { ValidateObjectId } from '@car-mkd-systems/api/core/pipes/validate.object.id.pipes';
 import { ModelCarService } from '@car-mkd-systems/api/modules/model-car/model.car.service';
-import { ProductService } from '@car-mkd-systems/api/modules/product/product.service';
 import { BrandCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.form.dto';
 import { ModelCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.form.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
@@ -12,8 +11,7 @@ import { Response } from 'express';
 
 @Controller('car-model')
 export class ModelCarController {
-  public constructor(private readonly modelCarService: ModelCarService,
-                     private readonly productService: ProductService) {
+  public constructor(private readonly modelCarService: ModelCarService) {
   }
 
   @Roles(RoleEnum.ADMIN)
@@ -87,7 +85,6 @@ export class ModelCarController {
     if (!deletedBrand) {
       throw new NotFoundException("Нет такого объекта!");
     }
-    await this.productService.deleteBrandCar(deletedBrand);
     return res.status(HttpStatus.OK).end();
   }
 
@@ -99,7 +96,6 @@ export class ModelCarController {
     if (!deletedModel) {
       throw new NotFoundException("Нет такого объекта!");
     }
-    await this.productService.deleteModelCar(deletedModel);
     return res.status(HttpStatus.OK).end();
   }
 

@@ -4,6 +4,7 @@ import { UserFormDto } from '@car-mkd-systems/shared/dtos/user/user.form.dto';
 import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
 import { AuthService } from '@car-mkd-systems/web/core/services/user/auth.service';
 import { validate } from '@car-mkd-systems/web/core/services/validation/validate.service';
+import { CommonLayoutComponent } from '@car-mkd-systems/web/shared/layouts/common-layout/common-layout.component';
 
 @Component({
   selector: 'car-login',
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
   public constructor(private readonly authService: AuthService,
                      private readonly errorService: ErrorService,
                      private readonly router: Router,
-                     private readonly route: ActivatedRoute) {
+                     private readonly route: ActivatedRoute,
+                     private readonly commonLayoutComponent: CommonLayoutComponent) {
   }
 
   public ngOnInit() {
@@ -52,6 +54,7 @@ export class LoginComponent implements OnInit {
           this.loading = false;
           this.errorService.addSuccessMessage("Вы авторизовались!");
           this.router.navigate([this.url], { queryParams: this.queryParams }).catch(console.error);
+          this.commonLayoutComponent.loadMenu();
         },
         error: (err) => {
           this.loading = false;

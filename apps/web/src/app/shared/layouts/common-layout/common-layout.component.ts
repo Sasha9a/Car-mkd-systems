@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
 import { AuthService } from '@car-mkd-systems/web/core/services/user/auth.service';
+import { MainComponent } from '@car-mkd-systems/web/modules/main/components/main/main.component';
 import * as moment from 'moment-timezone';
 import { MenuItem } from 'primeng/api';
 
@@ -14,45 +16,12 @@ export class CommonLayoutComponent implements OnInit {
 
   public footerYear: string;
 
-  public menuHeader: MenuItem[] = [
-    {
-      label: 'Создать товар',
-      routerLink: '/product/add'
-    },
-    {
-      separator: true
-    },
-    {
-      label: 'Панель моделей автотранспорта',
-      routerLink: '/car-models'
-    },
-    {
-      label: 'Панель категорий',
-      routerLink: '/category'
-    },
-    {
-      separator: true
-    },
-    {
-      label: 'Помощь',
-      routerLink: '/help'
-    },
-    {
-      separator: true
-    },
-    {
-      label: 'Выйти',
-      command: () => {
-        this.authService.logout();
-        this.errorService.addSuccessMessage("Вы успешно вышли!");
-        this.router.navigate(['']).catch(console.error);
-      }
-    }
-  ];
+  public menuHeader: MenuItem[] = [];
 
   public constructor(public readonly authService: AuthService,
                      private readonly errorService: ErrorService,
-                     private readonly router: Router) {
+                     private readonly router: Router,
+                     private readonly mainComponent: MainComponent) {
   }
 
   public ngOnInit(): void {
@@ -61,6 +30,57 @@ export class CommonLayoutComponent implements OnInit {
     } else {
       this.footerYear = `2021-${moment().year()}`;
     }
+
+    this.loadMenu();
+  }
+
+  public loadMenu() {
+    this.menuHeader = [
+      {
+        label: 'Создать товар',
+        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN),
+        routerLink: '/product/add'
+      },
+      {
+        separator: true,
+        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN),
+      },
+      {
+        label: 'Панель моделей автотранспорта',
+        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN),
+        routerLink: '/car-models'
+      },
+      {
+        label: 'Панель категорий',
+        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN),
+        routerLink: '/category'
+      },
+      {
+        separator: true,
+        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN)
+      },
+      {
+        label: 'Помощь',
+        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN),
+        routerLink: '/help'
+      },
+      {
+        separator: true,
+        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN)
+      },
+      {
+        label: 'Выйти',
+        command: () => {
+          this.authService.logout();
+          this.errorService.addSuccessMessage("Вы успешно вышли!");
+          if (this.router.url.split('?')[0] === '/') {
+            this.mainComponent.loadProducts();
+            setTimeout(() => this.mainComponent.reload(), 1000);
+          }
+          this.router.navigate(['']).catch(console.error);
+        }
+      }
+    ];
   }
 
 }

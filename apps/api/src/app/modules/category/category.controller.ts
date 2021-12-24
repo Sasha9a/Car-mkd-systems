@@ -99,7 +99,7 @@ export class CategoryController {
     if (!deletedCategory) {
       throw new NotFoundException("Нет такого объекта!");
     }
-    await this.productService.deleteCategory(deletedCategory);
+    await this.productService.isPublicToFalse(deletedCategory);
     return res.status(HttpStatus.OK).end();
   }
 

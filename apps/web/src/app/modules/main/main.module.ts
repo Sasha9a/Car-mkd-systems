@@ -32,6 +32,7 @@ const mainRoutes: Routes = [
     CardModule,
     ImageModule,
     SkeletonModule
-  ]
+  ],
+  providers: [MainComponent]
 })
 export class MainModule { }

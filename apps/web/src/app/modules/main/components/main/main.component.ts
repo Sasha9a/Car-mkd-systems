@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewRef } from '@angular/core';
 import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
 import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
@@ -73,7 +73,8 @@ export class MainComponent implements OnInit {
                      private readonly categoryStateService: CategoryStateService,
                      private readonly productStateService: ProductStateService,
                      public readonly queryParamsService: QueryParamsService,
-                     private readonly authService: AuthService) {
+                     private readonly authService: AuthService,
+                     private readonly appRef: ViewRef) {
   }
 
   public ngOnInit(): void {
@@ -118,8 +119,8 @@ export class MainComponent implements OnInit {
         };
       });
       setTimeout(() => {
-        this.paginatorStart.changePage(this.queryParams.page.value);
-        this.paginatorEnd.changePage(this.queryParams.page.value);
+        this.paginatorStart?.changePage(this.queryParams.page.value);
+        this.paginatorEnd?.changePage(this.queryParams.page.value);
       });
       this.loading = false;
     }, () => this.loading = false);
@@ -132,9 +133,8 @@ export class MainComponent implements OnInit {
   public paginate(event: { first: number, rows: string, page: number, pageCount: number }) {
     if (this.queryParams.page.value !== Number(event.page)) {
       this.queryParamsService.setQueryParam(this.queryParams, 'page', Number(event.page));
-    }
-    if (this.queryParams.offset.value !== Number(event.page) * this.queryParams.limit.value) {
       this.queryParamsService.setQueryParam(this.queryParams, 'offset', Number(event.page) * this.queryParams.limit.value);
+      this.loadProducts();
     }
     if (this.paginatorStart.getPage() !== Number(event.page)) {
       setTimeout(() => this.paginatorStart.changePage(Number(event.page)));
@@ -146,6 +146,10 @@ export class MainComponent implements OnInit {
 
   public isPartner(): boolean {
     return this.authService.currentUser?.roles.some((role) => [RoleEnum.ADMIN, RoleEnum.PARTNER].includes(role));
+  }
+
+  public reload() {
+    this.appRef.reattach();
   }
 
 }

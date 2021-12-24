@@ -84,6 +84,7 @@ import { CategoryMultiSelectComponent } from './dumbs/dropdowns/category-multi-s
     FormsModule,
     ImageModule,
     ButtonModule
-  ]
+  ],
+  providers: [CommonLayoutComponent]
 })
 export class ShareModule { }

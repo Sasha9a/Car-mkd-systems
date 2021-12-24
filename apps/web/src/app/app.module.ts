@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorInterceptor } from '@car-mkd-systems/web/core/interceptors/error.interceptor';
 import { TokenInterceptor } from '@car-mkd-systems/web/core/interceptors/token.interceptor';
+import { MainModule } from '@car-mkd-systems/web/modules/main/main.module';
 
 import { AppComponent } from './core/app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,7 +25,8 @@ moment.locale('ru');
     FormsModule,
     ReactiveFormsModule,
     CoreModule,
-    ShareModule
+    ShareModule,
+    MainModule
   ],
   bootstrap: [AppComponent],
   providers: [
