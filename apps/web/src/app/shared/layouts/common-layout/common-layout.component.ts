@@ -58,15 +58,6 @@ export class CommonLayoutComponent implements OnInit {
         visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN)
       },
       {
-        label: 'Помощь',
-        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN),
-        routerLink: '/help'
-      },
-      {
-        separator: true,
-        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN)
-      },
-      {
         label: 'Выйти',
         command: () => {
           this.authService.logout();
