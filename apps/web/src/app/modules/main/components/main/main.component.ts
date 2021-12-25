@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
 import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
@@ -13,7 +13,7 @@ import { forkJoin } from 'rxjs';
 @Component({
   selector: 'car-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: []
 })
 export class MainComponent implements OnInit {
 
@@ -73,8 +73,7 @@ export class MainComponent implements OnInit {
                      private readonly categoryStateService: CategoryStateService,
                      private readonly productStateService: ProductStateService,
                      public readonly queryParamsService: QueryParamsService,
-                     private readonly authService: AuthService,
-                     private readonly appRef: ViewRef) {
+                     private readonly authService: AuthService) {
   }
 
   public ngOnInit(): void {
@@ -146,10 +145,6 @@ export class MainComponent implements OnInit {
 
   public isPartner(): boolean {
     return this.authService.currentUser?.roles.some((role) => [RoleEnum.ADMIN, RoleEnum.PARTNER].includes(role));
-  }
-
-  public reload() {
-    this.appRef.reattach();
   }
 
 }

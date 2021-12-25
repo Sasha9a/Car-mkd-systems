@@ -62,6 +62,7 @@ export class UserController {
   @Post('/logout')
   public async logout(@Res() res: Response, @Body() body: UserSessionDto) {
     await this.userService.logout(body._id);
+    return res.status(HttpStatus.OK).end();
   }
 
 }
