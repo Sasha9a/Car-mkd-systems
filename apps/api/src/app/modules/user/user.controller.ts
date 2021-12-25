@@ -1,6 +1,9 @@
+import { Roles } from '@car-mkd-systems/api/core/decorators/role.decorator';
 import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
+import { RoleGuard } from '@car-mkd-systems/api/core/guards/role.guard';
 import { AuthService } from '@car-mkd-systems/api/modules/auth/auth.service';
 import { UserSessionDto } from '@car-mkd-systems/shared/dtos/user/user.session.dto';
+import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { Body, Controller, Get, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserFormDto } from '@car-mkd-systems/shared/dtos/user/user.form.dto';
@@ -25,6 +28,14 @@ export class UserController {
     return res.status(HttpStatus.NO_CONTENT).end();
   }
 
+  @Post('/get-pass')
+  public async getPassword(@Res() res: Response, @Body() password: string) {
+    password = bcrypt.hashSync(password, 10);
+    return res.status(HttpStatus.OK).json(password).end();
+  }
+
+  @Roles(RoleEnum.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()
   public async addUser(@Res() res: Response, @Body() body: UserFormDto) {
     body.password = bcrypt.hashSync(body.password, 10);
