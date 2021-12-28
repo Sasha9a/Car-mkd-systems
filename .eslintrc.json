@@ -10,8 +10,7 @@
           "./tsconfig.base.json"
         ]
       },
-      "rules": {
-      }
+      "rules": {}
     },
     {
       "files": ["*.ts", "*.tsx"],
@@ -22,7 +21,6 @@
           "error"
         ]
       }
-
     },
     {
       "files": ["*.js", "*.jsx"],

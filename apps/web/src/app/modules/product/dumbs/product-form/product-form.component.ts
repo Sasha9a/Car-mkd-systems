@@ -35,7 +35,7 @@ export class ProductFormComponent extends BaseFormComponent<ProductFormDto> impl
   public constructor(private readonly fileService: FileService,
                      private readonly categoryStateService: CategoryStateService,
                      private readonly confirmDialogService: ConfirmDialogService,
-                     public readonly errorService: ErrorService) {
+                     public override readonly errorService: ErrorService) {
     super(errorService);
   }
 

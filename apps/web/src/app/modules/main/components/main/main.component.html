@@ -33,7 +33,7 @@
 
 <div *ngIf="!loading">
   <div class="flex justify-content-end">
-    <p-paginator #paginatorStart [rows]="queryParams.limit.value" [totalRecords]="countProducts" (onPageChange)="paginate($event)"></p-paginator>
+    <p-paginator #paginatorStart [rows]="queryParams['limit'].value" [totalRecords]="countProducts" (onPageChange)="paginate($event)"></p-paginator>
   </div>
 
   <div class="my-2 grid">
@@ -67,6 +67,6 @@
   </div>
 
   <div class="flex justify-content-end">
-    <p-paginator #paginatorEnd [rows]="queryParams.limit.value" [totalRecords]="countProducts" (onPageChange)="paginate($event)"></p-paginator>
+    <p-paginator #paginatorEnd [rows]="queryParams['limit'].value" [totalRecords]="countProducts" (onPageChange)="paginate($event)"></p-paginator>
   </div>
 </div>

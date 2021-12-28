@@ -24,7 +24,7 @@
 
   <p-card styleClass="card-product">
     <div class="grid grid-nogutter">
-      <p-galleria *ngIf="product.images[0]" class="col-12 lg:col-6" [(value)]="product.images"
+      <p-galleria *ngIf="product.images[0]" [value]="product.images" class="col-12 lg:col-6"
                   [responsiveOptions]="responsiveOptions" [numVisible]="5" indicatorsPosition="top"
                   [showThumbnails]="false" [showIndicators]="true" [changeItemOnIndicatorHover]="true">
         <ng-template pTemplate="item" let-item>

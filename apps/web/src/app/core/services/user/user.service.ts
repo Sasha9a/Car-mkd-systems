@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService extends BaseService {
 
-  protected baseUrl = '/user';
+  protected override baseUrl = '/user';
 
   public login(body: UserFormDto): Observable<UserSessionDto> {
     return this.http.post<UserSessionDto>(`${this.baseUrl}/login`, body);

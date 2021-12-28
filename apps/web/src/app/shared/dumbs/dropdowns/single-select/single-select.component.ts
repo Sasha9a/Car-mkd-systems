@@ -65,11 +65,11 @@ export class SingleSelectComponent implements OnInit, OnChanges {
       this.dropdown.editableInputViewChild.nativeElement.value = this.editValue;
     }
 
-    if (changes.selectedItem) {
-      if (typeof changes.selectedItem.currentValue === 'string' || typeof changes.selectedItem.currentValue === 'number') {
+    if (changes['selectedItem']) {
+      if (typeof changes['selectedItem'].currentValue === 'string' || typeof changes['selectedItem'].currentValue === 'number') {
         this.selectedItem = {
-          name: changes.selectedItem.currentValue,
-          value: changes.selectedItem.currentValue
+          name: changes['selectedItem'].currentValue,
+          value: changes['selectedItem'].currentValue
         };
       }
     }

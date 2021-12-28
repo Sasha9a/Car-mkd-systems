@@ -1,12 +1,12 @@
 
 
-# CarMkdSystemsV2
+# Test
 
 This project was generated using [Nx](https://nx.dev).
 
 <p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
 
-🔎 **Smart, Extensible Build Framework**
+🔎 **Smart, Fast and Extensible Build System**
 
 ## Quick Start & Documentation
 
@@ -53,7 +53,7 @@ Run `ng g @nrwl/angular:lib my-lib` to generate a library.
 
 > You can also use any of the plugins above to generate libraries as well.
 
-Libraries are shareable across libraries and applications. They can be imported from `@car-mkd-systems-v2/mylib`.
+Libraries are shareable across libraries and applications. They can be imported from `@test/mylib`.
 
 ## Development server
 

@@ -15,7 +15,7 @@
                     <p>{{ index + 1 }}.</p>
                   </td>
                   <td class="w-3rem">
-                    <span class="pi pi-bars" pReorderableRowHandle></span>
+                    <span class="pi pi-bars" [pReorderableRowHandle]=""></span>
                   </td>
                   <td>
                     <car-file [file]="image" class="w-full"></car-file>
@@ -36,7 +36,7 @@
         </div>
         <p-fileUpload #fileUpload
                       mode="basic"
-                      customUpload="true"
+                      [customUpload]="true"
                       chooseIcon="pi-paperclip"
                       chooseLabel="Прикрепить фотографии"
                       [multiple]="true"

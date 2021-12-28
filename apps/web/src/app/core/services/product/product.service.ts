@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductService extends BaseService {
-  protected baseUrl = '/product';
+  protected override baseUrl = '/product';
 
   public findAll(queryParams: Record<string, { value: any, toApi: boolean }>): Observable<ProductItemDto> {
     return this.http.get<ProductItemDto>(this.baseUrl, { params: queryParams as any });

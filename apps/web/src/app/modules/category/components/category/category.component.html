@@ -25,7 +25,7 @@
 
   <div *ngIf="categories?.length" class="flex justify-content-end mt-3">
     <div class="p-field-checkbox">
-      <p-checkbox [(ngModel)]="folding" binary="true" inputId="folding" (onChange)="setFolding()"></p-checkbox>
+      <p-checkbox [(ngModel)]="folding" [binary]="true" inputId="folding" (onChange)="setFolding()"></p-checkbox>
       <label [for]="'folding'" class="ml-2">Автоматическое сворачивание</label>
     </div>
   </div>
@@ -99,7 +99,7 @@
             <ng-template pTemplate="body" let-characteristic let-index="rowIndex">
               <tr *ngIf="toCharacteristic(characteristic) as characteristic" [pReorderableRow]="index">
                 <td class="w-3rem">
-                  <span class="pi pi-bars" pReorderableRowHandle></span>
+                  <span class="pi pi-bars" [pReorderableRowHandle]=""></span>
                 </td>
                 <td>
                   <p *ngIf="editableId !== characteristic._id" class="fw-bold ml-2">

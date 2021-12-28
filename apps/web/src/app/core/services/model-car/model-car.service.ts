@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class ModelCarService extends BaseService {
 
-  protected baseUrl = '/car-model';
+  protected override baseUrl = '/car-model';
 
   public findAllBrand(): Observable<BrandCarDto[]> {
     return this.http.get<BrandCarDto[]>(`${this.baseUrl}/brand/all`);

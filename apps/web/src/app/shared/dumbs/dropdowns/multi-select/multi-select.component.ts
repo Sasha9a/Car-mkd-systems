@@ -49,12 +49,12 @@ export class MultiSelectComponent implements OnChanges {
   public replaceRegExp = /{[0-9]+}/g;
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes.options && Array.isArray(changes.options.currentValue)) {
-      this.setNamedValue(changes.options.currentValue, 'options');
+    if (changes['options'] && Array.isArray(changes['options'].currentValue)) {
+      this.setNamedValue(changes['options'].currentValue, 'options');
     }
 
-    if (changes.selectedItems && Array.isArray(changes.selectedItems.currentValue)) {
-      this.setNamedValue(changes.selectedItems.currentValue, 'selectedItems');
+    if (changes['selectedItems'] && Array.isArray(changes['selectedItems'].currentValue)) {
+      this.setNamedValue(changes['selectedItems'].currentValue, 'selectedItems');
     }
   }
 

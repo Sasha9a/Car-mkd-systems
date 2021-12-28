@@ -12,11 +12,11 @@ export class RoleGuard implements CanActivate {
 
   public async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
 
-    if (route.data?.included === true && this.authService.currentUser?.roles.some((role) => route.data?.roles.includes(role))) {
+    if (route.data?.['included'] === true && this.authService.currentUser?.roles.some((role) => route.data?.['roles'].includes(role))) {
       return true;
     }
 
-    if (route.data?.included === false && this.authService.currentUser?.roles.every((role) => !route.data?.roles.includes(role))) {
+    if (route.data?.['included'] === false && this.authService.currentUser?.roles.every((role) => !route.data?.['roles'].includes(role))) {
       return true;
     }
 

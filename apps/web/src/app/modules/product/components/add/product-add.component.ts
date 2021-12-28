@@ -31,7 +31,7 @@ export class ProductAddComponent implements OnInit {
                      private readonly router: Router) { }
 
   public ngOnInit(): void {
-    const copyId = this.route.snapshot.queryParams.copyId;
+    const copyId = this.route.snapshot.queryParams['copyId'];
     if (copyId) {
       this.productStateService.findById<ProductDto>(copyId).subscribe((product) => {
         product.images = [];

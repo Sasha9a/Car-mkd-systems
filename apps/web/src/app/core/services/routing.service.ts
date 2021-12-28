@@ -26,7 +26,7 @@ export class RoutingService {
 
     this.router.events.subscribe((data) => {
       if (data instanceof ActivationEnd && !data.snapshot.routeConfig.children && !data.snapshot.routeConfig.loadChildren) {
-        this.titleService.setTitle(data.snapshot.data.title || 'Car MKD Systems');
+        this.titleService.setTitle(data.snapshot.data['title'] || 'Car MKD Systems');
       }
     });
   }

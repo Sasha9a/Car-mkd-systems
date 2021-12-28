@@ -33,7 +33,7 @@ export class ProductEditComponent implements OnInit {
                      private readonly router: Router) { }
 
   public ngOnInit(): void {
-    this.productId = this.route.snapshot.params.id;
+    this.productId = this.route.snapshot.params['id'];
     if (!this.productId) {
       return this.errorService.addCustomError('Ошибка', 'Произошла ошибка, вернитесь на главную и попробуйте снова.');
     }

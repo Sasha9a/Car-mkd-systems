@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CategoryService extends BaseService {
-  protected baseUrl = '/category';
+  protected override baseUrl = '/category';
 
   public findAllDropdown(): Observable<CategoryDto[]> {
     return this.http.get<CategoryDto[]>(`${this.baseUrl}/all`);

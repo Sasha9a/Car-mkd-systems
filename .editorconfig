@@ -7,33 +7,7 @@ indent_style = space
 indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
-max_line_length = 200
-ij_typescript_align_imports = false
-ij_typescript_class_brace_style = end_of_line
-ij_typescript_file_name_style = mixed
-ij_typescript_use_semicolon_after_statement = true
-ij_typescript_chained_call_dot_on_new_line = true
-ij_typescript_use_double_quotes = false
-ij_typescript_use_path_mapping = always
-ij_typescript_import_use_node_resolution = true
-ij_typescript_align_multiline_array_initializer_expression = false
-ij_typescript_align_multiline_chained_methods = true
-ij_typescript_indent_chained_calls = true
-ij_typescript_use_chained_calls_group_indents = true
-ij_any_align_multiline_chained_methods = true
-ij_typescript_import_merge_members = true
-ij_typescript_import_sort_members = true
-ij_typescript_import_sort_module_name = true
-ij_typescript_imports_wrap = normal
-ij_typescript_spaces_within_imports = true
-ij_typescript_method_brace_style = end_of_line
-ij_typescript_prefer_as_type_cast = true
-ij_typescript_prefer_parameters_wrap = false
-ij_typescript_align_multiline_parameters = true
-ij_typescript_align_union_types = true
-ij_javascript_import_sort_members = true
 
 [*.md]
 max_line_length = off
 trim_trailing_whitespace = false
-

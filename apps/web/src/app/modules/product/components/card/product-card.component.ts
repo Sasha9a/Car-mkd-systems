@@ -59,7 +59,7 @@ export class ProductCardComponent implements OnInit {
                      private readonly title: Title) { }
 
   public ngOnInit(): void {
-    this.cardId = this.route.snapshot.params.id;
+    this.cardId = this.route.snapshot.params['id'];
 
     if (!this.cardId) {
       return this.errorService.addCustomError('Ошибка', 'Произошла ошибка, вернитесь на главную и попробуйте снова.');
