@@ -18,7 +18,7 @@ sudo /sbin/mkswap /var/swap.1
 sudo /sbin/swapon /var/swap.1
 git clone https://github.com/Sasha9a/Car-mkd-systems.git -b v2.0
 cd Car-mkd-systems
-npm install
+npm install || true
 nx affected:build --all
 sudo mkdir -p /var/www/car-mkd-systems.ru/html
 sudo chown -R $USER:$USER /var/www/car-mkd-systems.ru/html
