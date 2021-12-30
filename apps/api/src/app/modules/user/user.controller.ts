@@ -29,9 +29,9 @@ export class UserController {
   }
 
   @Post('/get-pass')
-  public async getPassword(@Res() res: Response, @Body() password: string) {
-    password = bcrypt.hashSync(password, 10);
-    return res.status(HttpStatus.OK).json(password).end();
+  public async getPassword(@Res() res: Response, @Body() body: { password: string }) {
+    body.password = bcrypt.hashSync(body.password, 10);
+    return res.status(HttpStatus.OK).json(body.password).end();
   }
 
   @Roles(RoleEnum.ADMIN)
