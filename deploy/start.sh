@@ -1,14 +1,15 @@
 echo 'Connect to Server...'
 
+# sudo apt update
+# curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+# sudo apt -y install nodejs
+# node -v
+# npm -v
+# sudo apt install nginx
+# sudo apt install git
+
 umask 777
 ssh -tt -i ~/.ssh/id_rsa root@45.141.78.161 << EOF
-sudo apt update
-curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
-sudo apt -y install nodejs
-node -v
-npm -v
-sudo apt install nginx
-sudo apt install git
 npm install -g pm2
 npm install -g nx
 sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
