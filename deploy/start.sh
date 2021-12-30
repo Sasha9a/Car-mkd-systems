@@ -1,5 +1,6 @@
 echo 'Connect to Server...'
 
+# 2 раза скрипт вызывать, не сразу npm install работает
 # sudo apt update
 # curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
 # sudo apt -y install nodejs
