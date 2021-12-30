@@ -15,6 +15,11 @@ npm install -g pm2
 npm install -g nx
 git clone https://github.com/Sasha9a/Car-mkd-systems.git -b v2.0
 cd Car-mkd-systems
+
+sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+sudo /sbin/mkswap /var/swap.1
+sudo /sbin/swapon /var/swap.1
+
 npm install
 nx affected:build --all
 sudo mkdir -p /var/www/car-mkd-systems.ru/html
