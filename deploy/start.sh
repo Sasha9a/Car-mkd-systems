@@ -7,6 +7,7 @@ echo 'Connect to Server...'
 # npm -v
 # sudo apt install nginx
 # sudo apt install git
+# sudo apt install mongodb-server
 
 umask 777
 ssh -tt -i ~/.ssh/id_rsa root@45.141.78.161 << EOF
@@ -26,6 +27,7 @@ sudo cp deploy/nginx.conf /etc/nginx/sites-available/car-mkd-systems.ru
 sudo ln -s /etc/nginx/sites-available/car-mkd-systems.ru /etc/nginx/sites-enabled/
 sudo cp -r ~/Car-mkd-systems/dist/apps/web/* /var/www/car-mkd-systems.ru/html
 sudo systemctl restart nginx
+sudo systemctl enable mongodb
 pm2 start dist/apps/api/main.js
 exit
 EOF
