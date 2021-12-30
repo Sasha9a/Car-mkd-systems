@@ -1,6 +1,5 @@
 echo 'Connect to Server...'
 
-# 2 раза скрипт вызывать, не сразу npm install работает
 # sudo apt update
 # curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
 # sudo apt -y install nodejs
@@ -19,7 +18,7 @@ sudo /sbin/mkswap /var/swap.1
 sudo /sbin/swapon /var/swap.1
 git clone https://github.com/Sasha9a/Car-mkd-systems.git -b v2.0
 cd Car-mkd-systems
-npm install || true
+npm install
 nx affected:build --all
 sudo mkdir -p /var/www/car-mkd-systems.ru/html
 sudo chown -R $USER:$USER /var/www/car-mkd-systems.ru/html
