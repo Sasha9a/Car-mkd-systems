@@ -1,5 +1,8 @@
 echo 'Connect to Server...'
 
+# SSL сертификат
+# sudo certbot --nginx -d car-mkd-systems.ru -d www.car-mkd-systems.ru
+
 umask 777
 ssh -tt -i ~/.ssh/id_rsa root@45.141.78.161 << EOF
 pm2 stop 0

@@ -144,7 +144,11 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "proxyConfig": "apps/web/proxy.conf.json"
+            "proxyConfig": "apps/web/proxy.conf.json",
+            "ssl": true,
+            "sslKey": "deploy/server.key",
+            "sslCert": "deploy/server.crt",
+            "browserTarget": "ideationapp:build"
           }
         },
         "extract-i18n": {
