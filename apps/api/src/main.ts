@@ -10,8 +10,8 @@ import { AppModule } from './app/app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     httpsOptions: {
-      key: __dirname + '/../../../deploy/server.key',
-      cert: __dirname + '/../../../deploy/server.crt'
+      key: '/etc/letsencrypt/live/car-mkd-systems.ru/privkey.pem',
+      cert: '/etc/letsencrypt/live/car-mkd-systems.ru/fullchain.pem'
     }
   });
   const globalPrefix = 'api';
