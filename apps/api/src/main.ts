@@ -8,13 +8,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    // httpsOptions: {
-    //   key: '/etc/letsencrypt/live/car-mkd-systems.ru/privkey.pem',
-    //   cert: '/etc/letsencrypt/live/car-mkd-systems.ru/fullchain.pem',
-    //   ca: '/etc/letsencrypt/live/car-mkd-systems.ru/chain.pem'
-    // }
-  });
+  const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   app.enableCors();

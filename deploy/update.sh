@@ -13,6 +13,7 @@ nx affected:build --all
 sudo cp deploy/nginx.conf /etc/nginx/sites-available/car-mkd-systems.ru
 sudo ln -s /etc/nginx/sites-available/car-mkd-systems.ru /etc/nginx/sites-enabled/
 sudo cp -r ~/Car-mkd-systems/dist/apps/web/* /var/www/car-mkd-systems.ru/html
+sudo certbot --nginx -d car-mkd-systems.ru -d www.car-mkd-systems.ru
 sudo systemctl restart nginx
 pm2 restart 0
 exit
