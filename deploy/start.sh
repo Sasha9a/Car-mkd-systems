@@ -9,14 +9,15 @@ echo 'Connect to Server...'
 # sudo apt install git
 # sudo apt install mongodb-server
 # sudo apt install certbot python3-certbot-nginx
+# sudo apt-get install build-essential
 
 # SSL сертификат
 # sudo certbot --nginx -d car-mkd-systems.ru -d www.car-mkd-systems.ru; pm2 restart 0
 
 umask 777
 ssh -tt -i ~/.ssh/id_rsa root@45.141.78.161 << EOF
-npm install -g pm2
-npm install -g nx
+sudo npm install -g pm2
+sudo npm install -g nx
 sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
 sudo /sbin/mkswap /var/swap.1
 sudo /sbin/swapon /var/swap.1
@@ -25,7 +26,7 @@ sudo ufw delete allow 'Nginx HTTP'
 sudo ufw enable
 git clone https://github.com/Sasha9a/Car-mkd-systems.git -b v2.0
 cd Car-mkd-systems
-npm install
+sudo npm install --unsafe
 nx affected:build --all
 sudo mkdir -p /var/www/car-mkd-systems.ru/html
 sudo chown -R $USER:$USER /var/www/car-mkd-systems.ru/html
