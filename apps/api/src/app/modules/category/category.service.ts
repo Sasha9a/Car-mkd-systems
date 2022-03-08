@@ -26,7 +26,7 @@ export class CategoryService {
     return await this.categoryModel.findById(id).populate('characteristics').exec();
   }
 
-  public async checkCategory(id: string): Promise<boolean> {
+  public async checkCategory(id: string): Promise<any> {
     return await this.categoryModel.exists({ _id: id });
   }
 
