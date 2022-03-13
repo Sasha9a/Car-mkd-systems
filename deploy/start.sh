@@ -36,7 +36,9 @@ sudo ln -s /etc/nginx/sites-available/car-mkd-systems.ru /etc/nginx/sites-enable
 sudo cp -r ~/Car-mkd-systems/dist/apps/web/* /var/www/car-mkd-systems.ru/html
 sudo systemctl restart nginx
 sudo systemctl enable mongodb
-pm2 start dist/apps/api/main.js
+sudo pm2 start dist/apps/api/main.js
+sudo pm2 save
+sudo pm2 startup
 exit
 EOF
 
