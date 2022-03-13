@@ -12,7 +12,7 @@ echo 'Connect to Server...'
 # sudo apt-get install build-essential
 
 # SSL сертификат
-# sudo certbot --nginx -d car-mkd-systems.ru -d www.car-mkd-systems.ru; pm2 restart 0
+# sudo certbot --nginx -d car-mkd-systems.ru -d www.car-mkd-systems.ru; sudo pm2 restart 0
 
 umask 777
 ssh -tt -i ~/.ssh/id_rsa root@45.141.78.161 << EOF
