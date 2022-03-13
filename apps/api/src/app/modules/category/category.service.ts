@@ -15,7 +15,7 @@ export class CategoryService {
   }
 
   public async findAll(): Promise<CategoryDto[]> {
-    return await this.categoryModel.find().sort({ name: 1 }).populate('characteristics').exec();
+    return await this.categoryModel.find().sort({ name: 1 }).exec();
   }
 
   public async findAllDropdown(): Promise<CategoryDto[]> {
@@ -23,7 +23,7 @@ export class CategoryService {
   }
 
   public async findCategory(id: string): Promise<CategoryDto> {
-    return await this.categoryModel.findById(id).populate('characteristics').exec();
+    return await this.categoryModel.findById(id).exec();
   }
 
   public async checkCategory(id: string): Promise<any> {

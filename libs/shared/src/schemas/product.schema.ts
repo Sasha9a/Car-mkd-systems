@@ -3,7 +3,6 @@ import { Category } from '@car-mkd-systems/shared/schemas/category.schema';
 import { File } from '@car-mkd-systems/shared/schemas/file.schema';
 import { ModelCar } from '@car-mkd-systems/shared/schemas/model.car.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Type } from 'class-transformer';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
 
@@ -15,20 +14,19 @@ export class Product extends Document {
   @Prop({ required: true })
   public amount: number;
 
-  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: "Category" })
+  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: "Category", autopopulate: true })
   public category: Category;
 
-  @Prop({ type: [{type: [mongoose.Schema.Types.ObjectId], ref: "File"}], default: [] })
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: File.name, default: [], autopopulate: true })
   public images: File[];
 
   @Prop({ default: false })
   public isPublic: boolean;
 
-  @Prop({ type: [{type: [mongoose.Schema.Types.ObjectId], ref: "ModelCar"}], default: []})
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: ModelCar.name, default: [], autopopulate: true })
   public modelsCar: ModelCar[];
 
   @Prop({ type: [mongoose.Schema.Types.Mixed], default: [] })
-  @Type(() => ModificationDto)
   public modifications: ModificationDto[];
 }
 

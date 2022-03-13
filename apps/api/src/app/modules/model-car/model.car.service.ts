@@ -15,7 +15,7 @@ export class ModelCarService {
   }
 
   public async findAll(): Promise<BrandCarDto[]> {
-    return await this.brandCarModel.find().sort({ brand: 1 }).populate('models').exec();
+    return await this.brandCarModel.find().sort({ brand: 1 }).exec();
   }
 
   public async findAllBrandDropdown(): Promise<BrandCarDto[]> {
@@ -23,7 +23,7 @@ export class ModelCarService {
   }
 
   public async findAllModelDropdown(): Promise<ModelCarDto[]> {
-    return await this.modelCarModel.find().sort({ model: 1 }).populate('brand', { brand: 1, _id: 0 }).exec();
+    return await this.modelCarModel.find().sort({ model: 1 }).exec();
   }
 
   public async checkBrand(id: string): Promise<any> {

@@ -25,8 +25,7 @@ export class ProductService {
     }
     return await this.productModel.find(filter.filter)
                      .skip(filter.skip)
-                     .limit(filter.limit)
-                     .populate('images').exec();
+                     .limit(filter.limit).exec();
   }
 
   public async countFindAll(queryParams: ProductQueryDto, user: User) {
@@ -42,10 +41,7 @@ export class ProductService {
   }
 
   public async findById(id: string): Promise<Product> {
-    return await this.productModel.findById(id)
-                     .populate('category')
-                     .populate('images')
-                     .populate({ path: 'modelsCar', populate: { path: 'brand' } }).exec();
+    return await this.productModel.findById(id).exec();
   }
 
   public async createProduct(product: ProductFormDto): Promise<Product> {

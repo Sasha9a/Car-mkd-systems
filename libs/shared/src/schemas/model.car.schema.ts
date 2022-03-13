@@ -5,7 +5,7 @@ import { Document } from 'mongoose';
 
 @Schema({ versionKey: false })
 export class ModelCar extends Document {
-  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: "BrandCar" })
+  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: "BrandCar", autopopulate: true })
   public brand: BrandCar;
 
   @Prop({ required: true })

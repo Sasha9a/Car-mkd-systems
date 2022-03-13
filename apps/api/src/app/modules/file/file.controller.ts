@@ -20,6 +20,9 @@ export class FileController {
 
   @Get(':path')
   public async getFile(@Res() res: Response, @Param('path') path: string) {
+    if (path === 'undefined') {
+      return ;
+    }
     return res.sendFile(path, { root: './public' });
   }
 

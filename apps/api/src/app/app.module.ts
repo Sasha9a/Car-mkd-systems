@@ -12,7 +12,12 @@ import { environment } from '../environments/environment';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(environment.connection.db),
+    MongooseModule.forRoot(environment.connection.db, {
+      connectionFactory: (connection) => {
+        connection.plugin(require('mongoose-autopopulate'));
+        return connection;
+      }
+    }),
     forwardRef(() => AuthModule),
     UserModule,
     ModelCarModule,

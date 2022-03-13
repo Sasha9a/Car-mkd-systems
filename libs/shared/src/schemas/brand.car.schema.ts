@@ -8,7 +8,7 @@ export class BrandCar extends Document {
   @Prop({ required: true })
   public brand: string;
 
-  @Prop({ type: [{type: [mongoose.Schema.Types.ObjectId], ref: "ModelCar"}]})
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: "ModelCar", autopopulate: true })
   public models: ModelCar[];
 }
 

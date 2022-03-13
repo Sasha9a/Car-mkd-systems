@@ -8,7 +8,7 @@ export class Category extends Document {
   @Prop({ required: true })
   public name: string;
 
-  @Prop({ type: [{type: [mongoose.Schema.Types.ObjectId], ref: "Characteristic"}] })
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: "Characteristic", autopopulate: true })
   public characteristics: Characteristic[];
 }
 
