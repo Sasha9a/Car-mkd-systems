@@ -1,3 +1,4 @@
+#!/bin/bash
 echo 'Connect to Server...'
 
 # SSL сертификат

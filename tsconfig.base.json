@@ -22,23 +22,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@car-mkd-systems/shared/*": [
-        "libs/shared/src/*"
-      ],
-      "@car-mkd-systems/web/*": [
-        "apps/web/src/app/*"
-      ],
-      "@car-mkd-systems/api/*": [
-        "apps/api/src/app/*"
-      ]
+      "@car-mkd-systems/api/*": ["apps/api/src/app/*"],
+      "@car-mkd-systems/shared/*": ["libs/shared/src/*"],
+      "@car-mkd-systems/web/*": ["apps/web/src/app/*"]
     }
   },
-  "include": [
-    "./libs/*/src/**/*",
-    "./apps/*/src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "include": ["./libs/*/src/**/*", "./apps/*/src/**/*"],
+  "exclude": ["node_modules", "tmp"]
 }
