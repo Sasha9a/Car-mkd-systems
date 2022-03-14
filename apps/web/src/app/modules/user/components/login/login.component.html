@@ -3,13 +3,23 @@
     <div class="p-fluid">
       <div class="field">
         <label class="fw-bold required-field">Логин</label>
-        <input type="text" pInputText [(ngModel)]="user.login" name="login" [ngClass]="{ 'ng-invalid ng-dirty': errors?.login }" (keyup.enter)="setFocus(password)">
+        <input type="text" pInputText
+               [(ngModel)]="user.login"
+               name="login"
+               [ngClass]="{ 'ng-invalid ng-dirty': errors?.login }"
+               (keyup.enter)="setFocus(password)">
         <small *ngIf="errors?.login" class="p-error">{{ errors.login | join }}</small>
       </div>
 
       <div class="field">
         <label class="fw-bold required-field">Пароль</label>
-        <p-password #password [(ngModel)]="user.password" name="password" [feedback]="false" [ngClass]="{ 'ng-invalid ng-dirty': errors?.password }" (keyup.enter)="clickLogin()"></p-password>
+        <p-password #password [(ngModel)]="user.password"
+                    name="password"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                    [ngClass]="{ 'ng-invalid ng-dirty': errors?.password }"
+                    (keyup.enter)="clickLogin()">
+        </p-password>
         <small *ngIf="errors?.password" class="p-error">{{ errors.password | join }}</small>
       </div>
 

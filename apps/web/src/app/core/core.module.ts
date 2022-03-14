@@ -6,9 +6,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@car-mkd-systems/web/core/guards/auth.guard';
 import { RoleGuard } from '@car-mkd-systems/web/core/guards/role.guard';
 import { SharedModule } from "@car-mkd-systems/web/shared/shared.module";
-import { ToastModule } from 'primeng/toast';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ScrollTopModule } from 'primeng/scrolltop';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CommonLayoutComponent } from '@car-mkd-systems/web/shared/layouts/common-layout/common-layout.component';
 
@@ -22,8 +19,8 @@ const routes: Routes = [
         loadChildren: () => import('../modules/main/main.module').then(m => m.MainModule)
       },
       {
-        path: 'login',
-        loadChildren: () => import('../modules/login/login.module').then(m => m.LoginModule)
+        path: 'user',
+        loadChildren: () => import('../modules/user/user.module').then(m => m.UserModule)
       },
       {
         path: 'car-models',
