@@ -11,7 +11,7 @@
     "noImplicitAny": false,
     "strictFunctionTypes": false,
     "strictNullChecks": false,
-    "noPropertyAccessFromIndexSignature": true,
+    "noPropertyAccessFromIndexSignature": false,
     "suppressImplicitAnyIndexErrors": true,
     "importHelpers": true,
     "noUnusedParameters": false,
