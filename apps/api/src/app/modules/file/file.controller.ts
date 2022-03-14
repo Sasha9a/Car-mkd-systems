@@ -20,10 +20,11 @@ export class FileController {
 
   @Get(':path')
   public async getFile(@Res() res: Response, @Param('path') path: string) {
-    if (path === 'undefined') {
-      return ;
+    if (fs.existsSync('./public/' + path)) {
+      return res.sendFile(path, { root: './public' });
+    } else {
+      return res.status(HttpStatus.NO_CONTENT).end();
     }
-    return res.sendFile(path, { root: './public' });
   }
 
   @Roles(RoleEnum.ADMIN)
@@ -56,7 +57,9 @@ export class FileController {
     if (!deletedFile) {
       throw new NotFoundException("Нет такого файла!");
     }
-    fs.unlinkSync('./public/' + path);
+    if (fs.existsSync('./public/' + path)) {
+      fs.unlinkSync('./public/' + path);
+    }
     return res.status(HttpStatus.OK).end();
   }
 }
