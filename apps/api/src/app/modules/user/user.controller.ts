@@ -1,7 +1,7 @@
 import { Roles } from '@car-mkd-systems/api/core/decorators/role.decorator';
 import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
 import { RoleGuard } from '@car-mkd-systems/api/core/guards/role.guard';
-import { AuthService } from '@car-mkd-systems/api/modules/auth/auth.service';
+import { AuthService } from '@car-mkd-systems/api/modules/user/auth.service';
 import { UserSessionDto } from '@car-mkd-systems/shared/dtos/user/user.session.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { Body, Controller, Get, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
@@ -46,13 +46,8 @@ export class UserController {
   @Post('/login')
   public async login(@Res() res: Response, @Body() body: UserFormDto) {
     const user = await this.userService.findByLogin(body.login);
-    const errors: Record<keyof UserFormDto, any[]> = {
-      login: null,
-      password: null
-    };
     if (!user) {
-      errors.login = ['Нет такого аккаунта'];
-      return res.status(HttpStatus.NOT_FOUND).json(errors).end();
+      return res.status(HttpStatus.NOT_FOUND).json({ error: { login: ['Нет такого аккаунта'] } }).end();
     }
     if (bcrypt.compareSync(body.password, user.password)) {
       const token = await this.authService.login(user);
@@ -65,8 +60,7 @@ export class UserController {
       await this.userService.setToken(user._id, token.accessToken);
       return res.status(HttpStatus.OK).json(login).end();
     } else {
-      errors.password = ['Неверный пароль'];
-      return res.status(HttpStatus.NOT_FOUND).json(errors).end();
+      return res.status(HttpStatus.NOT_FOUND).json({ error: { password: ['Неверный пароль'] } }).end();
     }
   }
 
