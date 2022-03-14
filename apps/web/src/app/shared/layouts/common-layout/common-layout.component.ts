@@ -36,26 +36,26 @@ export class CommonLayoutComponent implements OnInit {
     this.menuHeader = [
       {
         label: 'Создать товар',
-        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN),
+        visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN),
         routerLink: '/product/add'
       },
       {
         separator: true,
-        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN),
+        visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN),
       },
       {
         label: 'Панель моделей автотранспорта',
-        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN),
+        visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN),
         routerLink: '/car-models'
       },
       {
         label: 'Панель категорий',
-        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN),
+        visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN),
         routerLink: '/category'
       },
       {
         separator: true,
-        visible: this.authService.currentUser?.roles.includes(RoleEnum.ADMIN)
+        visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN)
       },
       {
         label: 'Выйти',

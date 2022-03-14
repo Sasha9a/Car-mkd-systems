@@ -1,7 +1,7 @@
 <car-spinner *ngIf="!product"></car-spinner>
 
 <div *ngIf="product">
-  <div *ngIf="authService.currentUser?.roles.includes(RoleEnum.ADMIN)" class="flex flex-wrap lg:justify-content-end">
+  <div *ngIf="authService.currentUser?.roles?.includes(RoleEnum.ADMIN)" class="flex flex-wrap lg:justify-content-end">
     <button *ngIf="!product.isPublic"
             pButton [label]="'Опубликовать'"
             icon="pi pi-eye" class="p-button-warning mr-2 mb-3"
