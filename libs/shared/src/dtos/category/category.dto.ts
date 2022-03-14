@@ -8,6 +8,13 @@ export class CategoryDto extends BaseDto {
   public name: string;
 
   @Expose()
+  public parentId: string;
+
+  @Expose()
+  @Type(() => CategoryDto)
+  public children: CategoryDto[];
+
+  @Expose()
   @Type(() => CharacteristicDto)
   public characteristics?: CharacteristicDto[];
 }

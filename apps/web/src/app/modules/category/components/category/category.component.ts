@@ -72,7 +72,6 @@ export class CategoryComponent implements OnInit {
   public createCharacteristic(category: CategoryDto, index: number) {
     this.saving = true;
 
-    this.characteristic[index].category = category;
     this.characteristic[index].order = category.characteristics.length;
     const { valid, errors } = validate(this.characteristic[index], CharacteristicFormDto);
     if (!valid) {
@@ -113,7 +112,6 @@ export class CategoryComponent implements OnInit {
   public updateCharacteristic(characteristic: CharacteristicDto, formCharacteristic: CharacteristicFormDto) {
     this.saving = true;
 
-    formCharacteristic.category = characteristic.category;
     formCharacteristic.order = characteristic.order;
     const { valid, errors } = validate(formCharacteristic, CharacteristicFormDto);
     if (!valid) {

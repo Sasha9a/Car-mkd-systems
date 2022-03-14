@@ -5,112 +5,75 @@ import { ValidateObjectId } from '@car-mkd-systems/api/core/pipes/validate.objec
 import { CategoryService } from '@car-mkd-systems/api/modules/category/category.service';
 import { ProductService } from '@car-mkd-systems/api/modules/product/product.service';
 import { CategoryFormDto } from '@car-mkd-systems/shared/dtos/category/category.form.dto';
-import { CharacteristicDto } from '@car-mkd-systems/shared/dtos/category/characteristic.dto';
-import { CharacteristicFormDto } from '@car-mkd-systems/shared/dtos/category/characteristic.form.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 @Controller('category')
 export class CategoryController {
+
   public constructor(private readonly categoryService: CategoryService,
                      private readonly productService: ProductService) {
   }
 
-  @Roles(RoleEnum.ADMIN)
-  @UseGuards(JwtAuthGuard, RoleGuard)
   @Get()
   public async getAll(@Res() res: Response) {
-    const category = await this.categoryService.findAll();
-    return res.status(HttpStatus.OK).json(category).end();
-  }
-
-  @Get('/all')
-  public async getAllDropdown(@Res() res: Response) {
-    const category = await this.categoryService.findAllDropdown();
-    return res.status(HttpStatus.OK).json(category).end();
+    let entities = await this.categoryService.findAll();
+    entities = entities.filter((entity) => !entity.parentId);
+    return res.status(HttpStatus.OK).json(entities).end();
   }
 
   @Get('/:id')
-  public async getCategory(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
-    const category = await this.categoryService.findCategory(id);
-    if (!category) {
+  public async getById(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
+    const entity = await this.categoryService.findById(id);
+    if (!entity) {
       return res.status(HttpStatus.NOT_FOUND).send("Категория не существует").end();
     }
-    return res.status(HttpStatus.OK).json(category).end();
-  }
-
-  @Roles(RoleEnum.ADMIN)
-  @UseGuards(JwtAuthGuard, RoleGuard)
-  @Post('/characteristic')
-  public async createCharacteristic(@Res() res: Response, @Body() body: CharacteristicFormDto) {
-    const category = await this.categoryService.checkCategory(body.category._id);
-    if (!category) {
-      return res.status(HttpStatus.NOT_FOUND).json({ category: "Категория не существует" }).end();
-    }
-    const createdCharacteristic = await this.categoryService.createCharacteristic(body);
-    await this.categoryService.addCharacteristicToCategory(createdCharacteristic);
-    return res.status(HttpStatus.CREATED).json(createdCharacteristic).end();
+    return res.status(HttpStatus.OK).json(entity).end();
   }
 
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()
   public async createCategory(@Res() res: Response, @Body() body: CategoryFormDto) {
-    const createdCategory = await this.categoryService.createCategory(body);
-    return res.status(HttpStatus.CREATED).json(createdCategory).end();
+    const entity = await this.categoryService.create(body);
+    if (body.parentId) {
+      const parent = await this.categoryService.findById(body.parentId);
+      parent.children.push(entity);
+      await parent.save();
+    }
+    return res.status(HttpStatus.CREATED).json(entity).end();
   }
 
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Put('/:id')
   public async updateCategory(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: CategoryFormDto) {
-    const updatedCategory = await this.categoryService.updateCategory(id, body);
-    if (!updatedCategory) {
+    const entity = await this.categoryService.update(id, body);
+    if (!entity) {
       throw new NotFoundException("Нет такого объекта!");
     }
-    return res.status(HttpStatus.OK).json(updatedCategory).end();
-  }
-
-  @Roles(RoleEnum.ADMIN)
-  @UseGuards(JwtAuthGuard, RoleGuard)
-  @Put('/characteristic/object/:id')
-  public async updateCharacteristic(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: CharacteristicFormDto) {
-    const updatedCharacteristic = await this.categoryService.updateCharacteristic(id, body);
-    if (!updatedCharacteristic) {
-      throw new NotFoundException("Нет такого объекта!");
-    }
-    return res.status(HttpStatus.OK).json(updatedCharacteristic).end();
-  }
-
-  @Roles(RoleEnum.ADMIN)
-  @UseGuards(JwtAuthGuard, RoleGuard)
-  @Put('/characteristic/order')
-  public async updateOrderCharacteristics(@Res() res: Response, @Body() body: CharacteristicDto[]) {
-    await this.categoryService.updateOrderCharacteristics(body);
-    return res.status(HttpStatus.OK).end();
+    return res.status(HttpStatus.OK).json(entity).end();
   }
 
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Delete('/:id')
   public async deleteCategory(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
-    const deletedCategory = await this.categoryService.deleteCategory(id);
-    if (!deletedCategory) {
+    const entity = await this.categoryService.delete(id);
+    if (!entity) {
       throw new NotFoundException("Нет такого объекта!");
     }
-    await this.productService.isPublicToFalse(deletedCategory);
+    if (entity.parentId) {
+      const parent = await this.categoryService.findById(entity.parentId);
+      await this.categoryService.update(parent._id, { children: parent.children });
+    }
+    // const products = await this.productService.findAll({ category: entity._id });
+    // for (const product of products) {
+    //   await this.productService.update(product._id, { category: entity.parentId ? entity.parentId : null });
+    // }
+    await this.productService.isPublicToFalse(entity);
     return res.status(HttpStatus.OK).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
-  @UseGuards(JwtAuthGuard, RoleGuard)
-  @Delete('/characteristic/:id')
-  public async deleteCharacteristic(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
-    const deletedCharacteristic = await this.categoryService.deleteCharacteristic(id);
-    if (!deletedCharacteristic) {
-      throw new NotFoundException("Нет такого объекта!");
-    }
-    return res.status(HttpStatus.OK).end();
-  }
 }
