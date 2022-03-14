@@ -1,0 +1,9 @@
+<car-category-form *ngIf="!saving && category"
+                   [category]="category"
+                   [canDelete]="true"
+                   (save)="edit($event)"
+                   (delete)="delete()"
+                   [route]="'/category'">
+</car-category-form>
+
+<car-spinner *ngIf="saving || !category"></car-spinner>

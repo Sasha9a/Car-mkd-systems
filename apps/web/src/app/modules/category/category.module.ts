@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from "@car-mkd-systems/web/shared/shared.module";
 import { CategoryComponent } from './components/category/category.component';
+import { CategoryFormComponent } from './dumbs/category-form/category-form.component';
+import { CategoryAddComponent } from './components/add/category-add.component';
+import { CategoryEditComponent } from './components/edit/category-edit.component';
 
 const categoryRoutes: Routes = [
   {
@@ -17,7 +20,10 @@ const categoryRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    CategoryComponent
+    CategoryComponent,
+    CategoryFormComponent,
+    CategoryAddComponent,
+    CategoryEditComponent
   ],
   imports: [
     CommonModule,
