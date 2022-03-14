@@ -10,7 +10,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from '@car-mkd-systems/web/core/core.module';
-import { ShareModule } from '@car-mkd-systems/web/shared/share.module';
+import { SharedModule } from '@car-mkd-systems/web/shared/shared.module';
 import * as moment from 'moment-timezone';
 
 moment.locale('ru');
@@ -25,7 +25,7 @@ moment.locale('ru');
     FormsModule,
     ReactiveFormsModule,
     CoreModule,
-    ShareModule,
+    SharedModule,
     MainModule
   ],
   bootstrap: [AppComponent],

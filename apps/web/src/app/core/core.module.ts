@@ -5,6 +5,7 @@ import { AppComponent } from '@car-mkd-systems/web/core/app.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@car-mkd-systems/web/core/guards/auth.guard';
 import { RoleGuard } from '@car-mkd-systems/web/core/guards/role.guard';
+import { SharedModule } from "@car-mkd-systems/web/shared/shared.module";
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ScrollTopModule } from 'primeng/scrolltop';
@@ -62,9 +63,7 @@ const routes: Routes = [
       onSameUrlNavigation: 'ignore',
       scrollPositionRestoration: 'enabled'
     }),
-    ToastModule,
-    ConfirmDialogModule,
-    ScrollTopModule
+    SharedModule
   ],
   providers: [MessageService, ConfirmationService]
 })

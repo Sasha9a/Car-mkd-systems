@@ -1,13 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { ShareModule } from '@car-mkd-systems/web/shared/share.module';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from "primeng/card";
-import { ImageModule } from 'primeng/image';
-import { SkeletonModule } from 'primeng/skeleton';
+import { SharedModule } from '@car-mkd-systems/web/shared/shared.module';
 import { MainComponent } from './components/main/main.component';
-import { PaginatorModule } from 'primeng/paginator';
 
 const mainRoutes: Routes = [
   {
@@ -25,13 +20,8 @@ const mainRoutes: Routes = [
   ],
   imports: [
     CommonModule,
-    ShareModule,
-    RouterModule.forChild(mainRoutes),
-    ButtonModule,
-    PaginatorModule,
-    CardModule,
-    ImageModule,
-    SkeletonModule
+    SharedModule,
+    RouterModule.forChild(mainRoutes)
   ]
 })
 export class MainModule { }

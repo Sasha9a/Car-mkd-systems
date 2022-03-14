@@ -5,23 +5,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { AuthGuard } from '@car-mkd-systems/web/core/guards/auth.guard';
 import { RoleGuard } from '@car-mkd-systems/web/core/guards/role.guard';
-import { ShareModule } from '@car-mkd-systems/web/shared/share.module';
-import { AccordionModule } from 'primeng/accordion';
-import { CardModule } from 'primeng/card';
-import { FieldsetModule } from 'primeng/fieldset';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { PanelModule } from 'primeng/panel';
-import { RippleModule } from 'primeng/ripple';
-import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { SkeletonModule } from 'primeng/skeleton';
+import { SharedModule } from '@car-mkd-systems/web/shared/shared.module';
 import { ProductAddComponent } from './components/add/product-add.component';
 import { ProductFormComponent } from './dumbs/product-form/product-form.component';
-import { InputTextModule } from 'primeng/inputtext';
-import { FileUploadModule } from 'primeng/fileupload';
-import { TableModule } from 'primeng/table';
 import { ProductCardComponent } from './components/card/product-card.component';
-import { GalleriaModule } from 'primeng/galleria';
-import { StyleClassModule } from 'primeng/styleclass';
 import { ProductEditComponent } from './components/edit/product-edit.component';
 
 const productRoutes: Routes = [
@@ -60,22 +47,9 @@ const productRoutes: Routes = [
   ],
   imports: [
     CommonModule,
-    ShareModule,
+    SharedModule,
     RouterModule.forChild(productRoutes),
-    InputTextModule,
-    FormsModule,
-    InputNumberModule,
-    FileUploadModule,
-    TableModule,
-    RippleModule,
-    ScrollPanelModule,
-    CardModule,
-    AccordionModule,
-    GalleriaModule,
-    StyleClassModule,
-    PanelModule,
-    FieldsetModule,
-    SkeletonModule
+    FormsModule
   ]
 })
 export class ProductModule { }
