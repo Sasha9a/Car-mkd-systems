@@ -29,10 +29,6 @@ export class MainComponent implements OnInit {
       value: [],
       toApi: true
     },
-    brands: {
-      value: [],
-      toApi: true
-    },
     models: {
       value: [],
       toApi: true
@@ -55,11 +51,11 @@ export class MainComponent implements OnInit {
 
   public filters = {
     categories: [],
-    brands: []
+    models: []
   };
   public selectedFilters = {
     categories: [],
-    brands: []
+    models: []
   };
 
   public priceInfo: Record<string, {
@@ -83,7 +79,7 @@ export class MainComponent implements OnInit {
       .subscribe(([categories, brands]) => {
         this.filters = {
           categories: categories,
-          brands: brands
+          models: brands
         };
         this.queryParams = this.queryParamsService.getFilteredQueryParams(this.queryParams);
         this.queryParamsService.setQueryParams(this.queryParams);
@@ -97,8 +93,7 @@ export class MainComponent implements OnInit {
     this.loading = true;
 
     this.setQueryParam('categories', this.selectedFilters.categories);
-    this.setQueryParam('brands', this.selectedFilters.brands);
-    // this.setQueryParam('models', this.selectedFilters.models);
+    this.setQueryParam('models', this.selectedFilters.models);
 
     this.productStateService.findAll(this.queryParamsService.parseQueryParamsForApi(this.queryParams)).subscribe((products) => {
       this.products = products.items;

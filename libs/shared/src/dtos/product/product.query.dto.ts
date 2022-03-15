@@ -13,10 +13,5 @@ export class ProductQueryDto extends PaginationDto {
   @Expose()
   @IsArray()
   @IsOptional()
-  public brands?: string[];
-
-  @Expose()
-  @IsArray()
-  @IsOptional()
   public models?: string[];
 }
