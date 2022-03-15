@@ -40,9 +40,30 @@ export class ModelCarController {
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Put(':id')
   public async update(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: BrandCarFormDto) {
+    const brandCar = await this.modelCarService.findById(id);
     const entity = await this.modelCarService.update(id, body);
     if (!entity) {
       throw new NotFoundException("Нет такого объекта!");
+    }
+    for (const model of brandCar.models) {
+      const isModel = entity.models.find((m) => model.id === m.id);
+      if (isModel && isModel.name !== model.name) {
+        const products = await this.productService.findAll({ 'modelCars': { $elemMatch: { '_id': model.id } } });
+        for (const product of products) {
+          product.modelCars.forEach((m) => {
+            if (m.id === isModel.id) {
+              m.name = isModel.name;
+            }
+          });
+          product.markModified('modelCars');
+          await product.save();
+        }
+      } else if (!isModel) {
+        const products = await this.productService.findAll({ 'modelCars': { $elemMatch: { '_id': model._id } } });
+        for (const product of products) {
+          await product.update({ $pull: { 'modelCars': { '_id': model._id } } }).exec();
+        }
+      }
     }
     return res.status(HttpStatus.OK).json(entity).end();
   }
