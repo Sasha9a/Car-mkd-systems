@@ -15,7 +15,7 @@ export class ProductService extends BaseService<Product> {
     super(productModel);
   }
 
-  public async findAll(queryParams: ProductQueryDto, user: User): Promise<Product[]> {
+  public async find(queryParams: ProductQueryDto, user: User): Promise<Product[]> {
     const filter = queryParamParser(queryParams);
     if (!user || !user.roles?.includes(RoleEnum.ADMIN)) {
       filter.filter.isPublic = true;

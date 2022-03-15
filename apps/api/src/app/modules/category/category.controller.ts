@@ -68,11 +68,18 @@ export class CategoryController {
       const parent = await this.categoryService.findById(entity.parentId);
       await this.categoryService.update(parent._id, { children: parent.children });
     }
-    // const products = await this.productService.findAll({ category: entity._id });
-    // for (const product of products) {
-    //   await this.productService.update(product._id, { category: entity.parentId ? entity.parentId : null });
-    // }
-    // await this.productService.isPublicToFalse(entity);
+    const isParent = !!entity.parentId;
+    if (isParent) {
+      const parent = await this.categoryService.findById(entity.parentId);
+      await this.categoryService.update(parent._id, { children: parent.children });
+    }
+    const products = await this.productService.findAll({ category: entity._id });
+    for (const product of products) {
+      await this.productService.update(product._id, { category: isParent ? entity.parentId : null });
+      if (!isParent) {
+        await this.productService.update(product._id, { isPublic: false });
+      }
+    }
     return res.status(HttpStatus.OK).end();
   }
 

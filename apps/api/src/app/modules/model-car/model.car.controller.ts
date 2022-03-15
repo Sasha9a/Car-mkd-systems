@@ -3,6 +3,7 @@ import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
 import { RoleGuard } from '@car-mkd-systems/api/core/guards/role.guard';
 import { ValidateObjectId } from '@car-mkd-systems/api/core/pipes/validate.object.id.pipes';
 import { ModelCarService } from '@car-mkd-systems/api/modules/model-car/model.car.service';
+import { ProductService } from "@car-mkd-systems/api/modules/product/product.service";
 import { BrandCarFormDto } from '@car-mkd-systems/shared/dtos/modelCar/brand.car.form.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
@@ -11,7 +12,8 @@ import { Response } from 'express';
 @Controller('car-model')
 export class ModelCarController {
 
-  public constructor(private readonly modelCarService: ModelCarService) {
+  public constructor(private readonly modelCarService: ModelCarService,
+                     private readonly productService: ProductService) {
   }
 
   @Get()
@@ -52,6 +54,12 @@ export class ModelCarController {
     const entity = await this.modelCarService.delete(id);
     if (!entity) {
       throw new NotFoundException("Нет такого объекта!");
+    }
+    for (const model of entity.models) {
+      const products = await this.productService.findAll({ 'modelCars': { $elemMatch: { '_id': model._id } } });
+      for (const product of products) {
+        await product.update({ $pull: { 'modelCars': { '_id': model._id } } }).exec();
+      }
     }
     return res.status(HttpStatus.OK).end();
   }

@@ -24,7 +24,7 @@ export class ProductController {
   @Get()
   public async findAll(@Res() res: Response, @Req() req: Request, @Query() query: ProductQueryDto) {
     const user = req.headers.authorization ? await this.userService.findByToken(req.headers.authorization.replace("Bearer ", "")) : null;
-    const entities = await this.productService.findAll(query, user);
+    const entities = await this.productService.find(query, user);
     if (!user) {
       entities.forEach((product) => {
         product.modifications.forEach((modification) => {
