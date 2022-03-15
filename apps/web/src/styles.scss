@@ -15,6 +15,20 @@ body {
   src: url("/assets/fonts/Cooper Std Black.ttf");
 }
 
+*:focus,
+.p-focus {
+  box-shadow: none !important;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+small {
+  font-size: 13px !important;
+}
+
 .fw-bold {
   font-weight: 700 !important;
   font-family: "Avenir Next Cyr", "Helvetica Neue", sans-serif !important;
