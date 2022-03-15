@@ -116,8 +116,8 @@ export class MainComponent implements OnInit {
         };
       });
       setTimeout(() => {
-        this.paginatorStart?.changePage(this.queryParams['page'].value);
-        this.paginatorEnd?.changePage(this.queryParams['page'].value);
+        this.paginatorStart?.changePage(this.queryParams.page.value);
+        this.paginatorEnd?.changePage(this.queryParams.page.value);
       });
       this.loading = false;
     }, () => this.loading = false);
@@ -128,9 +128,9 @@ export class MainComponent implements OnInit {
   }
 
   public paginate(event: { first: number, rows: string, page: number, pageCount: number }) {
-    if (this.queryParams['page'].value !== Number(event.page)) {
+    if (this.queryParams.page.value !== Number(event.page)) {
       this.queryParamsService.setQueryParam(this.queryParams, 'page', Number(event.page));
-      this.queryParamsService.setQueryParam(this.queryParams, 'offset', Number(event.page) * this.queryParams['limit'].value);
+      this.queryParamsService.setQueryParam(this.queryParams, 'offset', Number(event.page) * this.queryParams.limit.value);
       this.loadProducts();
     }
     if (this.paginatorStart.getPage() !== Number(event.page)) {
