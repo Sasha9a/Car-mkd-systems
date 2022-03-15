@@ -18,15 +18,9 @@
       </div>
 
       <div class="col-4 pb-0">
-        <car-brand-car-multi-select [brandsCar]="filters.brands"
-                                    [(selectedBrandsCar)]="selectedFilters.brands">
+        <car-brand-car-multi-select [brandCars]="filters.brands"
+                                    [(selectedBrandCars)]="selectedFilters.brands">
         </car-brand-car-multi-select>
-      </div>
-
-      <div class="col-4 pb-0">
-        <car-model-car-multi-select [modelsCar]="filters.models"
-                                    [(selectedModelsCar)]="selectedFilters.models">
-        </car-model-car-multi-select>
       </div>
     </div>
   </div>

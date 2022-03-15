@@ -1,8 +1,9 @@
-<car-multi-select [options]="brandsCar"
-                  [(selectedItems)]="selectedBrandsCar"
-                  (selectedItemsChange)="selectedBrandsCarChange.emit($event)"
-                  [label]="labelInput ? 'Марки' : ''"
-                  optionLabel="brand"
-                  filterBy="brand"
-                  sort="brand:string">
-</car-multi-select>
+<p-treeSelect [(ngModel)]="dataSelectBrandCars"
+              (ngModelChange)="changeValue($event)"
+              [options]="dataBrandCars"
+              [disabled]="disabled"
+              [class]="class"
+              selectionMode="checkbox"
+              [metaKeySelection]="false"
+              [placeholder]="placeholder">
+</p-treeSelect>

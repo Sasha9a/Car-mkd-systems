@@ -35,7 +35,7 @@ export class CategoryEditComponent implements OnInit {
 
     this.categoryStateService.findById<CategoryDto>(this.categoryId).subscribe((category) => {
       this.category = category;
-      this.title.setTitle(`${this.category.name} - CRM`);
+      this.title.setTitle(`${this.category.name} - CMS`);
     });
   }
 
@@ -51,7 +51,7 @@ export class CategoryEditComponent implements OnInit {
 
   public delete() {
     this.confirmDialogService.confirm({
-      message: `Вы действительно хотите удалить категорию "${this.category.name}"?`,
+      message: `Вы действительно хотите удалить категорию "${this.category.name}"?<br /><br />ВНИМАНИЕ! У товаров удалится категория`,
       accept: () => {
         this.saving = true;
 

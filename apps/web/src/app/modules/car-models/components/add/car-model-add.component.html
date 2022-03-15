@@ -1,0 +1,7 @@
+<car-car-model-form *ngIf="!saving"
+                    [brandCar]="brandCar"
+                    (save)="create($event)"
+                    [route]="'/car-models'">
+</car-car-model-form>
+
+<car-spinner *ngIf="saving"></car-spinner>

@@ -1,0 +1,65 @@
+<h3 class="dividing-header">Марка транспорта</h3>
+
+<div class="grid">
+  <div class="col-12 md:col-6 xl:col-5">
+    <div class="p-fluid">
+      <div class="field">
+        <label class="fw-bold required-field">Название</label>
+        <input type="text" pInputText [ngClass]="{ 'ng-invalid ng-dirty': errors?.name }" [(ngModel)]="brandCar.name">
+        <small *ngIf="errors?.name" class="p-error">{{ errors.name | join }}</small>
+      </div>
+
+      <div class="field">
+        <label class="fw-bold">Модели</label>
+        <p-table [value]="brandCar.models | orderBy: 'name:string'"
+                 styleClass="basic-table">
+          <ng-template pTemplate="body" let-modelCar>
+            <tr *ngIf="toModelCar(modelCar) as modelCar">
+              <td>
+                <p *ngIf="modelCarEdit !== modelCar" class="fw-bold ml-2">
+                  <span class="hover:text-blue-400 cursor-pointer"
+                        (click)="modelCarEdit = modelCar">
+                    {{ modelCar.name ?? '...' }}
+                  </span>
+                </p>
+                <div *ngIf="modelCarEdit === modelCar" class="p-inputgroup">
+                  <button type="button" pButton pRipple
+                          icon="pi pi-check"
+                          class="p-button-success"
+                          (click)="updateModelCar(modelCar)">
+                  </button>
+                  <input type="text" pInputText [(ngModel)]="modelCar.name">
+                  <button type="button" pButton pRipple
+                          icon="pi pi-times"
+                          class="p-button-danger"
+                          (click)="modelCarEdit = null">
+                  </button>
+                </div>
+              </td>
+              <td class="w-6rem">
+                <button pButton pRipple
+                        type="button"
+                        label="Удалить"
+                        class="p-button-outlined p-button-danger"
+                        (click)="deleteModelCar(modelCar)">
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <button pButton label="Добавить модель"
+                class="p-button-text w-12rem"
+                icon="pi pi-plus"
+                (click)="addModelCar()">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 mt-4">
+    <button pButton [label]="saveButtonLabel" icon="pi pi-check" class="p-button-success mr-2" (click)="onSave(brandCar)"></button>
+    <button *ngIf="canDelete" pButton [label]="'Удалить'" class="p-button-danger mr-2" (click)="delete.emit(brandCar)"></button>
+    <car-go-back-button [route]="route"></car-go-back-button>
+  </div>
+</div>

@@ -71,9 +71,9 @@ export class ProductCardComponent implements OnInit {
         this.activeModification = this.product.modifications[0];
       }
       if (this.product.modelsCar?.length) {
-        this.brandsProduct = this.product.modelsCar.map((model) => model.brand.brand)
-                                 .filter((brand, index, self) => self.indexOf(brand) === index)
-                                 .sort();
+        // this.brandsProduct = this.product.modelsCar.map((model) => model.brand.brand)
+        //                          .filter((brand, index, self) => self.indexOf(brand) === index)
+        //                          .sort();
       }
 
       if (this.product.category) {

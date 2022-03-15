@@ -100,7 +100,7 @@
         <p-fieldset legend="Подходит для автомобилей">
           <p-accordion>
             <p-accordionTab *ngFor="let brand of brandsProduct" header="{{ brand }}">
-              <p *ngFor="let model of product.modelsCar | keyValueFilter: { 'brand.brand': brand }" class="my-1 fw-bold">{{ model.model }}</p>
+              <p *ngFor="let model of product.modelsCar | keyValueFilter: { 'brand.brand': brand }" class="my-1 fw-bold">{{ model.name }}</p>
             </p-accordionTab>
           </p-accordion>
         </p-fieldset>

@@ -97,13 +97,12 @@ import { SingleSelectComponent } from './dumbs/dropdowns/single-select/single-se
 import { DropdownModule } from 'primeng/dropdown';
 import { NestedPropertyPipe } from './pipes/nested-property.pipe';
 import { MultiSelectComponent } from './dumbs/dropdowns/multi-select/multi-select.component';
-import { ModelCarMultiSelectComponent } from './dumbs/dropdowns/model-car-multi-select/model-car-multi-select.component';
+import { BrandCarMultiSelectComponent } from './dumbs/dropdowns/brand-car-multi-select/brand-car-multi-select.component';
 import { FileComponent } from './dumbs/file/file.component';
 import { ImageModule } from 'primeng/image';
 import { ApiUrlPipe } from './pipes/api-url.pipe';
 import { FileTypePipe } from './pipes/file-type.pipe';
 import { GoBackButtonComponent } from './dumbs/go-back-button/go-back-button.component';
-import { BrandCarMultiSelectComponent } from './dumbs/dropdowns/brand-car-multi-select/brand-car-multi-select.component';
 import { FilterByPipe } from './pipes/filter-by.pipe';
 import { KeyValueFilterPipe } from './pipes/key-value-filter.pipe';
 import { ObjectKeyValuePipe } from './pipes/object-key-value.pipe';
@@ -119,12 +118,11 @@ import { CategoryMultiSelectComponent } from './dumbs/dropdowns/category-multi-s
     SingleSelectComponent,
     NestedPropertyPipe,
     MultiSelectComponent,
-    ModelCarMultiSelectComponent,
+    BrandCarMultiSelectComponent,
     FileComponent,
     ApiUrlPipe,
     FileTypePipe,
     GoBackButtonComponent,
-    BrandCarMultiSelectComponent,
     FilterByPipe,
     KeyValueFilterPipe,
     ObjectKeyValuePipe,
@@ -135,13 +133,12 @@ import { CategoryMultiSelectComponent } from './dumbs/dropdowns/category-multi-s
 		OrderByPipe,
 		SpinnerComponent,
 		CategorySingleSelectComponent,
-		ModelCarMultiSelectComponent,
+		BrandCarMultiSelectComponent,
 		FileComponent,
 		GoBackButtonComponent,
 		ApiUrlPipe,
 		KeyValueFilterPipe,
 		ObjectKeyValuePipe,
-		BrandCarMultiSelectComponent,
 		CategoryMultiSelectComponent,
     AutoCompleteModule,
     CalendarModule,

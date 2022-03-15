@@ -1,0 +1,9 @@
+<car-car-model-form *ngIf="!saving && brandCar"
+                   [brandCar]="brandCar"
+                   [canDelete]="true"
+                   (save)="edit($event)"
+                   (delete)="delete()"
+                   [route]="'/car-models'">
+</car-car-model-form>
+
+<car-spinner *ngIf="saving || !brandCar"></car-spinner>

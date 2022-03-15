@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CategoryDto } from "@car-mkd-systems/shared/dtos/category/category.dto";
+import { BrandCarDto } from "@car-mkd-systems/shared/dtos/modelCar/brand.car.dto";
 import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
 import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
@@ -54,13 +55,11 @@ export class MainComponent implements OnInit {
 
   public filters = {
     categories: [],
-    brands: [],
-    models: [],
+    brands: []
   };
   public selectedFilters = {
     categories: [],
-    brands: [],
-    models: []
+    brands: []
   };
 
   public priceInfo: Record<string, {
@@ -80,13 +79,11 @@ export class MainComponent implements OnInit {
   public ngOnInit(): void {
     forkJoin(
       this.categoryStateService.find<CategoryDto>(),
-      this.modelCarStateService.findAllBrand(),
-      this.modelCarStateService.findAllModel())
-      .subscribe(([categories, brands, models]) => {
+      this.modelCarStateService.find<BrandCarDto>())
+      .subscribe(([categories, brands]) => {
         this.filters = {
           categories: categories,
-          brands: brands,
-          models: models
+          brands: brands
         };
         this.queryParams = this.queryParamsService.getFilteredQueryParams(this.queryParams);
         this.queryParamsService.setQueryParams(this.queryParams);
@@ -101,7 +98,7 @@ export class MainComponent implements OnInit {
 
     this.setQueryParam('categories', this.selectedFilters.categories);
     this.setQueryParam('brands', this.selectedFilters.brands);
-    this.setQueryParam('models', this.selectedFilters.models);
+    // this.setQueryParam('models', this.selectedFilters.models);
 
     this.productStateService.findAll(this.queryParamsService.parseQueryParamsForApi(this.queryParams)).subscribe((products) => {
       this.products = products.items;
