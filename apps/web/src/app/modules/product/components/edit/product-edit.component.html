@@ -1,8 +1,8 @@
-<car-product-form *ngIf="!saving && categories && modelsCar && product"
+<car-product-form *ngIf="!saving && categories && brandCars && product"
                   [product]="product"
                   [categories]="categories"
-                  [modelsCar]="modelsCar"
+                  [brandCars]="brandCars"
                   (save)="editProduct($event)">
 </car-product-form>
 
-<car-spinner *ngIf="saving || !categories || !modelsCar || !product"></car-spinner>
+<car-spinner *ngIf="saving || !categories || !brandCars || !product"></car-spinner>

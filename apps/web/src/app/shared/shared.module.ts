@@ -97,7 +97,7 @@ import { SingleSelectComponent } from './dumbs/dropdowns/single-select/single-se
 import { DropdownModule } from 'primeng/dropdown';
 import { NestedPropertyPipe } from './pipes/nested-property.pipe';
 import { MultiSelectComponent } from './dumbs/dropdowns/multi-select/multi-select.component';
-import { BrandCarMultiSelectComponent } from './dumbs/dropdowns/brand-car-multi-select/brand-car-multi-select.component';
+import { ModelCarMultiSelectComponent } from './dumbs/dropdowns/model-car-multi-select/model-car-multi-select.component';
 import { FileComponent } from './dumbs/file/file.component';
 import { ImageModule } from 'primeng/image';
 import { ApiUrlPipe } from './pipes/api-url.pipe';
@@ -118,7 +118,7 @@ import { CategoryMultiSelectComponent } from './dumbs/dropdowns/category-multi-s
     SingleSelectComponent,
     NestedPropertyPipe,
     MultiSelectComponent,
-    BrandCarMultiSelectComponent,
+    ModelCarMultiSelectComponent,
     FileComponent,
     ApiUrlPipe,
     FileTypePipe,
@@ -133,7 +133,7 @@ import { CategoryMultiSelectComponent } from './dumbs/dropdowns/category-multi-s
 		OrderByPipe,
 		SpinnerComponent,
 		CategorySingleSelectComponent,
-		BrandCarMultiSelectComponent,
+		ModelCarMultiSelectComponent,
 		FileComponent,
 		GoBackButtonComponent,
 		ApiUrlPipe,

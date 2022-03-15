@@ -70,7 +70,7 @@ export class ProductCardComponent implements OnInit {
       if (this.product.modifications.length) {
         this.activeModification = this.product.modifications[0];
       }
-      if (this.product.modelsCar?.length) {
+      if (this.product.modelCars?.length) {
         // this.brandsProduct = this.product.modelsCar.map((model) => model.brand.brand)
         //                          .filter((brand, index, self) => self.indexOf(brand) === index)
         //                          .sort();

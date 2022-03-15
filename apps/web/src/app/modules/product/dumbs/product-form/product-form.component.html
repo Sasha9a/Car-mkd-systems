@@ -71,13 +71,13 @@
         <small *ngIf="errors?.category" class="p-error">{{ errors.category | join }}</small>
       </div>
 
-<!--      <div class="field">-->
-<!--        <label class="fw-bold">Модели автотранспорта</label>-->
-<!--        <car-brand-car-multi-select [modelsCar]="modelsCar"-->
-<!--                                    [class]="errors?.modelsCar ? 'ng-invalid ng-dirty' : ''"-->
-<!--                                    [(selectedModelsCar)]="product.modelsCar">-->
-<!--        </car-brand-car-multi-select>-->
-<!--      </div>-->
+      <div class="field">
+        <label class="fw-bold">Модели автотранспорта</label>
+        <car-model-car-multi-select [brandCars]="brandCars"
+                                    [class]="errors?.modelCars ? 'ng-invalid ng-dirty' : ''"
+                                    [(selectedModelCars)]="product.modelCars">
+        </car-model-car-multi-select>
+      </div>
 
     </div>
   </div>

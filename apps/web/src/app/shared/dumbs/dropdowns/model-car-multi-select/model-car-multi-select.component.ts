@@ -1,17 +1,18 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { BrandCarDto } from "@car-mkd-systems/shared/dtos/modelCar/brand.car.dto";
+import { ModelCarDto } from "@car-mkd-systems/shared/dtos/modelCar/model.car.dto";
 
 @Component({
-  selector: 'car-brand-car-multi-select',
-  templateUrl: './brand-car-multi-select.component.html',
+  selector: 'car-model-car-multi-select',
+  templateUrl: './model-car-multi-select.component.html',
   styleUrls: []
 })
-export class BrandCarMultiSelectComponent {
+export class ModelCarMultiSelectComponent {
 
   @Input() public brandCars: BrandCarDto[] = [];
 
-  @Input() public selectedBrandCars: BrandCarDto[] = [];
-  @Output() public selectedBrandCarsChange = new EventEmitter<BrandCarDto[]>();
+  @Input() public selectedModelCars: ModelCarDto[] = [];
+  @Output() public selectedModelCarsChange = new EventEmitter<ModelCarDto[]>();
 
   @Input() public class = '';
   @Input() public disabled = false;
@@ -25,17 +26,23 @@ export class BrandCarMultiSelectComponent {
       this.dataBrandCars = this.parseBrandCars(changes['brandCars'].currentValue);
     }
     if (changes['selectedBrandCars']?.currentValue) {
-      this.dataSelectBrandCars = this.dataBrandCars.filter((brandCar) => {
-        return changes['selectedBrandCars'].currentValue.some((c) => c._id === brandCar.key);
+      this.dataSelectBrandCars = [];
+      this.dataBrandCars.forEach((brandCar) => {
+        this.dataSelectBrandCars.push(...brandCar.children?.filter((modelCar) => {
+          return changes['selectedBrandCars'].currentValue.some((c) => c._id === modelCar.key);
+        }));
       });
     }
   }
 
   public changeValue(items: { label: string, key: string, children: any[] }[]) {
-    const selectBrandCars = this.brandCars.filter((brandCar) => {
-      return items.some((c) => c.key === brandCar._id);
+    const selectModelCars = [];
+    this.brandCars.forEach((brandCar) => {
+      selectModelCars.push(...brandCar.models?.filter((modelCar) => {
+        return items.some((c) => c.key === modelCar._id);
+      }));
     });
-    this.selectedBrandCarsChange.emit(selectBrandCars);
+    this.selectedModelCarsChange.emit(selectModelCars);
   }
 
   public parseBrandCars(brandCars: BrandCarDto[]): { label: string, key: string, children: any[] }[] {
@@ -46,6 +53,7 @@ export class BrandCarMultiSelectComponent {
       return {
         label: brandCar.name,
         key: brandCar._id,
+        selectable: false,
         children: brandCar.models.map((modelCar) => {
           return {
             label: modelCar.name,

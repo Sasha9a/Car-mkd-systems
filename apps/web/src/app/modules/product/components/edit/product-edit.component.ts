@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryDto } from '@car-mkd-systems/shared/dtos/category/category.dto';
-import { ModelCarDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.dto';
+import { BrandCarDto } from "@car-mkd-systems/shared/dtos/modelCar/brand.car.dto";
 import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
 import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
 import { CategoryStateService } from '@car-mkd-systems/web/core/services/category/category-state.service';
@@ -23,7 +23,7 @@ export class ProductEditComponent implements OnInit {
   public saving = false;
 
   public categories: CategoryDto[];
-  public modelsCar: ModelCarDto[];
+  public brandCars: BrandCarDto[];
 
   public constructor(private readonly categoryStateService: CategoryStateService,
                      private readonly modelCarStateService: ModelCarStateService,
@@ -46,8 +46,8 @@ export class ProductEditComponent implements OnInit {
       this.categories = categories;
     });
 
-    this.modelCarStateService.findAllModel().subscribe((modelsCar) => {
-      this.modelsCar = modelsCar;
+    this.modelCarStateService.find<BrandCarDto>().subscribe((brandCars) => {
+      this.brandCars = brandCars;
     });
 
   }

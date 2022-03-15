@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CategoryDto } from '@car-mkd-systems/shared/dtos/category/category.dto';
 import { FileDto } from '@car-mkd-systems/shared/dtos/file.dto';
-import { ModelCarDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.dto';
+import { BrandCarDto } from "@car-mkd-systems/shared/dtos/modelCar/brand.car.dto";
 import { ModificationDto } from '@car-mkd-systems/shared/dtos/product/modification.dto';
 import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
 import { CategoryStateService } from '@car-mkd-systems/web/core/services/category/category-state.service';
@@ -24,7 +24,7 @@ export class ProductFormComponent extends BaseFormComponent<ProductFormDto> impl
   public uploadingFiles = false;
 
   @Input() public categories: CategoryDto[] = [];
-  @Input() public modelsCar: ModelCarDto[] = [];
+  @Input() public brandCars: BrandCarDto[] = [];
 
   public category: CategoryDto;
 

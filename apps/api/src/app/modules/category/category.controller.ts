@@ -72,7 +72,7 @@ export class CategoryController {
     // for (const product of products) {
     //   await this.productService.update(product._id, { category: entity.parentId ? entity.parentId : null });
     // }
-    await this.productService.isPublicToFalse(entity);
+    // await this.productService.isPublicToFalse(entity);
     return res.status(HttpStatus.OK).end();
   }
 
