@@ -15,6 +15,7 @@ import * as fs from 'fs';
 
 @Controller('product')
 export class ProductController {
+
   public constructor(private readonly productService: ProductService,
                      private readonly userService: UserService,
                      private readonly fileService: FileService) {
@@ -23,9 +24,9 @@ export class ProductController {
   @Get()
   public async findAll(@Res() res: Response, @Req() req: Request, @Query() query: ProductQueryDto) {
     const user = req.headers.authorization ? await this.userService.findByToken(req.headers.authorization.replace("Bearer ", "")) : null;
-    const products = await this.productService.findAll(query, user);
+    const entities = await this.productService.findAll(query, user);
     if (!user) {
-      products.forEach((product) => {
+      entities.forEach((product) => {
         product.modifications.forEach((modification) => {
           delete modification.pricePartner;
           delete modification.discountPartner;
@@ -34,61 +35,61 @@ export class ProductController {
     }
     const count = await this.productService.countFindAll(query, user);
     return res.status(HttpStatus.OK).json(<ProductItemDto>{
-      items: products as any[],
+      items: entities as any[],
       count: count
     }).end();
   }
 
   @Get(':id')
   public async findById(@Res() res: Response, @Req() req: Request, @Param('id', new ValidateObjectId()) id: string) {
-    const product = await this.productService.findById(id);
-    if (!product) {
+    const entity = await this.productService.findById(id);
+    if (!entity) {
       return res.status(HttpStatus.NOT_FOUND).send("Товар не существует").end();
     }
     const user = req.headers.authorization ? await this.userService.findByToken(req.headers.authorization.replace("Bearer ", "")) : null;
-    if ((!user || !user.roles?.includes(RoleEnum.ADMIN)) && !product.isPublic) {
+    if ((!user || !user.roles?.includes(RoleEnum.ADMIN)) && !entity.isPublic) {
       return res.status(HttpStatus.NOT_FOUND).send("Ошибка доступа").end();
     }
     if (!user) {
-      product.modifications.forEach((modification) => {
+      entity.modifications.forEach((modification) => {
         delete modification.pricePartner;
         delete modification.discountPartner;
       });
     }
-    return res.status(HttpStatus.OK).json(product).end();
+    return res.status(HttpStatus.OK).json(entity).end();
   }
 
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()
   public async createProduct(@Res() res: Response, @Body() body: ProductFormDto) {
-    const createdProduct = await this.productService.createProduct(body);
-    if (!createdProduct) {
+    const entity = await this.productService.create(body);
+    if (!entity) {
       throw new NotFoundException("Произошла ошибка!");
     }
-    return res.status(HttpStatus.CREATED).json(createdProduct).end();
+    return res.status(HttpStatus.CREATED).json(entity).end();
   }
 
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Put(':id')
   public async updateProduct(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: ProductFormDto) {
-    const updatedProduct = await this.productService.updateProduct(id, body);
-    if (!updatedProduct) {
+    const entity = await this.productService.update(id, body);
+    if (!entity) {
       throw new NotFoundException("Нет такого товара!");
     }
-    return res.status(HttpStatus.OK).json(updatedProduct).end();
+    return res.status(HttpStatus.OK).json(entity).end();
   }
 
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Delete(':id')
   public async deleteProduct(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
-    const deletedProduct = await this.productService.deleteProduct(id);
-    if (!deletedProduct) {
+    const entity = await this.productService.delete(id);
+    if (!entity) {
       throw new NotFoundException("Нет такого объекта!");
     }
-    for (const image of deletedProduct.images) {
+    for (const image of entity.images) {
       await this.fileService.deleteFile(image.path);
       fs.unlinkSync('./public/' + image.path);
     }

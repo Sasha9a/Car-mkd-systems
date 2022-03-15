@@ -26,7 +26,7 @@ export class ProductDto extends BaseDto {
 
   @Expose()
   @Type(() => ModelCarDto)
-  public modelsCar: ModelCarDto[];
+  public modelCars: ModelCarDto[];
 
   @Expose()
   @Type(() => ModificationDto)

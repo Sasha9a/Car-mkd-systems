@@ -1,25 +1,22 @@
-import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
+import { BaseService } from "@car-mkd-systems/api/core/services/base.service";
+import { queryParamParser } from "@car-mkd-systems/api/core/services/query-param-parser.service";
 import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
-import { Category } from '@car-mkd-systems/shared/schemas/category.schema';
 import { Product } from '@car-mkd-systems/shared/schemas/product.schema';
 import { User } from '@car-mkd-systems/shared/schemas/user.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { MongooseQueryParser } from 'mongoose-query-parser';
 
 @Injectable()
-export class ProductService {
+export class ProductService extends BaseService<Product> {
+
   public constructor(@InjectModel(Product.name) private readonly productModel: Model<Product>) {
+    super(productModel);
   }
 
   public async findAll(queryParams: ProductQueryDto, user: User): Promise<Product[]> {
-    const parser = new MongooseQueryParser({
-      skipKey: 'offset',
-      limitKey: 'limit'
-    });
-    const filter = parser.parse(queryParams);
+    const filter = queryParamParser(queryParams);
     if (!user || !user.roles?.includes(RoleEnum.ADMIN)) {
       filter.filter.isPublic = true;
     }
@@ -29,40 +26,11 @@ export class ProductService {
   }
 
   public async countFindAll(queryParams: ProductQueryDto, user: User) {
-    const parser = new MongooseQueryParser({
-      skipKey: 'offset',
-      limitKey: 'limit'
-    });
-    const filter = parser.parse(queryParams);
+    const filter = queryParamParser(queryParams);
     if (!user || !user.roles?.includes(RoleEnum.ADMIN)) {
       filter.filter.isPublic = true;
     }
     return await this.productModel.count(filter.filter).exec();
-  }
-
-  public async findById(id: string): Promise<Product> {
-    return await this.productModel.findById(id).exec();
-  }
-
-  public async createProduct(product: ProductFormDto): Promise<Product> {
-    try {
-      const createdProduct = new this.productModel(product);
-      return await createdProduct.save();
-    } catch {
-      return null;
-    }
-  }
-
-  public async updateProduct(id: string, product: ProductFormDto): Promise<Product> {
-    return await this.productModel.findOneAndUpdate({ _id: id }, { $set: product }, { new: true }).exec();
-  }
-
-  public async deleteProduct(id: string): Promise<Product> {
-    return await this.productModel.findByIdAndDelete(id).exec();
-  }
-
-  public async isPublicToFalse(category: Category): Promise<any> {
-    return await this.productModel.updateMany({ category: category }, { $set: { isPublic: false } }).exec();
   }
 
 }

@@ -32,7 +32,7 @@ export class ProductFormDto {
   @Expose()
   @IsOptional()
   @Type(() => ModelCarDto)
-  public modelsCar?: ModelCarDto[] = [];
+  public modelCars?: ModelCarDto[] = [];
 
   @Expose()
   @IsOptional()

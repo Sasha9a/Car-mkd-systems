@@ -1,7 +1,7 @@
 import { ModificationDto } from '@car-mkd-systems/shared/dtos/product/modification.dto';
 import { Category } from '@car-mkd-systems/shared/schemas/category.schema';
 import { File } from '@car-mkd-systems/shared/schemas/file.schema';
-import { ModelCar } from '@car-mkd-systems/shared/schemas/model.car.schema';
+import { ModelCar, ModelCarSchema } from '@car-mkd-systems/shared/schemas/model.car.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
@@ -23,8 +23,8 @@ export class Product extends Document {
   @Prop({ default: false })
   public isPublic: boolean;
 
-  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: ModelCar.name, default: [], autopopulate: true })
-  public modelsCar: ModelCar[];
+  @Prop({ type: [ModelCarSchema], default: [], autopopulate: true })
+  public modelCars: ModelCar[];
 
   @Prop({ type: [mongoose.Schema.Types.Mixed], default: [] })
   public modifications: ModificationDto[];
