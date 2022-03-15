@@ -5,7 +5,7 @@ import { ModelCarDto } from '@car-mkd-systems/shared/dtos/modelCar/model.car.dto
 @Expose()
 export class BrandCarDto extends BaseDto {
   @Expose()
-  public brand: string;
+  public name: string;
 
   @Expose()
   @Type(() => ModelCarDto)

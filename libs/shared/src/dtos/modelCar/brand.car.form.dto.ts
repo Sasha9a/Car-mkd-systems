@@ -3,7 +3,9 @@ import { IsString } from 'class-validator';
 
 @Expose()
 export class BrandCarFormDto {
+
   @Expose()
-  @IsString({ message: "Введите значение" })
-  public brand: string;
+  @IsString({ message: "Введите название марки" })
+  public name: string;
+
 }
