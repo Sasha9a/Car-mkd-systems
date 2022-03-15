@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { CategoryDto } from "@car-mkd-systems/shared/dtos/category/category.dto";
 import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
 import { ProductQueryDto } from '@car-mkd-systems/shared/dtos/product/product.query.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
@@ -78,7 +79,7 @@ export class MainComponent implements OnInit {
 
   public ngOnInit(): void {
     forkJoin(
-      this.categoryStateService.findAllDropdown(),
+      this.categoryStateService.find<CategoryDto>(),
       this.modelCarStateService.findAllBrand(),
       this.modelCarStateService.findAllModel())
       .subscribe(([categories, brands, models]) => {

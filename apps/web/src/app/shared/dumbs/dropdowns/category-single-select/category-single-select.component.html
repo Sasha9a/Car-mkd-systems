@@ -1,9 +1,7 @@
-<car-single-select [options]="categories"
-                   [(selectedItem)]="selectedCategory"
-                   (selectedItemChange)="selectedCategoryChange.emit($event)"
-                   [label]="labelInput"
-                   [class]="class"
-                   [virtualScroll]="virtualScroll"
-                   [itemSize]="47"
-                   filterBy="name">
-</car-single-select>
+<p-treeSelect [(ngModel)]="dataSelectCategory"
+              (ngModelChange)="changeValue($event)"
+              [options]="dataCategories"
+              [disabled]="disabled"
+              [class]="class"
+              [placeholder]="placeholder">
+</p-treeSelect>

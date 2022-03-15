@@ -39,7 +39,7 @@ export class ProductAddComponent implements OnInit {
       });
     }
 
-    this.categoryStateService.findAllDropdown().subscribe((categories) => {
+    this.categoryStateService.find<CategoryDto>().subscribe((categories) => {
       this.categories = categories;
     });
 

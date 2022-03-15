@@ -1,8 +1,9 @@
-<car-multi-select [options]="categories"
-                  [(selectedItems)]="selectedCategories"
-                  (selectedItemsChange)="selectedCategoriesChange.emit($event)"
-                  [label]="labelInput ? 'Категории' : ''"
-                  optionLabel="name"
-                  filterBy="name"
-                  sort="name:string">
-</car-multi-select>
+<p-treeSelect [(ngModel)]="dataSelectCategories"
+              (ngModelChange)="changeValue($event)"
+              [options]="dataCategories"
+              [disabled]="disabled"
+              [class]="class"
+              selectionMode="multiple"
+              [metaKeySelection]="false"
+              [placeholder]="placeholder">
+</p-treeSelect>
