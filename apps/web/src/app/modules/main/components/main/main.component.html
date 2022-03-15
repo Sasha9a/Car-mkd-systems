@@ -5,11 +5,9 @@
         <p>Категории</p>
       </div>
       <div class="col-4 pb-0">
-        <p>Марки</p>
-      </div>
-      <div class="col-4 pb-0">
         <p>Модели</p>
       </div>
+      <div class="col-4 pb-0"></div>
 
       <div class="col-4 pb-0">
         <car-category-multi-select [categories]="filters.categories"
@@ -34,7 +32,7 @@
 
 <div *ngIf="!loading">
   <div class="flex justify-content-end">
-    <p-paginator #paginatorStart [rows]="queryParams['limit'].value" [totalRecords]="countProducts" (onPageChange)="paginate($event)"></p-paginator>
+    <p-paginator #paginatorStart [rows]="queryParams.limit.value" [totalRecords]="countProducts" (onPageChange)="paginate($event)"></p-paginator>
   </div>
 
   <div class="my-2 grid">
@@ -45,7 +43,7 @@
             <p-image *ngIf="product.images[0]" [src]="('file/' + product.images[0].path) | apiUrl" [alt]="product.images[0].name" width="100%" height="250px"></p-image>
             <p-skeleton *ngIf="!product.images[0]" width="100%" height="250px"></p-skeleton>
           </ng-template>
-          <p class="fw-bold mt-1 {{ product.isPublic ? 'text-black' : 'text-red' }}">{{ product.name }}</p>
+          <p class="fw-bold mb-2 {{ product.isPublic ? 'text-black' : 'text-red' }}">{{ product.name }}</p>
           <p class="mb-1">
             {{ isPartner() ? 'Розн.цена:' : 'Цена:' }}
             <span class="fw-bold text-blue-500">
@@ -60,14 +58,14 @@
             </span>
             <span *ngIf="priceInfo[product._id].isDiscountPartnerProduct" style="color: #ce0400">(Есть скидка)</span>
           </p>
-          <p *ngIf="product.amount" class="greytext text-sm">В наличии {{ product.amount }} шт.</p>
-          <p *ngIf="!product.amount" class="text-red text-sm">Нет в наличии</p>
+          <p *ngIf="product.amount" class="greytext text-sm mt-3">В наличии {{ product.amount }} шт.</p>
+          <p *ngIf="!product.amount" class="text-red text-sm mt-3">Нет в наличии</p>
         </p-card>
       </a>
     </div>
   </div>
 
   <div class="flex justify-content-end">
-    <p-paginator #paginatorEnd [rows]="queryParams['limit'].value" [totalRecords]="countProducts" (onPageChange)="paginate($event)"></p-paginator>
+    <p-paginator #paginatorEnd [rows]="queryParams.limit.value" [totalRecords]="countProducts" (onPageChange)="paginate($event)"></p-paginator>
   </div>
 </div>
