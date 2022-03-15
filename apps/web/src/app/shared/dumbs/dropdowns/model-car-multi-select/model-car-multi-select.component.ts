@@ -25,11 +25,11 @@ export class ModelCarMultiSelectComponent {
     if (changes['brandCars']?.currentValue) {
       this.dataBrandCars = this.parseBrandCars(changes['brandCars'].currentValue);
     }
-    if (changes['selectedBrandCars']?.currentValue) {
+    if (changes['selectedModelCars']?.currentValue) {
       this.dataSelectBrandCars = [];
       this.dataBrandCars.forEach((brandCar) => {
         this.dataSelectBrandCars.push(...brandCar.children?.filter((modelCar) => {
-          return changes['selectedBrandCars'].currentValue.some((c) => c._id === modelCar.key);
+          return changes['selectedModelCars'].currentValue.some((c) => c._id === modelCar.key);
         }));
       });
     }

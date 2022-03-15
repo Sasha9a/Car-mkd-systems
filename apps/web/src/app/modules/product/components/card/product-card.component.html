@@ -96,11 +96,11 @@
       </div>
     </ng-template>
     <div class="grid">
-      <div *ngIf="product.modelCars?.length" class="col-12{{ activeModification?.params ? ' lg:col-6' : '' }}">
+      <div *ngIf="product.modelCars?.length" class="col-12" [ngClass]="{ 'lg:col-6': activeModification?.params }">
         <p-fieldset legend="Подходит для автомобилей">
           <p-accordion>
-            <p-accordionTab *ngFor="let brand of brandsProduct" header="{{ brand }}">
-              <p *ngFor="let model of product.modelCars | keyValueFilter: { 'brand.brand': brand }" class="my-1 fw-bold">{{ model.name }}</p>
+            <p-accordionTab *ngFor="let brand of showBrandCars" header="{{ brand.name }}">
+              <p *ngFor="let model of brand.models" class="my-1 fw-bold">{{ model.name }}</p>
             </p-accordionTab>
           </p-accordion>
         </p-fieldset>

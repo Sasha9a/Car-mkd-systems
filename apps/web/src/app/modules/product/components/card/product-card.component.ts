@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryDto } from '@car-mkd-systems/shared/dtos/category/category.dto';
 import { CharacteristicDto } from '@car-mkd-systems/shared/dtos/category/characteristic.dto';
+import { BrandCarDto } from "@car-mkd-systems/shared/dtos/modelCar/brand.car.dto";
 import { ModificationDto } from '@car-mkd-systems/shared/dtos/product/modification.dto';
 import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
 import { ProductFormDto } from '@car-mkd-systems/shared/dtos/product/product.form.dto';
@@ -10,8 +11,10 @@ import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { CategoryStateService } from '@car-mkd-systems/web/core/services/category/category-state.service';
 import { ConfirmDialogService } from '@car-mkd-systems/web/core/services/confirm-dialog.service';
 import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
+import { ModelCarStateService } from "@car-mkd-systems/web/core/services/model-car/model-car-state.service";
 import { ProductStateService } from '@car-mkd-systems/web/core/services/product/product-state.service';
 import { AuthService } from '@car-mkd-systems/web/core/services/user/auth.service';
+import { forkJoin } from "rxjs";
 
 @Component({
   selector: 'car-card',
@@ -43,7 +46,8 @@ export class ProductCardComponent implements OnInit {
 
   public activeModification: ModificationDto;
 
-  public brandsProduct: string[];
+  public brandCars: BrandCarDto[];
+  public showBrandCars: BrandCarDto[] = [];
 
   public get RoleEnum() {
     return RoleEnum;
@@ -51,6 +55,7 @@ export class ProductCardComponent implements OnInit {
 
   public constructor(private readonly productStateService: ProductStateService,
                      private readonly categoryStateService: CategoryStateService,
+                     private readonly modelCarStateService: ModelCarStateService,
                      private readonly errorService: ErrorService,
                      private readonly route: ActivatedRoute,
                      private readonly router: Router,
@@ -65,15 +70,32 @@ export class ProductCardComponent implements OnInit {
       return this.errorService.addCustomError('Ошибка', 'Произошла ошибка, вернитесь на главную и попробуйте снова.');
     }
 
-    this.productStateService.findById<ProductDto>(this.cardId).subscribe((product) => {
+    forkJoin(
+      this.productStateService.findById<ProductDto>(this.cardId),
+      this.modelCarStateService.find<BrandCarDto>()
+    ).subscribe(([product, brandCars]) => {
       this.product = product;
+      this.brandCars = brandCars;
       if (this.product.modifications.length) {
         this.activeModification = this.product.modifications[0];
       }
       if (this.product.modelCars?.length) {
-        // this.brandsProduct = this.product.modelsCar.map((model) => model.brand.brand)
-        //                          .filter((brand, index, self) => self.indexOf(brand) === index)
-        //                          .sort();
+        this.brandCars.forEach((brandCar) => {
+          brandCar.models.forEach((modelCar) => {
+            if (this.product.modelCars.findIndex((mc) => mc._id === modelCar._id) !== -1) {
+              let brand = this.showBrandCars.find((bc) => bc._id === brandCar._id);
+              if (!brand) {
+                this.showBrandCars.push(<BrandCarDto>{
+                  _id: brandCar._id,
+                  name: brandCar.name,
+                  models: []
+                });
+                brand = this.showBrandCars.find((bc) => bc._id === brandCar._id);
+              }
+              brand.models.push(modelCar);
+            }
+          });
+        });
       }
 
       if (this.product.category) {
