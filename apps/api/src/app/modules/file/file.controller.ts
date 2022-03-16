@@ -47,8 +47,12 @@ export class FileController {
       mime: file.mimetype
     };
     const image = await Jimp.read('./public/' + newFile.path);
-    const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
-    image.print(font, 10, 10, 'Hello world!');
+    const font = await Jimp.loadFont(__dirname + '/assets/font_jimp.fnt');
+    image.print(font, 0, 0, {
+      text: 'Car-MKD-Systems.ru',
+      alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+      alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
+    }, image.bitmap.width, image.bitmap.height);
     await image.writeAsync('./public/' + newFile.path);
     const createdFile = await this.fileService.upload(newFile);
     return res.status(HttpStatus.CREATED).json(createdFile).end();
