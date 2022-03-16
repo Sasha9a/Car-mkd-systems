@@ -12,6 +12,7 @@ import { diskStorage } from 'multer';
 import * as uuid from 'uuid';
 import { extname } from 'path'
 import * as fs from 'fs';
+import * as Jimp from 'jimp';
 
 @Controller('file')
 export class FileController {
@@ -45,6 +46,10 @@ export class FileController {
       size: file.size,
       mime: file.mimetype
     };
+    const image = await Jimp.read('./public/' + newFile.path);
+    const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
+    image.print(font, 10, 10, 'Hello world!');
+    await image.writeAsync('./public/' + newFile.path);
     const createdFile = await this.fileService.upload(newFile);
     return res.status(HttpStatus.CREATED).json(createdFile).end();
   }
