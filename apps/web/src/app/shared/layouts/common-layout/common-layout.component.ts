@@ -62,9 +62,6 @@ export class CommonLayoutComponent implements OnInit {
         command: () => {
           this.authService.logout();
           this.errorService.addSuccessMessage("Вы успешно вышли!");
-          if (this.router.url.split('?')[0] === '/') {
-            setTimeout(() => location.reload(), 1500);
-          }
           this.router.navigate(['']).catch(console.error);
         }
       }

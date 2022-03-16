@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
 import { CategoryDto } from "@car-mkd-systems/shared/dtos/category/category.dto";
 import { BrandCarDto } from "@car-mkd-systems/shared/dtos/modelCar/brand.car.dto";
 import { ProductDto } from '@car-mkd-systems/shared/dtos/product/product.dto';
@@ -69,24 +70,27 @@ export class MainComponent implements OnInit {
                      private readonly categoryStateService: CategoryStateService,
                      private readonly productStateService: ProductStateService,
                      public readonly queryParamsService: QueryParamsService,
-                     private readonly authService: AuthService) {
+                     private readonly authService: AuthService,
+                     private readonly route: ActivatedRoute) {
   }
 
   public ngOnInit(): void {
-    forkJoin(
-      this.categoryStateService.find<CategoryDto>(),
-      this.modelCarStateService.find<BrandCarDto>())
-      .subscribe(([categories, brands]) => {
-        this.filters = {
-          categories: categories,
-          models: brands
-        };
-        this.queryParams = this.queryParamsService.getFilteredQueryParams(this.queryParams);
-        this.queryParamsService.setQueryParams(this.queryParams);
-        this.selectedFilters = this.queryParamsService.getFilteredEntities(this.filters, this.queryParams);
+    this.route.queryParams.subscribe(() => {
+      forkJoin(
+        this.categoryStateService.find<CategoryDto>(),
+        this.modelCarStateService.find<BrandCarDto>())
+        .subscribe(([categories, brands]) => {
+          this.filters = {
+            categories: categories,
+            models: brands
+          };
+          this.queryParams = this.queryParamsService.getFilteredQueryParams(this.queryParams);
+          this.queryParamsService.setQueryParams(this.queryParams);
+          this.selectedFilters = this.queryParamsService.getFilteredEntities(this.filters, this.queryParams);
 
-        this.loadProducts();
-      });
+          this.loadProducts();
+        });
+    });
   }
 
   public loadProducts() {
