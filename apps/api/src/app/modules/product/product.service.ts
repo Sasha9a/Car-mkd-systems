@@ -16,7 +16,23 @@ export class ProductService extends BaseService<Product> {
   }
 
   public async find(queryParams: ProductQueryDto, user: UserDto): Promise<Product[]> {
-    const filter = queryParamParser(queryParams);
+    let params = {};
+    if (queryParams.categories) {
+      params['category'] = {
+        $in: Array.isArray(queryParams.categories) ? queryParams.categories : [queryParams.categories]
+      };
+    }
+    if (queryParams.models) {
+      params['modelCars._id'] = {
+        $in: Array.isArray(queryParams.models) ? queryParams.models : [queryParams.models]
+      };
+    }
+    if (queryParams.categories || queryParams.models) {
+      params = {
+        filter: JSON.stringify(params)
+      };
+    }
+    const filter = queryParamParser(params);
     if (!user || !user.roles?.includes(RoleEnum.ADMIN)) {
       filter.filter.isPublic = true;
     }
@@ -26,7 +42,23 @@ export class ProductService extends BaseService<Product> {
   }
 
   public async countFindAll(queryParams: ProductQueryDto, user: UserDto) {
-    const filter = queryParamParser(queryParams);
+    let params = {};
+    if (queryParams.categories) {
+      params['category'] = {
+        $in: Array.isArray(queryParams.categories) ? queryParams.categories : [queryParams.categories]
+      };
+    }
+    if (queryParams.models) {
+      params['modelCars._id'] = {
+        $in: Array.isArray(queryParams.models) ? queryParams.models : [queryParams.models]
+      };
+    }
+    if (queryParams.categories || queryParams.models) {
+      params = {
+        filter: JSON.stringify(params)
+      };
+    }
+    const filter = queryParamParser(params);
     if (!user || !user.roles?.includes(RoleEnum.ADMIN)) {
       filter.filter.isPublic = true;
     }
