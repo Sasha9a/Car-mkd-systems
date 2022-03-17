@@ -46,14 +46,27 @@ export class FileController {
       size: file.size,
       mime: file.mimetype
     };
-    const image = await Jimp.read('./public/' + newFile.path);
-    const font = await Jimp.loadFont(__dirname + '/assets/font_jimp.fnt');
-    image.print(font, 0, 0, {
+
+    const font = await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
+    // const font = await Jimp.loadFont(__dirname + '/assets/font_jimp.fnt');
+    const newImage = await new Jimp(700, 128, 'green');
+    newImage.print(font, 0, 0, {
       text: 'Car-MKD-Systems.ru',
       alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
       alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
-    }, image.bitmap.width, image.bitmap.height);
+    }, newImage.bitmap.width, newImage.bitmap.height);
+    let image = await Jimp.read('./public/' + newFile.path);
+    newImage.resize(image.bitmap.width / 2, Jimp.AUTO);
+
+    const X = image.bitmap.width / 2 - newImage.bitmap.width / 2;
+    const Y = image.bitmap.height / 2 - newImage.bitmap.height / 2;
+    await image.composite(newImage, X, Y, {
+      mode: Jimp.BLEND_ADD,
+      opacitySource: 0.7,
+      opacityDest: 1
+    });
     await image.writeAsync('./public/' + newFile.path);
+
     const createdFile = await this.fileService.upload(newFile);
     return res.status(HttpStatus.CREATED).json(createdFile).end();
   }
