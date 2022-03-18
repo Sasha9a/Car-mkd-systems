@@ -54,6 +54,11 @@ export class CommonLayoutComponent implements OnInit {
         routerLink: '/category'
       },
       {
+        label: 'Настройки',
+        visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN),
+        routerLink: '/settings'
+      },
+      {
         separator: true,
         visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN)
       },
