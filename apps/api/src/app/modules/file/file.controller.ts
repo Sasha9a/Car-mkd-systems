@@ -49,7 +49,7 @@ export class FileController {
 
     const font = await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
     // const font = await Jimp.loadFont(__dirname + '/assets/font_jimp.fnt');
-    const newImage = await new Jimp(700, 128, 'green');
+    const newImage = await new Jimp(700, 128, 'grey');
     newImage.print(font, 0, 0, {
       text: 'Car-MKD-Systems.ru',
       alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
@@ -62,8 +62,8 @@ export class FileController {
     const Y = image.bitmap.height / 2 - newImage.bitmap.height / 2;
     await image.composite(newImage, X, Y, {
       mode: Jimp.BLEND_ADD,
-      opacitySource: 0.7,
-      opacityDest: 1
+      opacitySource: 0.4,
+      opacityDest: 0.5
     });
     await image.writeAsync('./public/' + newFile.path);
 
