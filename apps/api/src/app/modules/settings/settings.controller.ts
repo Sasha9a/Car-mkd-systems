@@ -14,16 +14,12 @@ export class SettingsController {
   public constructor(private readonly settingsService: SettingsService) {
   }
 
-  @Roles(RoleEnum.ADMIN)
-  @UseGuards(JwtAuthGuard, RoleGuard)
   @Get()
   public async getAll(@Res() res: Response) {
-    let entities = await this.settingsService.findAll();
+    const entities = await this.settingsService.findAll();
     return res.status(HttpStatus.OK).json(entities).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
-  @UseGuards(JwtAuthGuard, RoleGuard)
   @Get('/:id')
   public async getById(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
     const entity = await this.settingsService.findById(id);

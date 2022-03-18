@@ -107,6 +107,7 @@ import { FilterByPipe } from './pipes/filter-by.pipe';
 import { KeyValueFilterPipe } from './pipes/key-value-filter.pipe';
 import { ObjectKeyValuePipe } from './pipes/object-key-value.pipe';
 import { CategoryMultiSelectComponent } from './dumbs/dropdowns/category-multi-select/category-multi-select.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 
 @NgModule({
 	declarations: [
@@ -126,7 +127,8 @@ import { CategoryMultiSelectComponent } from './dumbs/dropdowns/category-multi-s
     FilterByPipe,
     KeyValueFilterPipe,
     ObjectKeyValuePipe,
-    CategoryMultiSelectComponent
+    CategoryMultiSelectComponent,
+    SafeHtmlPipe
 	],
 	exports: [
 		JoinPipe,

@@ -7,6 +7,7 @@
             Car <span class="text-blue-700 text-3xl fw-bold header-title">MKD</span> Systems
           </a>
         </p>
+        <p *ngIf="settings?.headerText" [innerHtml]="settings?.headerText | safeHtml"></p>
         <div>
           <p-avatar *ngIf="!authService.currentUser"
                     icon="pi pi-user" size="large"
@@ -43,6 +44,7 @@
     <footer class="mt-5">
       <p-divider></p-divider>
       <div class="w-full text-center my-5">
+        <p *ngIf="settings?.footerText" class="mb-3" [innerHtml]="settings?.footerText | safeHtml"></p>
         <p class="text-lg">© {{ footerYear }}</p>
       </div>
     </footer>
