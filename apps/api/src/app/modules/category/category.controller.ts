@@ -35,7 +35,7 @@ export class CategoryController {
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()
-  public async createCategory(@Res() res: Response, @Body() body: CategoryFormDto) {
+  public async create(@Res() res: Response, @Body() body: CategoryFormDto) {
     const entity = await this.categoryService.create(body);
     if (body.parentId) {
       const parent = await this.categoryService.findById(body.parentId);
@@ -48,7 +48,7 @@ export class CategoryController {
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Put('/:id')
-  public async updateCategory(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: CategoryFormDto) {
+  public async update(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: CategoryFormDto) {
     const entity = await this.categoryService.update(id, body);
     if (!entity) {
       throw new NotFoundException("Нет такого объекта!");
@@ -59,7 +59,7 @@ export class CategoryController {
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Delete('/:id')
-  public async deleteCategory(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
+  public async delete(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
     const entity = await this.categoryService.delete(id);
     if (!entity) {
       throw new NotFoundException("Нет такого объекта!");

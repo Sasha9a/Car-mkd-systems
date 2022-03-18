@@ -71,7 +71,7 @@ export class ModelCarController {
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Delete(':id')
-  public async deleteBrand(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
+  public async delete(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
     const entity = await this.modelCarService.delete(id);
     if (!entity) {
       throw new NotFoundException("Нет такого объекта!");

@@ -37,7 +37,7 @@ export class UserController {
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()
-  public async addUser(@Res() res: Response, @Body() body: UserFormDto) {
+  public async create(@Res() res: Response, @Body() body: UserFormDto) {
     body.password = bcrypt.hashSync(body.password, 10);
     const newUser = await this.userService.create(body);
     return res.status(HttpStatus.CREATED).json(newUser).end();

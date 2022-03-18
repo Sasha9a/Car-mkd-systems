@@ -62,7 +62,7 @@ export class ProductController {
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()
-  public async createProduct(@Res() res: Response, @Body() body: ProductFormDto) {
+  public async create(@Res() res: Response, @Body() body: ProductFormDto) {
     const entity = await this.productService.create(body);
     if (!entity) {
       throw new NotFoundException("Произошла ошибка!");
@@ -73,7 +73,7 @@ export class ProductController {
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Put(':id')
-  public async updateProduct(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: ProductFormDto) {
+  public async update(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: ProductFormDto) {
     const entity = await this.productService.update(id, body);
     if (!entity) {
       throw new NotFoundException("Нет такого товара!");
@@ -84,7 +84,7 @@ export class ProductController {
   @Roles(RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Delete(':id')
-  public async deleteProduct(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
+  public async delete(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
     const entity = await this.productService.delete(id);
     if (!entity) {
       throw new NotFoundException("Нет такого объекта!");
