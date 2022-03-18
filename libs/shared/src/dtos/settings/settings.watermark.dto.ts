@@ -19,6 +19,9 @@ export class SettingsWatermarkDto {
   public text: string;
 
   @Expose()
+  public backgroundColor: string;
+
+  @Expose()
   @Type(() => FileDto)
   public font: FileDto[];
 

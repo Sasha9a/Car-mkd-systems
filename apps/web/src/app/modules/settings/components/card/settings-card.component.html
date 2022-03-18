@@ -44,16 +44,66 @@
           </div>
 
           <div class="field">
+            <label class="fw-bold">Цвет фона</label>
+            <br />
+            <p-colorPicker [(ngModel)]="settings.watermark.backgroundColor"></p-colorPicker>
+          </div>
+
+          <div class="field">
             <label class="fw-bold">Шрифт</label>
-<!--            <p-fileUpload #fileUpload-->
-<!--                          mode="basic"-->
-<!--                          [customUpload]="true"-->
-<!--                          (uploadHandler)="imageSave($event)"-->
-<!--                          [auto]="true"-->
-<!--                          [multiple]="true"-->
-<!--                          chooseIcon="pi-paperclip"-->
-<!--                          chooseLabel="Загрузить шрифты">-->
-<!--            </p-fileUpload>-->
+            <div class="flex mb-2">
+              <ng-container *ngFor="let file of settings.watermark?.font">
+                <car-file [file]="file" class="mr-2"></car-file>
+              </ng-container>
+            </div>
+            <div class="flex">
+              <p-fileUpload #fileUploadFont
+                            mode="basic"
+                            [customUpload]="true"
+                            (uploadHandler)="addFilesFont($event)"
+                            [auto]="true"
+                            [disabled]="uploadingFiles"
+                            [multiple]="true"
+                            chooseIcon="pi-paperclip"
+                            [chooseLabel]="settings.watermark?.font?.length ? 'Обновить шрифты' : 'Загрузить шрифты'">
+              </p-fileUpload>
+              <button *ngIf="settings.watermark?.font?.length"
+                      pButton pRipple
+                      type="button"
+                      label="Удалить шрифты"
+                      (click)="deleteFont()"
+                      class="p-button-danger ml-3"
+                      style="width: 11rem">
+              </button>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="settings.watermark?.type === WatermarkTypeEnum.IMAGE">
+          <div class="field">
+            <label class="fw-bold">Картинка</label>
+            <div *ngIf="settings.watermark?.image" class="flex mb-2">
+              <car-file [file]="settings.watermark?.image" class="mr-2"></car-file>
+            </div>
+            <div class="flex">
+              <p-fileUpload #fileUploadImage
+                            mode="basic"
+                            [customUpload]="true"
+                            (uploadHandler)="addImage($event)"
+                            [auto]="true"
+                            [disabled]="uploadingFiles"
+                            chooseIcon="pi-paperclip"
+                            [chooseLabel]="settings.watermark?.image ? 'Обновить картинку' : 'Загрузить картинку'">
+              </p-fileUpload>
+              <button *ngIf="settings.watermark?.image"
+                      pButton pRipple
+                      type="button"
+                      label="Удалить картинку"
+                      (click)="deleteImage()"
+                      class="p-button-danger ml-3"
+                      style="width: 12rem">
+              </button>
+            </div>
           </div>
         </ng-container>
 

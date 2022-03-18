@@ -11,6 +11,7 @@ import { MongooseModule } from "@nestjs/mongoose";
     UserModule
   ],
   controllers: [SettingsController],
-  providers: [SettingsService]
+  providers: [SettingsService],
+  exports: [SettingsService]
 })
 export class SettingsModule {}
