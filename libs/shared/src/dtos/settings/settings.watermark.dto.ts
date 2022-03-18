@@ -1,11 +1,15 @@
 import { FileDto } from "@car-mkd-systems/shared/dtos/file.dto";
+import { WatermarkTypeEnum } from "@car-mkd-systems/shared/enums/watermark.type.enum";
 import { Expose, Type } from "class-transformer";
 
 @Expose()
 export class SettingsWatermarkDto {
 
   @Expose()
-  public type: 'TEXT' | 'IMAGE';
+  public enableWatermark: boolean;
+
+  @Expose()
+  public type: WatermarkTypeEnum;
 
   @Expose()
   @Type(() => FileDto)
@@ -19,10 +23,7 @@ export class SettingsWatermarkDto {
   public font: FileDto[];
 
   @Expose()
-  public scaleImage: number;
-
-  @Expose()
-  public scaleText: number;
+  public scale: number;
 
   @Expose()
   public opacitySource: number;

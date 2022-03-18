@@ -3,6 +3,7 @@ import { CategoryModule } from '@car-mkd-systems/api/modules/category/category.m
 import { FileModule } from '@car-mkd-systems/api/modules/file/file.module';
 import { ModelCarModule } from '@car-mkd-systems/api/modules/model-car/model.car.module';
 import { ProductModule } from '@car-mkd-systems/api/modules/product/product.module';
+import { SettingsModule } from "@car-mkd-systems/api/modules/settings/settings.module";
 import { UserModule } from '@car-mkd-systems/api/modules/user/user.module';
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 
@@ -21,7 +22,8 @@ import { environment } from '../environments/environment';
     ModelCarModule,
     CategoryModule,
     ProductModule,
-    FileModule
+    FileModule,
+    SettingsModule
   ],
   controllers: [],
   providers: []

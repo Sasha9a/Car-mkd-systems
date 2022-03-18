@@ -1,1 +1,103 @@
-<p>settings-card works!</p>
+<h1>Настройки сайта</h1>
+
+<div *ngIf="!loading" class="grid">
+  <div class="col-12 xl:col-6">
+    <div class="p-fluid">
+
+      <div class="field">
+        <label class="fw-bold">Текст на шапке сайта</label>
+        <p-editor [(ngModel)]="settings.headerText" [style]="{ 'height': '150px' }"></p-editor>
+      </div>
+
+      <div class="field">
+        <label class="fw-bold">Текст в конце сайта</label>
+        <p-editor [(ngModel)]="settings.footerText" [style]="{ 'height': '150px' }"></p-editor>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-12 xl:col-6">
+    <p-divider align="left">
+      <b>Настройка водного знака</b>
+    </p-divider>
+
+    <div class="p-fluid">
+      <div class="field-checkbox">
+        <p-checkbox [(ngModel)]="settings.watermark.enableWatermark" [binary]="true" inputId="enableWatermark"></p-checkbox>
+        <label [for]="'enableWatermark'">Включить водные знаки</label>
+      </div>
+
+      <ng-container *ngIf="settings.watermark?.enableWatermark">
+        <div class="field">
+          <label class="fw-bold">Тип</label>
+          <p-selectButton [options]="watermarkTypes"
+                          [(ngModel)]="selectWatermarkType"
+                          (onChange)="settings.watermark.type = $event.value">
+          </p-selectButton>
+        </div>
+
+        <ng-container *ngIf="settings.watermark?.type === WatermarkTypeEnum.TEXT">
+          <div class="field">
+            <label class="fw-bold">Текст</label>
+            <input type="text" pInputText [(ngModel)]="settings.watermark.text">
+          </div>
+
+          <div class="field">
+            <label class="fw-bold">Шрифт</label>
+<!--            <p-fileUpload #fileUpload-->
+<!--                          mode="basic"-->
+<!--                          [customUpload]="true"-->
+<!--                          (uploadHandler)="imageSave($event)"-->
+<!--                          [auto]="true"-->
+<!--                          [multiple]="true"-->
+<!--                          chooseIcon="pi-paperclip"-->
+<!--                          chooseLabel="Загрузить шрифты">-->
+<!--            </p-fileUpload>-->
+          </div>
+        </ng-container>
+
+        <div class="field">
+          <label class="fw-bold">Покрытие водного знака по ширине картинки</label>
+          <p-inputNumber [(ngModel)]="settings.watermark.scale"
+                         [showButtons]="true"
+                         [step]="5"
+                         [min]="0"
+                         [maxFractionDigits]="0"
+                         [max]="100"
+                         suffix="%">
+          </p-inputNumber>
+        </div>
+
+        <div class="field">
+          <label class="fw-bold">Показатель прозрачности водного знака</label>
+          <p-inputNumber [(ngModel)]="settings.watermark.opacitySource"
+                         [showButtons]="true"
+                         [step]="0.1"
+                         [min]="0"
+                         [maxFractionDigits]="1"
+                         [max]="1">
+          </p-inputNumber>
+        </div>
+
+        <div class="field">
+          <label class="fw-bold">Показатель прозрачности фона водного знака</label>
+          <p-inputNumber [(ngModel)]="settings.watermark.opacityDest"
+                         [showButtons]="true"
+                         [step]="0.1"
+                         [min]="0"
+                         [maxFractionDigits]="1"
+                         [max]="1">
+          </p-inputNumber>
+        </div>
+      </ng-container>
+    </div>
+
+  </div>
+
+  <div class="col-12 mt-4">
+    <button pButton label="Сохранить" icon="pi pi-check" class="p-button-success mr-2" (click)="save()"></button>
+  </div>
+</div>
+
+<car-spinner *ngIf="loading"></car-spinner>

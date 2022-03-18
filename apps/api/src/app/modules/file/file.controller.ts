@@ -57,7 +57,7 @@ export class FileController {
       alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
       alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
     }, newImage.bitmap.width, newImage.bitmap.height);
-    let image = await Jimp.read('./public/' + newFile.path);
+    const image = await Jimp.read('./public/' + newFile.path);
     newImage.resize(image.bitmap.width / 2, Jimp.AUTO);
 
     const X = image.bitmap.width / 2 - newImage.bitmap.width / 2;
