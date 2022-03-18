@@ -49,7 +49,9 @@ export class FileController {
 
     const font = await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
     // const font = await Jimp.loadFont(__dirname + '/assets/font_jimp.fnt');
-    const newImage = await new Jimp(700, 128, 'grey');
+    const textWidth = Jimp.measureText(font, 'Car-MKD-Systems.ru');
+    const textHeight = Jimp.measureTextHeight(font, 'Car-MKD-Systems.ru', 150);
+    const newImage = await new Jimp(textWidth + 15, textHeight + 15, 'grey');
     newImage.print(font, 0, 0, {
       text: 'Car-MKD-Systems.ru',
       alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
