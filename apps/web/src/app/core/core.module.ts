@@ -50,6 +50,15 @@ const routes: Routes = [
         }
       },
       {
+        path: 'help',
+        canActivate: [AuthGuard, RoleGuard],
+        loadChildren: () => import('../modules/help/help.module').then(m => m.HelpModule),
+        data: {
+          roles: [RoleEnum.ADMIN],
+          included: true
+        }
+      },
+      {
         path: 'product',
         loadChildren: () => import('../modules/product/product.module').then(m => m.ProductModule)
       }
