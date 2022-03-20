@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FileDto } from "@car-mkd-systems/shared/dtos/file.dto";
 import { SettingsDto } from "@car-mkd-systems/shared/dtos/settings/settings.dto";
 import { WatermarkTypeEnum } from "@car-mkd-systems/shared/enums/watermark.type.enum";
 import { ConfirmDialogService } from "@car-mkd-systems/web/core/services/confirm-dialog.service";
@@ -25,8 +26,11 @@ export class SettingsCardComponent implements OnInit {
 
   public selectWatermarkType;
 
+  public imagePreview: FileDto;
+
   @ViewChild('fileUploadFont') public fileUploadFont: FileUpload;
   @ViewChild('fileUploadImage') public fileUploadImage: FileUpload;
+  @ViewChild('fileUploadPreview') public fileUploadPreview: FileUpload;
 
   public get WatermarkTypeEnum() {
     return WatermarkTypeEnum;
@@ -128,6 +132,15 @@ export class SettingsCardComponent implements OnInit {
     });
   }
 
+  public addImagePreview(data: { files: FileList }) {
+    this.uploadingFiles = true;
+    this.fileService.upload(data.files, '/file/preview').subscribe((files) => {
+      this.imagePreview = files[0];
+      this.fileUploadPreview.clear();
+      this.uploadingFiles = false;
+    }, () => this.uploadingFiles = false);
+  }
+
   public save() {
     if (this.settings) {
       this.loading = true;
@@ -135,6 +148,7 @@ export class SettingsCardComponent implements OnInit {
       this.settingsStateService.update<SettingsDto>(this.settings._id, this.settings).subscribe(() => {
         this.loading = false;
         this.errorService.addSuccessMessage('Изменения сохранены');
+        this.imagePreview = null;
       }, () => this.loading = false);
     }
   }

@@ -88,6 +88,7 @@
             <div class="flex">
               <p-fileUpload #fileUploadImage
                             mode="basic"
+                            accept="image/*"
                             [customUpload]="true"
                             (uploadHandler)="addImage($event)"
                             [auto]="true"
@@ -139,6 +140,25 @@
                          [maxFractionDigits]="1"
                          [max]="1">
           </p-inputNumber>
+        </div>
+
+        <div class="field">
+          <label class="fw-bold">Проверить водяной знак</label>
+          <div *ngIf="imagePreview" class="flex mb-2">
+            <car-file [file]="imagePreview" class="mr-2"></car-file>
+          </div>
+          <div class="flex">
+            <p-fileUpload #fileUploadPreview
+                          mode="basic"
+                          accept="image/*"
+                          [customUpload]="true"
+                          (uploadHandler)="addImagePreview($event)"
+                          [auto]="true"
+                          [disabled]="uploadingFiles"
+                          chooseIcon="pi-paperclip"
+                          chooseLabel="Загрузить картинку">
+            </p-fileUpload>
+          </div>
         </div>
       </ng-container>
     </div>
