@@ -1,6 +1,6 @@
 import { FindOptionsModel } from "@car-mkd-systems/api/core/models/find.options.model";
 import { Injectable } from "@nestjs/common";
-import { Model, FilterQuery } from "mongoose";
+import { Model, FilterQuery, UpdateQuery, AnyKeys, AnyObject } from "mongoose";
 
 @Injectable()
 export class BaseService<T> {
@@ -17,25 +17,20 @@ export class BaseService<T> {
     return await this.model.find(filter, options?.projection).populate(options?.populate).limit(options?.limit).skip(options?.skip).exec();
   }
 
-  public async findById(id: string, projection?: any, populate?: string | string[]): Promise<T> {
-    if (populate) {
-      return await this.model.findById(id, projection).populate(populate).exec() as T;
-    }
-    return await this.model.findById(id, projection).exec();
+  public async findById(id: string, options?: FindOptionsModel): Promise<T> {
+    return await this.model.findById(id, options?.projection).populate(options?.populate).exec() as T;
   }
 
-  public async update(id: string, entity: any, populate?: string | string[]): Promise<T> {
-    if (populate) {
-      return await this.model.findOneAndUpdate({ _id: id }, { $set: entity }, { new: true }).populate(populate).exec() as T;
-    }
-    return await this.model.findOneAndUpdate({ _id: id }, { $set: entity }, { new: true }).exec();
+  public async update(id: string, entity: AnyKeys<T> & AnyObject, options?: FindOptionsModel): Promise<T> {
+    return await this.model.findOneAndUpdate({ _id: id }, { $set: entity }, { new: true }).populate(options?.populate).exec() as T;
   }
 
-  public async delete(id: string, populate?: string | string[]): Promise<T> {
-    if (populate) {
-      return await this.model.findByIdAndDelete(id).populate(populate).exec() as T;
-    }
-    return await this.model.findByIdAndDelete(id).exec();
+  public async updateCustom(id: string, update: UpdateQuery<T>, options?: FindOptionsModel): Promise<T> {
+    return await this.model.findOneAndUpdate({ _id: id }, update, { new: true }).populate(options?.populate).exec() as T;
+  }
+
+  public async delete(id: string, options?: FindOptionsModel): Promise<T> {
+    return await this.model.findByIdAndDelete(id).populate(options?.populate).exec() as T;
   }
 
 }
