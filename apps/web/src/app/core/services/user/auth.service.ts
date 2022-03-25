@@ -4,7 +4,7 @@ import { UserFormDto } from '@car-mkd-systems/shared/dtos/user/user.form.dto';
 import { UserSessionDto } from '@car-mkd-systems/shared/dtos/user/user.session.dto';
 import { RoleEnum } from "@car-mkd-systems/shared/enums/role.enum";
 import { UserStateService } from '@car-mkd-systems/web/core/services/user/user-state.service';
-import { Observable, Subject, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,6 @@ import { Observable, Subject, tap } from 'rxjs';
 export class AuthService {
 
   private user: UserSessionDto;
-
-  public logoutSubject$: Subject<any> = new Subject();
 
   public constructor(private readonly route: ActivatedRoute,
                      private readonly router: Router,
@@ -39,8 +37,6 @@ export class AuthService {
     this.userStateService.logout(this.user).subscribe();
 
     this.user = undefined;
-
-    this.logoutSubject$.next(null);
   }
 
   public get currentUser() {

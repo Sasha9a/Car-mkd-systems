@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { CategoryDto } from "@car-mkd-systems/shared/dtos/category/category.dto";
 import { BrandCarDto } from "@car-mkd-systems/shared/dtos/modelCar/brand.car.dto";
@@ -11,14 +11,14 @@ import { ProductStateService } from '@car-mkd-systems/web/core/services/product/
 import { QueryParamsService } from '@car-mkd-systems/web/core/services/query-params.service';
 import { AuthService } from '@car-mkd-systems/web/core/services/user/auth.service';
 import { Paginator } from 'primeng/paginator';
-import { forkJoin, Subscription } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'car-main',
   templateUrl: './main.component.html',
   styleUrls: []
 })
-export class MainComponent implements OnInit, OnDestroy {
+export class MainComponent implements OnInit {
 
   @ViewChild('paginatorStart', { static: false }) public paginatorStart: Paginator;
   @ViewChild('paginatorEnd', { static: false }) public paginatorEnd: Paginator;
@@ -66,8 +66,6 @@ export class MainComponent implements OnInit, OnDestroy {
     isDiscountPartnerProduct: boolean
   }> = {};
 
-  public logoutSubscription: Subscription;
-
   public constructor(private readonly modelCarStateService: ModelCarStateService,
                      private readonly categoryStateService: CategoryStateService,
                      private readonly productStateService: ProductStateService,
@@ -77,8 +75,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams) => {
-      console.log(queryParams);
+    this.route.queryParams.subscribe(() => {
       forkJoin(
         this.categoryStateService.find<CategoryDto>(),
         this.modelCarStateService.find<BrandCarDto>())
@@ -94,14 +91,6 @@ export class MainComponent implements OnInit, OnDestroy {
           this.loadProducts();
         });
     });
-
-    this.logoutSubscription = this.authService.logoutSubject$.subscribe(() => {
-      this.loadProducts();
-    });
-  }
-
-  public ngOnDestroy() {
-    this.logoutSubscription?.unsubscribe();
   }
 
   public loadProducts() {
