@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { BrandCarDto } from "@car-mkd-systems/shared/dtos/modelCar/brand.car.dto";
+import { ModelCarDto } from "@car-mkd-systems/shared/dtos/modelCar/model.car.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,17 @@ export class UtilsService {
         _category['children'] = [];
       }
       return _categories;
+    }, []);
+  }
+
+  public flattenModels(brands: BrandCarDto[]) {
+    return brands.reduce<ModelCarDto[]>((_models, _brand) => {
+      _brand = Object.assign({}, _brand);
+      _models = _models.concat(_brand);
+      if (_brand.models) {
+        _models = _models.concat(..._brand.models);
+      }
+      return _models;
     }, []);
   }
 

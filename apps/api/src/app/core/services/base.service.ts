@@ -1,3 +1,4 @@
+import { FindOptionsModel } from "@car-mkd-systems/api/core/models/find.options.model";
 import { Injectable } from "@nestjs/common";
 import { Model, FilterQuery } from "mongoose";
 
@@ -8,15 +9,12 @@ export class BaseService<T> {
   }
 
   public async create(entity: any): Promise<T> {
-    const createEntity = await new this.model(entity);
+    const createEntity = new this.model(entity);
     return await createEntity.save() as T;
   }
 
-  public async findAll(filter?: FilterQuery<T>, projection?: any, populate?: string | string[]): Promise<T[]> {
-    if (populate) {
-      return await this.model.find(filter, projection).populate(populate).exec();
-    }
-    return await this.model.find(filter, projection).exec();
+  public async findAll(filter?: FilterQuery<T>, options?: FindOptionsModel): Promise<T[]> {
+    return await this.model.find(filter, options?.projection).populate(options?.populate).limit(options?.limit).skip(options?.skip).exec();
   }
 
   public async findById(id: string, projection?: any, populate?: string | string[]): Promise<T> {

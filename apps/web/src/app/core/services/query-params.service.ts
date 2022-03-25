@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UtilsService } from "@car-mkd-systems/web/core/services/utils.service";
 
 const paramsMap = {
   'categories': 'categories:string',
-  'brands': 'brands:string',
   'models': 'models:string'
 };
 
@@ -13,7 +13,8 @@ const paramsMap = {
 export class QueryParamsService {
 
   public constructor(private readonly route: ActivatedRoute,
-                     private readonly router: Router) { }
+                     private readonly router: Router,
+                     private readonly utilsService: UtilsService) { }
 
   public getFilteredQueryParams(currentParams: Record<string, { value: any, toApi: boolean }> = {}): any {
     const result: Record<string, { value: any, toApi: boolean }> = {};
@@ -94,7 +95,15 @@ export class QueryParamsService {
       }
 
       if (queryParams[key]) {
-        if (Array.isArray(queryParams[key].value)) {
+        if (key === 'categories') {
+          result[fieldName] = queryParams[key].value && fieldKey
+            ? this.utilsService.flattenCategory(filters[fieldName]).filter((option) => queryParams[key].value.map((param) => String(param)).includes(String(option['_id'])))
+            : (queryParams[key].value || []);
+        } else if (key === 'models') {
+          result[fieldName] = queryParams[key].value && fieldKey
+            ? this.utilsService.flattenModels(filters[fieldName]).filter((option) => queryParams[key].value.map((param) => String(param)).includes(String(option['_id'])))
+            : (queryParams[key].value || []);
+        } else if (Array.isArray(queryParams[key].value)) {
           result[fieldName] = queryParams[key].value && fieldKey
             ? filters[fieldName].filter((option) => queryParams[key].value.map((param) => String(param)).includes(String(option['_id'])))
             : (queryParams[key].value || []);

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { CategoryDto } from "@car-mkd-systems/shared/dtos/category/category.dto";
 import { BrandCarDto } from "@car-mkd-systems/shared/dtos/modelCar/brand.car.dto";
@@ -11,14 +11,14 @@ import { ProductStateService } from '@car-mkd-systems/web/core/services/product/
 import { QueryParamsService } from '@car-mkd-systems/web/core/services/query-params.service';
 import { AuthService } from '@car-mkd-systems/web/core/services/user/auth.service';
 import { Paginator } from 'primeng/paginator';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 
 @Component({
   selector: 'car-main',
   templateUrl: './main.component.html',
   styleUrls: []
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
 
   @ViewChild('paginatorStart', { static: false }) public paginatorStart: Paginator;
   @ViewChild('paginatorEnd', { static: false }) public paginatorEnd: Paginator;
@@ -66,6 +66,8 @@ export class MainComponent implements OnInit {
     isDiscountPartnerProduct: boolean
   }> = {};
 
+  public logoutSubscription: Subscription;
+
   public constructor(private readonly modelCarStateService: ModelCarStateService,
                      private readonly categoryStateService: CategoryStateService,
                      private readonly productStateService: ProductStateService,
@@ -75,7 +77,8 @@ export class MainComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.route.queryParams.subscribe(() => {
+    this.route.queryParams.subscribe((queryParams) => {
+      console.log(queryParams);
       forkJoin(
         this.categoryStateService.find<CategoryDto>(),
         this.modelCarStateService.find<BrandCarDto>())
@@ -91,13 +94,18 @@ export class MainComponent implements OnInit {
           this.loadProducts();
         });
     });
+
+    this.logoutSubscription = this.authService.logoutSubject$.subscribe(() => {
+      this.loadProducts();
+    });
+  }
+
+  public ngOnDestroy() {
+    this.logoutSubscription?.unsubscribe();
   }
 
   public loadProducts() {
     this.loading = true;
-
-    this.setQueryParam('categories', this.selectedFilters.categories);
-    this.setQueryParam('models', this.selectedFilters.models);
 
     this.productStateService.findAll(this.queryParamsService.parseQueryParamsForApi(this.queryParams)).subscribe((products) => {
       this.products = products.items;
@@ -120,6 +128,13 @@ export class MainComponent implements OnInit {
       });
       this.loading = false;
     }, () => this.loading = false);
+  }
+
+  public clickSearch() {
+    this.setQueryParam('categories', this.selectedFilters.categories);
+    this.setQueryParam('models', this.selectedFilters.models);
+
+    this.loadProducts();
   }
 
   public setQueryParam(key: string, value: any[]) {
