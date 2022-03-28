@@ -19,6 +19,7 @@ echo 'Connect to Server...'
 
 umask 777
 ssh -tt -i ~/.ssh/id_rsa root@45.141.78.161 << EOF
+sudo pm2 stop 0
 cd Car-mkd-systems
 sudo git pull
 sudo npm install --unsafe
