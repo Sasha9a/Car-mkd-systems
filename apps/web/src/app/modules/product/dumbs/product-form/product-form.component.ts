@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { CategoryDto } from '@car-mkd-systems/shared/dtos/category/category.dto';
 import { FileDto } from '@car-mkd-systems/shared/dtos/file.dto';
 import { BrandCarDto } from "@car-mkd-systems/shared/dtos/modelCar/brand.car.dto";
@@ -16,7 +16,7 @@ import { FileUpload } from 'primeng/fileupload';
   templateUrl: './product-form.component.html',
   styleUrls: []
 })
-export class ProductFormComponent extends BaseFormComponent<ProductFormDto> implements OnInit {
+export class ProductFormComponent extends BaseFormComponent<ProductFormDto> implements OnChanges {
 
   @Input() public product: ProductFormDto = new ProductFormDto();
   public dto = ProductFormDto;
@@ -39,15 +39,17 @@ export class ProductFormComponent extends BaseFormComponent<ProductFormDto> impl
     super(errorService);
   }
 
-  public ngOnInit() {
-    if (this.product?.category) {
-      this.selectCategory();
-    }
-    this.product?.modifications?.forEach((modification) => {
-      if (!modification.params) {
-        modification.params = {};
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes['product']?.currentValue) {
+      if (this.product.category) {
+        this.selectCategory();
       }
-    });
+      this.product.modifications?.forEach((modification) => {
+        if (!modification.params) {
+          modification.params = {};
+        }
+      });
+    }
   }
 
   public uploadFiles(data: { files: FileList }) {
@@ -93,6 +95,10 @@ export class ProductFormComponent extends BaseFormComponent<ProductFormDto> impl
 
   public toImage(image: any): FileDto {
     return image as FileDto;
+  }
+
+  public toModification(modification: any): ModificationDto {
+    return modification as ModificationDto;
   }
 
 }

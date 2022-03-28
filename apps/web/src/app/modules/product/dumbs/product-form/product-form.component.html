@@ -82,66 +82,30 @@
     </div>
   </div>
   <div class="col-12 xl:col-6">
-    <p-card *ngFor="let modification of product.modifications" styleClass="mb-4">
-      <div class="p-fluid formgrid grid">
-        <div class="field col-12">
-          <label class="fw-bold text-sm">Название модификации</label>
-          <input type="text" pInputText [(ngModel)]="modification.name">
-        </div>
+    <ng-container *ngIf="product.category?.isVaried">
+      <p-card *ngFor="let modification of product.modifications" styleClass="mb-4">
+        <ng-template [ngTemplateOutlet]="infoModification"
+                     [ngTemplateOutletContext]="{ modification: modification, isVaried: true }">
+        </ng-template>
+        <button pButton label="Удалить"
+                class="p-button-danger p-button-text w-auto mt-3"
+                icon="pi pi-trash"
+                (click)="onModificationDelete(modification)">
+        </button>
+      </p-card>
 
-        <div class="field col-6">
-          <label class="fw-bold text-sm">Рыночная цена</label>
-          <div class="p-inputgroup">
-            <p-inputNumber [(ngModel)]="modification.price"></p-inputNumber>
-            <span class="p-inputgroup-addon text-sm">руб.</span>
-          </div>
-        </div>
-
-        <div class="field col-6">
-          <label class="fw-bold text-sm">Рыночная скидка</label>
-          <div class="p-inputgroup">
-            <p-inputNumber [(ngModel)]="modification.discount"></p-inputNumber>
-            <span class="p-inputgroup-addon text-sm">руб.</span>
-          </div>
-        </div>
-
-        <div class="field col-6">
-          <label class="fw-bold text-sm">Оптовая цена</label>
-          <div class="p-inputgroup">
-            <p-inputNumber [(ngModel)]="modification.pricePartner"></p-inputNumber>
-            <span class="p-inputgroup-addon text-sm">руб.</span>
-          </div>
-        </div>
-
-        <div class="field col-6">
-          <label class="fw-bold text-sm">Оптовая скидка</label>
-          <div class="p-inputgroup">
-            <p-inputNumber [(ngModel)]="modification.discountPartner"></p-inputNumber>
-            <span class="p-inputgroup-addon text-sm">руб.</span>
-          </div>
-        </div>
-      </div>
-      <p-accordion *ngIf="category">
-        <p-accordionTab header="Характеристики">
-          <div class="p-fluid">
-            <div *ngFor="let characteristic of category.characteristics | orderBy: 'order:number'" class="field">
-              <label class="fw-bold text-sm">{{ characteristic.name }}</label>
-              <input type="text" pInputText [(ngModel)]="modification.params[characteristic._id]">
-            </div>
-          </div>
-        </p-accordionTab>
-      </p-accordion>
-      <button pButton label="Удалить"
-              class="p-button-danger p-button-text w-auto mt-3"
-              icon="pi pi-trash"
-              (click)="onModificationDelete(modification)">
+      <button pButton label="Добавить модификацию"
+              class="p-button-text"
+              icon="pi pi-plus"
+              (click)="onAddModification()">
       </button>
-    </p-card>
-    <button pButton label="Добавить модификацию"
-            class="p-button-text"
-            icon="pi pi-plus"
-            (click)="onAddModification()">
-    </button>
+    </ng-container>
+
+    <ng-container *ngIf="category && !category.isVaried">
+      <ng-template [ngTemplateOutlet]="infoModification"
+                   [ngTemplateOutletContext]="{ modification: product.modifications[0], isVaried: false }">
+      </ng-template>
+    </ng-container>
   </div>
 
   <div class="col-12 mt-4">
@@ -151,3 +115,54 @@
   </div>
 
 </div>
+
+<ng-template #infoModification let-modification="modification" let-isVaried="isVaried">
+  <div *ngIf="toModification(modification) as modification" class="p-fluid formgrid grid">
+    <div *ngIf="isVaried" class="field col-12">
+      <label class="fw-bold text-sm">Название модификации</label>
+      <input type="text" pInputText [(ngModel)]="modification.name">
+    </div>
+
+    <div class="field col-6">
+      <label class="fw-bold text-sm">Рыночная цена</label>
+      <div class="p-inputgroup">
+        <p-inputNumber [(ngModel)]="modification.price"></p-inputNumber>
+        <span class="p-inputgroup-addon text-sm">руб.</span>
+      </div>
+    </div>
+
+    <div class="field col-6">
+      <label class="fw-bold text-sm">Рыночная скидка</label>
+      <div class="p-inputgroup">
+        <p-inputNumber [(ngModel)]="modification.discount"></p-inputNumber>
+        <span class="p-inputgroup-addon text-sm">руб.</span>
+      </div>
+    </div>
+
+    <div class="field col-6">
+      <label class="fw-bold text-sm">Оптовая цена</label>
+      <div class="p-inputgroup">
+        <p-inputNumber [(ngModel)]="modification.pricePartner"></p-inputNumber>
+        <span class="p-inputgroup-addon text-sm">руб.</span>
+      </div>
+    </div>
+
+    <div class="field col-6">
+      <label class="fw-bold text-sm">Оптовая скидка</label>
+      <div class="p-inputgroup">
+        <p-inputNumber [(ngModel)]="modification.discountPartner"></p-inputNumber>
+        <span class="p-inputgroup-addon text-sm">руб.</span>
+      </div>
+    </div>
+  </div>
+  <p-accordion *ngIf="category">
+    <p-accordionTab header="Характеристики">
+      <div class="p-fluid">
+        <div *ngFor="let characteristic of category.characteristics | orderBy: 'order:number'" class="field">
+          <label class="fw-bold text-sm">{{ characteristic.name }}</label>
+          <input type="text" pInputText [(ngModel)]="modification.params[characteristic._id]">
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+</ng-template>

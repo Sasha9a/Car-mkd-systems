@@ -101,14 +101,30 @@ export class MainComponent implements OnInit {
       this.countProducts = products.count;
       this.products.forEach((product) => {
         this.priceInfo[product._id] = {
-          minPriceProduct: Math.min(...product.modifications
-                                              .map((modification) => modification.price)
-                                              .filter((modification) => !isNaN(modification))),
-          minPricePartnerProduct: Math.min(...product.modifications
-                                                     .map((modification) => modification.pricePartner)
-                                                     .filter((modification) => !isNaN(modification))),
-          isDiscountProduct: !!product.modifications.find((modification) => modification.discount),
-          isDiscountPartnerProduct: !!product.modifications.find((modification) => modification.discountPartner)
+          minPriceProduct: product.category?.isVaried ? Math.min(...product.modifications
+                                              .map((modification) => {
+                                                if (modification.discount) {
+                                                  return modification.price < modification.discount ? modification.price : modification.discount;
+                                                }
+                                                return modification.price || NaN;
+                                              })
+                                              .filter((modification) => !isNaN(modification)))
+            : (product.modifications[0]?.discount && product.modifications[0]?.price > product.modifications[0]?.discount
+              ? product.modifications[0]?.discount : product.modifications[0]?.price),
+          minPricePartnerProduct: product.category?.isVaried ? Math.min(...product.modifications
+                                                     .map((modification) => {
+                                                       if (modification.discountPartner) {
+                                                         return modification.pricePartner < modification.discountPartner ? modification.pricePartner : modification.discountPartner;
+                                                       }
+                                                       return modification.pricePartner || NaN;
+                                                     })
+                                                     .filter((modification) => !isNaN(modification)))
+            : (product.modifications[0]?.discountPartner && product.modifications[0]?.pricePartner > product.modifications[0]?.discountPartner
+              ? product.modifications[0]?.discountPartner : product.modifications[0]?.pricePartner),
+          isDiscountProduct: product.category?.isVaried ? !!product.modifications.find((modification) => modification.discount)
+            : !!product.modifications[0]?.discount,
+          isDiscountPartnerProduct: product.category?.isVaried ? !!product.modifications.find((modification) => modification.discountPartner)
+            : !!product.modifications[0]?.discountPartner
         };
       });
       setTimeout(() => {

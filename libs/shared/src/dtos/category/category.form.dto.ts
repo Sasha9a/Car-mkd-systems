@@ -15,6 +15,10 @@ export class CategoryFormDto {
 
   @Expose()
   @IsOptional()
+  public isVaried?: boolean;
+
+  @Expose()
+  @IsOptional()
   @ValidateNested()
   @Type(() => CharacteristicFormDto)
   public characteristics?: CharacteristicFormDto[];

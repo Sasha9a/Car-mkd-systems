@@ -11,6 +11,9 @@ export class CategoryDto extends BaseDto {
   public parentId: string;
 
   @Expose()
+  public isVaried: boolean;
+
+  @Expose()
   @Type(() => CategoryDto)
   public children: CategoryDto[];
 

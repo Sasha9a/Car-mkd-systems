@@ -12,6 +12,9 @@ export class Category extends Document {
   @Prop()
   public parentId: string;
 
+  @Prop()
+  public isVaried: boolean;
+
   @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: "Category", autopopulate: true })
   public children: Category[];
 

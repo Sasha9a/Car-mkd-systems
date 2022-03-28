@@ -75,7 +75,7 @@
     </div>
   </p-card>
 
-  <p-panel styleClass="mt-4">
+  <p-panel *ngIf="product.category?.isVaried" styleClass="mt-4">
     <ng-template pTemplate="header">
       <div class="w-full">
         <p class="text-center fw-bold m-0 text-lg">Тип комплектации</p>

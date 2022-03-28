@@ -9,6 +9,11 @@
         <small *ngIf="errors?.name" class="p-error">{{ errors.name | join }}</small>
       </div>
 
+      <div class="field-checkbox">
+        <p-checkbox [(ngModel)]="category.isVaried" [binary]="true" inputId="isVaried"></p-checkbox>
+        <label [for]="'isVaried'">Разновидности в товаре</label>
+      </div>
+
       <div class="field">
         <label class="fw-bold">Характеристики</label>
         <p-table [value]="category.characteristics | orderBy: 'order:number'"
