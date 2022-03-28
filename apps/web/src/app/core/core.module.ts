@@ -27,7 +27,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, RoleGuard],
         loadChildren: () => import('../modules/car-models/car-models.module').then(m => m.CarModelsModule),
         data: {
-          roles: [RoleEnum.ADMIN],
+          roles: [RoleEnum.SUPERADMIN, RoleEnum.ADMIN],
           included: true
         }
       },
@@ -36,7 +36,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, RoleGuard],
         loadChildren: () => import('../modules/category/category.module').then(m => m.CategoryModule),
         data: {
-          roles: [RoleEnum.ADMIN],
+          roles: [RoleEnum.SUPERADMIN, RoleEnum.ADMIN],
           included: true
         }
       },
@@ -45,7 +45,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, RoleGuard],
         loadChildren: () => import('../modules/settings/settings.module').then(m => m.SettingsModule),
         data: {
-          roles: [RoleEnum.ADMIN],
+          roles: [RoleEnum.SUPERADMIN, RoleEnum.ADMIN],
           included: true
         }
       },
@@ -54,7 +54,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, RoleGuard],
         loadChildren: () => import('../modules/help/help.module').then(m => m.HelpModule),
         data: {
-          roles: [RoleEnum.ADMIN],
+          roles: [RoleEnum.SUPERADMIN, RoleEnum.ADMIN],
           included: true
         }
       },

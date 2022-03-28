@@ -29,7 +29,7 @@ export class SettingsController {
     return res.status(HttpStatus.OK).json(entity).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
+  @Roles(RoleEnum.SUPERADMIN, RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()
   public async create(@Res() res: Response, @Body() body: SettingsDto) {
@@ -37,7 +37,7 @@ export class SettingsController {
     return res.status(HttpStatus.CREATED).json(entity).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
+  @Roles(RoleEnum.SUPERADMIN, RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Put('/:id')
   public async update(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: SettingsDto) {
@@ -48,7 +48,7 @@ export class SettingsController {
     return res.status(HttpStatus.OK).json(entity).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
+  @Roles(RoleEnum.SUPERADMIN, RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Delete('/:id')
   public async delete(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {

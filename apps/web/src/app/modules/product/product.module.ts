@@ -18,7 +18,7 @@ const productRoutes: Routes = [
     component: ProductAddComponent,
     data: {
       title: 'Добавить товар - CMS',
-      roles: [RoleEnum.ADMIN],
+      roles: [RoleEnum.SUPERADMIN, RoleEnum.ADMIN],
       included: true
     }
   },
@@ -32,7 +32,7 @@ const productRoutes: Routes = [
     component: ProductEditComponent,
     data: {
       title: 'Редактирование товара - CMS',
-      roles: [RoleEnum.ADMIN],
+      roles: [RoleEnum.SUPERADMIN, RoleEnum.ADMIN],
       included: true
     }
   }

@@ -34,7 +34,7 @@ export class UserController {
     return res.status(HttpStatus.OK).json(body.password).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
+  @Roles(RoleEnum.SUPERADMIN, RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()
   public async create(@Res() res: Response, @Body() body: UserFormDto) {

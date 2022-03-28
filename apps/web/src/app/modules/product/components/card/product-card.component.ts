@@ -145,7 +145,7 @@ export class ProductCardComponent implements OnInit {
   }
 
   public isPartner(): boolean {
-    return this.authService.currentUser?.roles?.some((role) => [RoleEnum.ADMIN, RoleEnum.PARTNER].includes(role));
+    return this.authService.currentUser?.roles?.some((role) => [RoleEnum.SUPERADMIN, RoleEnum.ADMIN, RoleEnum.PARTNER].includes(role));
   }
 
   public toCharacteristic(characteristic: any): CharacteristicDto {

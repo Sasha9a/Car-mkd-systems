@@ -28,7 +28,7 @@ export class FileController {
     }
   }
 
-  @Roles(RoleEnum.ADMIN)
+  @Roles(RoleEnum.SUPERADMIN, RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file', {
@@ -56,7 +56,7 @@ export class FileController {
     return res.status(HttpStatus.CREATED).json(createdFile).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
+  @Roles(RoleEnum.SUPERADMIN, RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post('preview')
   @UseInterceptors(FileInterceptor('file', {
@@ -88,7 +88,7 @@ export class FileController {
     return res.status(HttpStatus.CREATED).json(newFile).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
+  @Roles(RoleEnum.SUPERADMIN, RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post('no-watermark')
   @UseInterceptors(FileInterceptor('file', {
@@ -110,7 +110,7 @@ export class FileController {
     return res.status(HttpStatus.CREATED).json(createdFile).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
+  @Roles(RoleEnum.SUPERADMIN, RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post('font')
   @UseInterceptors(FileInterceptor('file', {
@@ -132,7 +132,7 @@ export class FileController {
     return res.status(HttpStatus.CREATED).json(createdFile).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
+  @Roles(RoleEnum.SUPERADMIN, RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Delete(':path')
   public async deleteFile(@Res() res: Response, @Param('path') path: string) {

@@ -47,7 +47,7 @@ export class ProductController {
       return res.status(HttpStatus.NOT_FOUND).send("Товар не существует").end();
     }
     const user = req.headers.authorization ? await this.userService.findByToken(req.headers.authorization.replace("Bearer ", "")) : null;
-    if ((!user || !user.roles?.includes(RoleEnum.ADMIN)) && !entity.isPublic) {
+    if ((!user || !user.roles?.some((role) => [RoleEnum.SUPERADMIN, RoleEnum.ADMIN].includes(role))) && !entity.isPublic) {
       return res.status(HttpStatus.NOT_FOUND).send("Ошибка доступа").end();
     }
     if (!user) {
@@ -59,7 +59,7 @@ export class ProductController {
     return res.status(HttpStatus.OK).json(entity).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
+  @Roles(RoleEnum.SUPERADMIN, RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()
   public async create(@Res() res: Response, @Body() body: ProductFormDto) {
@@ -70,7 +70,7 @@ export class ProductController {
     return res.status(HttpStatus.CREATED).json(entity).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
+  @Roles(RoleEnum.SUPERADMIN, RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Put(':id')
   public async update(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: ProductFormDto) {
@@ -81,7 +81,7 @@ export class ProductController {
     return res.status(HttpStatus.OK).json(entity).end();
   }
 
-  @Roles(RoleEnum.ADMIN)
+  @Roles(RoleEnum.SUPERADMIN, RoleEnum.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Delete(':id')
   public async delete(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
