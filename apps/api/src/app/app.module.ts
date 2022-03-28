@@ -1,6 +1,7 @@
 import { LoggerMiddleware } from '@car-mkd-systems/api/core/middlewares/logger.middleware';
 import { CategoryModule } from '@car-mkd-systems/api/modules/category/category.module';
 import { FileModule } from '@car-mkd-systems/api/modules/file/file.module';
+import { HelpModule } from "@car-mkd-systems/api/modules/help/help.module";
 import { ModelCarModule } from '@car-mkd-systems/api/modules/model-car/model.car.module';
 import { ProductModule } from '@car-mkd-systems/api/modules/product/product.module';
 import { SettingsModule } from "@car-mkd-systems/api/modules/settings/settings.module";
@@ -23,7 +24,8 @@ import { environment } from '../environments/environment';
     CategoryModule,
     ProductModule,
     FileModule,
-    SettingsModule
+    SettingsModule,
+    HelpModule
   ],
   controllers: [],
   providers: []
