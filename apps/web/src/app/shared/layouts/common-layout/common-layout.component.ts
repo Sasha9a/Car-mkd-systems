@@ -47,36 +47,36 @@ export class CommonLayoutComponent implements OnInit {
     this.menuHeader = [
       {
         label: 'Создать товар',
-        visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN),
+        visible: this.authService.checkRoles([RoleEnum.SUPERADMIN, RoleEnum.ADMIN]),
         routerLink: '/product/add'
       },
       {
         separator: true,
-        visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN),
+        visible: this.authService.checkRoles([RoleEnum.SUPERADMIN, RoleEnum.ADMIN]),
       },
       {
         label: 'Панель моделей автотранспорта',
-        visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN),
+        visible: this.authService.checkRoles([RoleEnum.SUPERADMIN, RoleEnum.ADMIN]),
         routerLink: '/car-models'
       },
       {
         label: 'Панель категорий',
-        visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN),
+        visible: this.authService.checkRoles([RoleEnum.SUPERADMIN, RoleEnum.ADMIN]),
         routerLink: '/category'
       },
       {
         label: 'Настройки',
-        visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN),
+        visible: this.authService.checkRoles([RoleEnum.SUPERADMIN, RoleEnum.ADMIN]),
         routerLink: '/settings'
       },
       {
         label: 'Помощь',
-        visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN),
+        visible: this.authService.checkRoles([RoleEnum.SUPERADMIN, RoleEnum.ADMIN]),
         routerLink: '/help'
       },
       {
         separator: true,
-        visible: this.authService.currentUser?.roles?.includes(RoleEnum.ADMIN)
+        visible: this.authService.checkRoles([RoleEnum.SUPERADMIN, RoleEnum.ADMIN])
       },
       {
         label: 'Выйти',

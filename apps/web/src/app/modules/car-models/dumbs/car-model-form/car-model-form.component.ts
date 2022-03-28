@@ -11,7 +11,7 @@ import { BaseFormComponent } from "@car-mkd-systems/web/shared/dumbs/base-form/b
   templateUrl: './car-model-form.component.html',
   styleUrls: []
 })
-export class CarModelFormComponent  extends BaseFormComponent<BrandCarFormDto> {
+export class CarModelFormComponent extends BaseFormComponent<BrandCarFormDto> {
 
   @Input() public brandCar = new BrandCarFormDto();
   public dto = BrandCarFormDto;
