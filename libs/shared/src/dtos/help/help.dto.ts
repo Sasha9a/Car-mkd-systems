@@ -10,4 +10,7 @@ export class HelpDto extends BaseDto {
   @Expose()
   public text: string;
 
+  @Expose()
+  public order: number;
+
 }
