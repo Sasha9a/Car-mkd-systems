@@ -37,8 +37,8 @@ export class ProductService extends BaseService<Product> {
       filter.filter.isPublic = true;
     }
     return await this.productModel.find(filter.filter)
-                     .skip(filter.skip)
-                     .limit(filter.limit).exec();
+                     .skip(queryParams.offset)
+                     .limit(queryParams.limit).exec();
   }
 
   public async countFindAll(queryParams: ProductQueryDto, user: UserDto) {
