@@ -1,17 +1,21 @@
 import { Roles } from '@car-mkd-systems/api/core/decorators/role.decorator';
 import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
 import { RoleGuard } from '@car-mkd-systems/api/core/guards/role.guard';
+import { ValidateObjectId } from "@car-mkd-systems/api/core/pipes/validate.object.id.pipes";
 import { AuthService } from '@car-mkd-systems/api/modules/user/auth.service';
+import { UserCreateFormDto } from "@car-mkd-systems/shared/dtos/user/user.create.form.dto";
+import { UserEditFormDto } from "@car-mkd-systems/shared/dtos/user/user.edit.form.dto";
 import { UserSessionDto } from '@car-mkd-systems/shared/dtos/user/user.session.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
-import { Body, Controller, Get, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserFormDto } from '@car-mkd-systems/shared/dtos/user/user.form.dto';
+import { UserLoginFormDto } from '@car-mkd-systems/shared/dtos/user/user.login.form.dto';
 import { Response } from 'express';
 import * as bcrypt from 'bcrypt';
 
 @Controller('user')
 export class UserController {
+
   public constructor(private readonly userService: UserService,
                      private readonly authService: AuthService) {
   }
@@ -34,17 +38,17 @@ export class UserController {
     return res.status(HttpStatus.OK).json(body.password).end();
   }
 
-  @Roles(RoleEnum.SUPERADMIN, RoleEnum.ADMIN)
+  @Roles(RoleEnum.SUPERADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post()
-  public async create(@Res() res: Response, @Body() body: UserFormDto) {
+  public async create(@Res() res: Response, @Body() body: UserCreateFormDto) {
     body.password = bcrypt.hashSync(body.password, 10);
     const newUser = await this.userService.create(body);
     return res.status(HttpStatus.CREATED).json(newUser).end();
   }
 
   @Post('/login')
-  public async login(@Res() res: Response, @Body() body: UserFormDto) {
+  public async login(@Res() res: Response, @Body() body: UserLoginFormDto) {
     const user = await this.userService.findByLogin(body.login);
     if (!user) {
       return res.status(HttpStatus.NOT_FOUND).json({ error: { login: ['Нет такого аккаунта'] } }).end();
@@ -67,6 +71,28 @@ export class UserController {
   @Post('/logout')
   public async logout(@Res() res: Response, @Body() body: UserSessionDto) {
     await this.userService.logout(body._id);
+    return res.status(HttpStatus.OK).end();
+  }
+
+  @Roles(RoleEnum.SUPERADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Put('/:id')
+  public async update(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: UserEditFormDto) {
+    const entity = await this.userService.update(id, body);
+    if (!entity) {
+      throw new NotFoundException("Нет такого объекта!");
+    }
+    return res.status(HttpStatus.OK).json(entity).end();
+  }
+
+  @Roles(RoleEnum.SUPERADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Delete('/:id')
+  public async delete(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
+    const entity = await this.userService.delete(id);
+    if (!entity) {
+      throw new NotFoundException("Нет такого объекта!");
+    }
     return res.status(HttpStatus.OK).end();
   }
 
