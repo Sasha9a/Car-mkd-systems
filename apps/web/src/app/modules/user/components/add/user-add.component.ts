@@ -12,7 +12,7 @@ import { UserStateService } from "@car-mkd-systems/web/core/services/user/user-s
 })
 export class UserAddComponent {
 
-  public loading = true;
+  public loading = false;
 
   public constructor(private readonly userStateService: UserStateService,
                      private readonly errorService: ErrorService,

@@ -334,6 +334,6 @@ import { TableComponent } from './dumbs/table/table.component';
     StyleClassModule,
     RippleModule
   ],
-  providers: [CommonLayoutComponent]
+  providers: [CommonLayoutComponent, RoleNamePipe]
 })
 export class SharedModule { }
