@@ -108,6 +108,7 @@ import { KeyValueFilterPipe } from './pipes/key-value-filter.pipe';
 import { ObjectKeyValuePipe } from './pipes/object-key-value.pipe';
 import { CategoryMultiSelectComponent } from './dumbs/dropdowns/category-multi-select/category-multi-select.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
+import { RoleNamePipe } from './pipes/role-name.pipe';
 
 @NgModule({
 	declarations: [
@@ -128,7 +129,8 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
     KeyValueFilterPipe,
     ObjectKeyValuePipe,
     CategoryMultiSelectComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    RoleNamePipe
 	],
 	exports: [
 		JoinPipe,
@@ -232,7 +234,8 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 		FocusTrapModule,
 		StyleClassModule,
 		RippleModule,
-		SafeHtmlPipe
+		SafeHtmlPipe,
+		MultiSelectComponent
 	],
   imports: [
     CommonModule,

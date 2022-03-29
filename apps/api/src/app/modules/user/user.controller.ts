@@ -78,6 +78,10 @@ export class UserController {
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Put('/:id')
   public async update(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string, @Body() body: UserEditFormDto) {
+    if (body.newPassword) {
+      body['password'] = bcrypt.hashSync(body.newPassword, 10);
+      delete body.newPassword;
+    }
     const entity = await this.userService.update(id, body);
     if (!entity) {
       throw new NotFoundException("Нет такого объекта!");
