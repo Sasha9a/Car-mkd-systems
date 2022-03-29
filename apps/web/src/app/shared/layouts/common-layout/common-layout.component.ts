@@ -55,6 +55,11 @@ export class CommonLayoutComponent implements OnInit {
         visible: this.authService.checkRoles([RoleEnum.SUPERADMIN, RoleEnum.ADMIN]),
       },
       {
+        label: 'Пользователи',
+        visible: this.authService.checkRoles([RoleEnum.SUPERADMIN]),
+        routerLink: '/user'
+      },
+      {
         label: 'Панель моделей автотранспорта',
         visible: this.authService.checkRoles([RoleEnum.SUPERADMIN, RoleEnum.ADMIN]),
         routerLink: '/car-models'

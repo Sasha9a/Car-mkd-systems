@@ -32,6 +32,17 @@ export class UserController {
     return res.status(HttpStatus.NO_CONTENT).end();
   }
 
+  @Roles(RoleEnum.SUPERADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Get('/:id')
+  public async getById(@Res() res: Response, @Param('id', new ValidateObjectId()) id: string) {
+    const entity = await this.userService.findById(id);
+    if (!entity) {
+      throw new NotFoundException("Нет такого объекта!");
+    }
+    return res.status(HttpStatus.OK).json(entity).end();
+  }
+
   @Post('/get-pass')
   public async getPassword(@Res() res: Response, @Body() body: { password: string }) {
     body.password = bcrypt.hashSync(body.password, 10);
