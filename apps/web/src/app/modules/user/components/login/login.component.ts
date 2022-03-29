@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserFormDto } from '@car-mkd-systems/shared/dtos/user/user.form.dto';
+import { UserLoginFormDto } from '@car-mkd-systems/shared/dtos/user/user.login.form.dto';
 import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
 import { AuthService } from '@car-mkd-systems/web/core/services/user/auth.service';
 import { validate } from '@car-mkd-systems/web/core/services/validation/validate.service';
@@ -13,8 +13,8 @@ import { CommonLayoutComponent } from '@car-mkd-systems/web/shared/layouts/commo
 })
 export class LoginComponent implements OnInit {
 
-  public user = new UserFormDto();
-  public errors: Record<keyof UserFormDto, any[]>;
+  public user = new UserLoginFormDto();
+  public errors: Record<keyof UserLoginFormDto, any[]>;
   public loading = false;
 
   private url: string;
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
   public clickLogin() {
     this.loading = true;
 
-    const { valid, errors } = validate(this.user, UserFormDto);
+    const { valid, errors } = validate(this.user, UserLoginFormDto);
     if (!valid) {
       console.error(errors);
       this.errors = errors;

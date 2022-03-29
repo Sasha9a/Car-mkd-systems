@@ -2,7 +2,7 @@ import { Expose } from 'class-transformer';
 import { IsString } from 'class-validator';
 
 @Expose()
-export class UserFormDto {
+export class UserLoginFormDto {
   @Expose()
   @IsString({ message: "Введите логин" })
   public login: string;
