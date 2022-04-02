@@ -1,17 +1,6 @@
 #!/bin/bash
 echo 'Connect to Server...'
 
-# sudo apt update
-# curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
-# sudo apt -y install nodejs
-# node -v
-# npm -v
-# sudo apt install nginx
-# sudo apt install git
-# sudo apt install mongodb-server
-# sudo apt install certbot python3-certbot-nginx
-# sudo apt-get install build-essential
-
 # Если npm install завершается Killed
 # sudo fallocate -l 1G /swapfile
 # sudo chmod 600 /swapfile
@@ -27,6 +16,16 @@ echo 'Connect to Server...'
 
 umask 777
 ssh -tt -i ~/.ssh/id_rsa root@45.141.78.161 << EOF
+sudo apt -y update
+sudo curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+sudo apt -y install nodejs
+node -v
+npm -v
+sudo apt -y install nginx
+sudo apt -y install git
+sudo apt -y install mongodb-server
+sudo apt -y install certbot python3-certbot-nginx
+sudo apt-get -y install build-essential
 sudo npm install -g pm2
 sudo npm install -g nx
 sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
