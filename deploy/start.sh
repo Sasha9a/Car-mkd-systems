@@ -37,7 +37,7 @@ sudo ufw delete allow 'Nginx HTTP'
 sudo ufw enable
 git clone https://github.com/Sasha9a/Car-mkd-systems.git -b v2.0
 cd Car-mkd-systems
-sudo npm install --unsafe
+sudo npm install
 nx affected:build --all
 sudo mkdir -p /var/www/car-mkd-systems.ru/html
 sudo chown -R $USER:$USER /var/www/car-mkd-systems.ru/html

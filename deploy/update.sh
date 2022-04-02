@@ -18,7 +18,7 @@ umask 777
 ssh -tt -i ~/.ssh/id_rsa root@45.141.78.161 << EOF
 cd Car-mkd-systems
 sudo git pull
-sudo npm install --unsafe
+sudo npm install
 nx affected:build --all
 sudo cp deploy/nginx.conf /etc/nginx/sites-available/car-mkd-systems.ru
 sudo ln -s /etc/nginx/sites-available/car-mkd-systems.ru /etc/nginx/sites-enabled/
