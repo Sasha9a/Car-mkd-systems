@@ -12,9 +12,6 @@ echo 'Connect to Server...'
 # sudo apt install certbot python3-certbot-nginx
 # sudo apt-get install build-essential
 
-# SSL сертификат
-# sudo certbot --nginx -d car-mkd-systems.ru -d www.car-mkd-systems.ru; sudo pm2 restart 0
-
 # Если npm install завершается Killed
 # sudo fallocate -l 1G /swapfile
 # sudo chmod 600 /swapfile
@@ -48,7 +45,7 @@ sudo chmod -R 755 /var/www/car-mkd-systems.ru
 sudo cp deploy/nginx.conf /etc/nginx/sites-available/car-mkd-systems.ru
 sudo ln -s /etc/nginx/sites-available/car-mkd-systems.ru /etc/nginx/sites-enabled/
 sudo cp -r ~/Car-mkd-systems/dist/apps/web/* /var/www/car-mkd-systems.ru/html
-sudo systemctl restart nginx
+sudo certbot --nginx --reinstall --redirect -d car-mkd-systems.ru -d www.car-mkd-systems.ru
 sudo systemctl enable mongodb
 sudo pm2 start dist/apps/api/main.js
 sudo pm2 save
