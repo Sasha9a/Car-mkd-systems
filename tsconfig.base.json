@@ -7,26 +7,16 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false,
-    "noImplicitAny": false,
-    "strictFunctionTypes": false,
-    "strictNullChecks": false,
-    "noPropertyAccessFromIndexSignature": false,
-    "suppressImplicitAnyIndexErrors": true,
     "importHelpers": true,
-    "noUnusedParameters": false,
-    "target": "esnext",
+    "target": "es2015",
     "module": "esnext",
-    "lib": ["es2015", "es2017", "dom"],
+    "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "./web",
     "paths": {
-      "@car-mkd-systems/api/*": ["apps/api/src/app/*"],
-      "@car-mkd-systems/shared/*": ["libs/shared/src/*"],
-      "@car-mkd-systems/web/*": ["apps/web/src/app/*"]
+      "@web/shared": ["libs/shared/src/index.ts"]
     }
   },
-  "include": ["./libs/*/src/**/*", "./apps/*/src/**/*"],
   "exclude": ["node_modules", "tmp"]
 }

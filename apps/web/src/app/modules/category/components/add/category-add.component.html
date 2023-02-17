@@ -1,7 +1,0 @@
-<car-category-form *ngIf="!saving"
-                   [category]="category"
-                   (save)="create($event)"
-                   [route]="'/category'">
-</car-category-form>
-
-<car-spinner *ngIf="saving"></car-spinner>

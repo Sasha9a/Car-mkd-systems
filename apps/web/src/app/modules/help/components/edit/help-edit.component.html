@@ -1,9 +1,0 @@
-<car-help-form *ngIf="!saving && help"
-               [help]="help"
-               [canDelete]="true"
-               (save)="edit($event)"
-               (delete)="delete()"
-               [route]="'/help'">
-</car-help-form>
-
-<car-spinner *ngIf="saving || !help"></car-spinner>
