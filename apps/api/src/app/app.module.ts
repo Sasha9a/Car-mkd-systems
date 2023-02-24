@@ -1,11 +1,24 @@
 import { Module } from '@nestjs/common';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { DataSource } from "typeorm";
+import { environment } from "../environments/environment";
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: environment.connection.type,
+      host: environment.connection.host,
+      port: environment.connection.port,
+      username: environment.connection.username,
+      password: environment.connection.password,
+      database: environment.connection.database,
+      synchronize: environment.connection.synchronize,
+      autoLoadEntities: true
+    })
+  ],
+  controllers: [],
+  providers: []
 })
-export class AppModule {}
+export class AppModule {
+  public constructor(private readonly dataSource: DataSource) {}
+}
