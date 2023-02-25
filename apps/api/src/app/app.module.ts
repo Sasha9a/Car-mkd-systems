@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { DataSource } from "typeorm";
-import { environment } from "../environments/environment";
+import { LoggerMiddleware } from '@car-mkd-systems/api/core/middlewares/logger.middleware';
+import { UserModule } from '@car-mkd-systems/api/modules/user/user.module';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { environment } from '../environments/environment';
 
 @Module({
   imports: [
@@ -14,11 +15,17 @@ import { environment } from "../environments/environment";
       database: environment.connection.database,
       synchronize: environment.connection.synchronize,
       autoLoadEntities: true
-    })
+    }),
+    UserModule
   ],
   controllers: [],
   providers: []
 })
-export class AppModule {
-  public constructor(private readonly dataSource: DataSource) {}
+export class AppModule implements NestModule {
+  public configure(consumer: MiddlewareConsumer): any {
+    consumer.apply(LoggerMiddleware).forRoutes({
+      path: '*',
+      method: RequestMethod.ALL
+    });
+  }
 }

@@ -1,10 +1,10 @@
-import { BaseEntity } from "@car-mkd-systems/shared/entities/base.entity";
-import { RoleEnum } from "@car-mkd-systems/shared/enums/role.enum";
-import { Column, Entity } from "typeorm";
+import { BaseEntity } from '@car-mkd-systems/shared/entities/base.entity';
+import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
+import { Column, Entity } from 'typeorm';
 
 @Entity()
 export class UserEntity extends BaseEntity {
-  @Column()
+  @Column({ length: 32 })
   public login: string;
 
   @Column()
