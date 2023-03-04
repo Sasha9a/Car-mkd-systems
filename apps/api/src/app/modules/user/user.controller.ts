@@ -1,11 +1,12 @@
 import { Roles } from '@car-mkd-systems/api/core/decorators/role.decorator';
+import { BaseException } from '@car-mkd-systems/api/core/exceptions/base.exception';
 import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
 import { RoleGuard } from '@car-mkd-systems/api/core/guards/role.guard';
 import { AuthService } from '@car-mkd-systems/api/modules/user/auth.service';
 import { UserDto } from '@car-mkd-systems/shared/dtos/user/user.dto';
 import { UserLoginFormDto } from '@car-mkd-systems/shared/dtos/user/user.login.form.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
-import { Body, Controller, Get, HttpStatus, NotFoundException, Param, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post, Res, UseGuards } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 import { UserService } from './user.service';
@@ -32,7 +33,7 @@ export class UserController {
   public async getById(@Res() res: Response, @Param('id') id: number) {
     const entity = await this.userService.findById(id);
     if (!entity) {
-      throw new NotFoundException('Нет такого объекта!');
+      throw new BaseException('Нет такого пользователя');
     }
     return res.status(HttpStatus.OK).json(entity).end();
   }
@@ -47,10 +48,7 @@ export class UserController {
   public async login(@Res() res: Response, @Body() body: UserLoginFormDto) {
     const user = await this.userService.findByLogin(body.login);
     if (!user) {
-      return res
-        .status(HttpStatus.NOT_FOUND)
-        .json({ error: { login: ['Нет такого аккаунта'] } })
-        .end();
+      throw new BaseException<UserLoginFormDto>({ login: 'Нет такого аккаунта' }, HttpStatus.PRECONDITION_FAILED);
     }
     if (bcrypt.compareSync(body.password, user.password)) {
       const token = this.authService.login(user);
@@ -62,12 +60,8 @@ export class UserController {
       };
       await this.userService.setToken(user.id, token.accessToken);
       return res.status(HttpStatus.OK).json(login).end();
-    } else {
-      return res
-        .status(HttpStatus.NOT_FOUND)
-        .json({ error: { password: ['Неверный пароль'] } })
-        .end();
     }
+    throw new BaseException<UserLoginFormDto>({ password: 'Неверный пароль' }, HttpStatus.PRECONDITION_FAILED);
   }
 
   @Post('/logout')

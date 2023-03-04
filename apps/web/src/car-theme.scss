@@ -1,0 +1,8 @@
+@import '../../../node_modules/primeng/resources/themes/tailwind-light/theme.css';
+
+*:focus,
+.p-focus,
+.p-inputswitch.p-focus .p-inputswitch-slider {
+  box-shadow: none !important;
+}
+

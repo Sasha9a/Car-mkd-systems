@@ -1,11 +1,13 @@
 import { LoggerMiddleware } from '@car-mkd-systems/api/core/middlewares/logger.middleware';
 import { UserModule } from '@car-mkd-systems/api/modules/user/user.module';
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { environment } from '../environments/environment';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: environment.connection.type,
       host: environment.connection.host,
