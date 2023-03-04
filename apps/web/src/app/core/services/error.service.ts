@@ -45,6 +45,25 @@ export class ErrorService {
     this.messageService.add({ key: 'message', severity: 'error', summary: 'Ошибка', detail: detail, life: 10000 });
   }
 
+  public errorValues<T>(form: Record<keyof T, any[]>, life = 10000) {
+    const error = Object.values(form)
+      .map((er: any[]) => {
+        return er
+          ?.map((er1) => {
+            if (typeof er1 === 'object') {
+              return Object.values(er1)
+                .map((e: any[]) => e?.map((e1) => `${e1}`))
+                .join(', ');
+            } else {
+              return `${er1}`;
+            }
+          })
+          .join(', ');
+      })
+      .join(', ');
+    this.messageService.add({ severity: 'error', summary: 'Заполните все поля', detail: error, life });
+  }
+
   public addSuccessMessage(title: string = 'ОК', description: string = '', life = 10000) {
     this.messageService.add({ key: 'message', severity: 'success', summary: title, detail: description, life });
   }

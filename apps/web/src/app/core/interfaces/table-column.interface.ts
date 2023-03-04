@@ -1,4 +1,4 @@
-export interface CrmTableColumn<NameType = string> {
+export interface TableColumnInterface<NameType = string> {
   name?: NameType;
   label?: string;
   sort?: string;
