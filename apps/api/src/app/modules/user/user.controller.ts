@@ -48,7 +48,7 @@ export class UserController {
   public async login(@Res() res: Response, @Body() body: UserLoginFormDto) {
     const user = await this.userService.findByLogin(body.login);
     if (!user) {
-      throw new BaseException<UserLoginFormDto>({ login: 'Нет такого аккаунта' }, HttpStatus.PRECONDITION_FAILED);
+      throw new BaseException('Нет такого аккаунта', HttpStatus.BAD_REQUEST);
     }
     if (bcrypt.compareSync(body.password, user.password)) {
       const token = this.authService.login(user);
@@ -61,7 +61,7 @@ export class UserController {
       await this.userService.setToken(user.id, token.accessToken);
       return res.status(HttpStatus.OK).json(login).end();
     }
-    throw new BaseException<UserLoginFormDto>({ password: 'Неверный пароль' }, HttpStatus.PRECONDITION_FAILED);
+    throw new BaseException('Неверный пароль', HttpStatus.BAD_REQUEST);
   }
 
   @Post('/logout')

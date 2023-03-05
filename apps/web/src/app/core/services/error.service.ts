@@ -26,8 +26,8 @@ export class ErrorService {
 
     let detail: string;
 
-    if (typeof error.error.errors === 'object' && error.error.errors !== null && !Array.isArray(error.error.errors)) {
-      const errors = error.error.errors as Record<string, string | string[]>;
+    if (typeof error.error.message === 'object' && error.error.message !== null && !Array.isArray(error.error.message)) {
+      const errors = error.error.message as Record<string, string | string[]>;
       detail = Object.entries(errors)
         .map(([key, errorData]) => {
           if (typeof errorData === 'string') {
@@ -39,7 +39,7 @@ export class ErrorService {
         })
         .join('\n');
     } else {
-      detail = error.message;
+      detail = error.error.message || error.message;
     }
 
     this.messageService.add({ key: 'message', severity: 'error', summary: 'Ошибка', detail: detail, life: 10000 });

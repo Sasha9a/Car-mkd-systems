@@ -12,7 +12,7 @@ export abstract class BaseFormComponent<T> {
   @Input() public canDelete = false;
   @Output() public save = new EventEmitter<T>();
   @Output() public delete = new EventEmitter<T>();
-  public errors: Record<keyof T, any[]>;
+  @Input() public errors: Record<keyof T, any[]>;
 
   public abstract dto: new () => T;
 

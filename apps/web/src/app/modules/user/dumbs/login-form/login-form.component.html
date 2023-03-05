@@ -1,0 +1,35 @@
+<form autocomplete="on">
+  <div class="p-fluid">
+    <div class="field">
+      <label class="font-medium required-field">Логин</label>
+      <input
+        type="text"
+        pInputText
+        name="login"
+        [ngClass]="{ 'ng-invalid ng-dirty': errors?.login }"
+        [(ngModel)]="user.login"
+        (keyup.enter)="setFocus(password)"
+      />
+      <small *ngIf="errors?.login" class="p-error">{{ errors.login | join }}</small>
+    </div>
+
+    <div class="field">
+      <label class="font-medium required-field">Пароль</label>
+      <p-password
+        #password
+        [(ngModel)]="user.password"
+        name="password"
+        [feedback]="false"
+        [toggleMask]="true"
+        [ngClass]="{ 'ng-invalid ng-dirty': errors?.password }"
+        (keyup.enter)="loading ? null : onSave(user)"
+      >
+      </p-password>
+      <small *ngIf="errors?.password" class="p-error">{{ errors.password | join }}</small>
+    </div>
+  </div>
+</form>
+
+<div class="mt-3">
+  <button pButton [label]="saveButtonLabel" [loading]="loading" class="p-button-success w-full" (click)="onSave(user)"></button>
+</div>

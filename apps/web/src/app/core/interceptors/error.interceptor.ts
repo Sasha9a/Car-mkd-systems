@@ -15,14 +15,16 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.authService.logout();
         }
 
-        const error = err.error.errors || err.error || { message: err.statusText };
-
         if (err.status === 0 && !navigator.onLine) {
-          error.message = 'Не удалось установить связь с сервером. Проверьте Ваше интернет соединение.';
+          this.errorService.addCustomError(
+            'Ошибка соединения',
+            'Не удалось установить связь с сервером. Проверьте Ваше интернет соединение'
+          );
+        } else {
+          this.errorService.addDefaultError(err);
         }
-        this.errorService.addDefaultError(error);
 
-        return throwError(error);
+        return throwError(err);
       })
     );
   }

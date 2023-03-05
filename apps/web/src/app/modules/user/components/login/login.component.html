@@ -1,0 +1,9 @@
+<div class="flex justify-content-center mt-6">
+  <div class="col-12 sm:col-8 md:col-6 xl:col-4">
+    <p class="text-5xl text-center">Car <span class="text-blue-700 text-6xl font-bold header-title">MKD</span> Systems</p>
+    <p class="text-2xl text-center mt-6 text-gray-500">Авторизация</p>
+    <div class="mt-3">
+      <car-login-form (save)="login($event)" saveButtonLabel="Войти" [loading]="loading"></car-login-form>
+    </div>
+  </div>
+</div>

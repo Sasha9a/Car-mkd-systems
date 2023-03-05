@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserDto } from '@car-mkd-systems/shared/dtos/user/user.dto';
+import { UserLoginFormDto } from '@car-mkd-systems/shared/dtos/user/user.login.form.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { UserService } from '@car-mkd-systems/web/core/services/user/user.service';
 import { lastValueFrom, Observable, tap } from 'rxjs';
@@ -17,7 +18,7 @@ export class AuthService {
     }
   }
 
-  public login(user: UserDto): Observable<UserDto> {
+  public login(user: UserLoginFormDto): Observable<UserDto> {
     return this.userService.login(user).pipe(
       tap((response) => {
         this.user = response;

@@ -10,15 +10,15 @@ export class RoutingService {
   public currentUrl = '/';
   public previousUrl = '/';
 
-  public constructor(private readonly router: Router, private readonly titleService: TitleService) {
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
-      this.previousUrl = this.currentUrl;
-      this.currentUrl = event.url;
+  public constructor(private readonly router: Router, private readonly titleService: TitleService) {}
 
-      if (event.url === '/') {
-        this.router.navigate([event.url]).catch(console.error);
-      }
-    });
+  public subscribeRoutes() {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd && event.url !== '/notfound'))
+      .subscribe((event: NavigationEnd) => {
+        this.previousUrl = this.currentUrl;
+        this.currentUrl = event.url;
+      });
 
     this.router.events
       .pipe(
@@ -28,7 +28,7 @@ export class RoutingService {
         map((event: ActivationEnd) => event.snapshot.data)
       )
       .subscribe((routeData) => {
-        this.titleService.setTitle(routeData['title']);
+        this.titleService.setTitle(routeData.title);
       });
   }
 

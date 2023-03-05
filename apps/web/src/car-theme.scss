@@ -6,3 +6,8 @@
   box-shadow: none !important;
 }
 
+.p-message.p-message-error,
+.p-toast .p-toast-message.p-toast-message-error {
+  background: #ffd7d7 !important;
+}
+
