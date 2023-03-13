@@ -1,0 +1,22 @@
+<div class="grid grid-nogutter flex-nowrap">
+  <div class="left-menu-wrapper">
+    <div class="grid-nogutter left-menu px-2" [class.minimized]="menuMinimized">
+      <div class="toggle-menu-icon px-3 py-4 flex align-items-center justify-content-between">
+        <a routerLink="/" class="flex-grow-1">
+          <div class="w-full" *ngIf="!menuMinimized">
+            <p class="text-lg text-center text-white">Car <span class="text-blue-300 text-xl font-bold header-title">MKD</span> Systems</p>
+          </div>
+        </a>
+        <i
+          class="pi {{ menuMinimized ? 'pi-angle-double-right' : 'pi-angle-double-left' }}"
+          (click)="menuMinimized = !menuMinimized; saveMenuState()"
+        ></i>
+      </div>
+      <car-admin-menu [minimized]="menuMinimized"></car-admin-menu>
+    </div>
+  </div>
+  <div class="left-menu-offset" [class.minimized]="menuMinimized"></div>
+  <div class="main-content w-full pt-3 px-3 sm:px-6 sm:block" style="padding-bottom: 8rem" [class.minimized]="!menuMinimized">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -29,13 +29,14 @@ export class AuthService {
     );
   }
 
-  public logout() {
+  public logout(url?: string) {
     localStorage.removeItem('JWT_TOKEN');
     localStorage.removeItem('JWT_USER');
 
     this.userService.logout(this.user).subscribe();
 
     this.user = undefined;
+    this.router.navigate(['/login'], { queryParams: { url } }).catch(console.error);
   }
 
   public get currentUser() {

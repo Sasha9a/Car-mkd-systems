@@ -12,6 +12,7 @@ body {
   font-family: "Avenir Next Cyr", "Helvetica Neue", sans-serif !important;
   font-size: 14px;
   font-style: normal;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -24,6 +25,24 @@ body {
 p {
   margin: 0;
   padding: 0;
+}
+
+.ql-snow a {
+  text-decoration: none;
+  color: #23538c !important;
+}
+
+a {
+  text-decoration: none;
+  color: #23538c;
+}
+
+a:visited {
+  color: #23538c;
+}
+
+a:hover {
+  color: #23538c;
 }
 
 small {

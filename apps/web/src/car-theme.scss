@@ -1,5 +1,10 @@
 @import '../../../node_modules/primeng/resources/themes/tailwind-light/theme.css';
 
+.p-component {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
 *:focus,
 .p-focus,
 .p-inputswitch.p-focus .p-inputswitch-slider {

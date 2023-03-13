@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserLoginFormDto } from '@car-mkd-systems/shared/dtos/user/user.login.form.dto';
 import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
+import { RoutingService } from '@car-mkd-systems/web/core/services/routing.service';
 import { AuthService } from '@car-mkd-systems/web/core/services/user/auth.service';
 import { LoginFormComponent } from '@car-mkd-systems/web/modules/user/dumbs/login-form/login-form.component';
 
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
     private readonly errorService: ErrorService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly cdRef: ChangeDetectorRef
+    private readonly cdRef: ChangeDetectorRef,
+    private readonly routingService: RoutingService
   ) {}
 
   public ngOnInit() {
@@ -48,7 +50,11 @@ export class LoginComponent implements OnInit {
     this.authService.login(user).subscribe({
       next: () => {
         this.errorService.addSuccessMessage('Вы авторизовались!');
-        this.router.navigate([this.url], { queryParams: this.queryParams }).catch(console.error);
+        if (this.url === '/') {
+          this.routingService.redirectToLk();
+        } else {
+          this.router.navigate([this.url], { queryParams: this.queryParams }).catch(console.error);
+        }
       },
       error: () => {
         this.loading = false;

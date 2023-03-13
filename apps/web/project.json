@@ -13,7 +13,8 @@
           "moment-timezone",
           "class-validator",
           "chart.js",
-          "validator"
+          "validator",
+          "uniqolor"
         ],
         "outputPath": "dist/apps/web",
         "index": "apps/web/src/index.html",

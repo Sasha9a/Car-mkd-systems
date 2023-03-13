@@ -1,15 +1,16 @@
 import { Route } from '@angular/router';
+import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { AuthGuard } from '@car-mkd-systems/web/core/guards/auth.guard';
-import { DashboardComponent } from '@car-mkd-systems/web/modules/dashboard/components/dashboard/dashboard.component';
+import { RoleGuard } from '@car-mkd-systems/web/core/guards/role.guard';
+import { MainComponent } from '@car-mkd-systems/web/modules/main/components/main/main.component';
 import { LoginComponent } from '@car-mkd-systems/web/modules/user/components/login/login.component';
 
 export const appRoutes: Route[] = [
   {
     path: '',
-    canActivate: [AuthGuard],
-    component: DashboardComponent,
+    component: MainComponent,
     data: {
-      title: 'Рабочий стол'
+      title: 'Главная'
     }
   },
   {
@@ -17,6 +18,15 @@ export const appRoutes: Route[] = [
     component: LoginComponent,
     data: {
       title: 'Авторизация'
+    }
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('../modules/admin/admin.routes').then((m) => m.adminRoutes),
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      roles: [RoleEnum.SUPERADMIN, RoleEnum.ADMIN],
+      included: true
     }
   }
 ];
