@@ -1,0 +1,10 @@
+<div class="grid">
+  <div class="col-6 md:col-3 xl:col-2" *ngFor="let service of services">
+    <a [routerLink]="service.link">
+      <p-card styleClass="h-full dashboard-report-card">
+        <a class="text-lg">{{ service.name }}</a>
+        <p class="text-gray-500 mt-3">{{ service.description }}</p>
+      </p-card>
+    </a>
+  </div>
+</div>

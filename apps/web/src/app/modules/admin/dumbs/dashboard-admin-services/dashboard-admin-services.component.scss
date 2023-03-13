@@ -1,0 +1,9 @@
+.dashboard-report-card {
+  transition: 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 4px 0 var(--blue-400) !important;
+  }
+}
