@@ -10,9 +10,17 @@ export class SettingsWatermarkFormDto {
   public type: WatermarkTypeEnum;
 
   @Expose()
+  @IsDefined({ message: 'Нужно залить хотя бы 1 фотографию' })
+  public images: FileDto[];
+
+  @Expose()
+  @IsOptional()
+  public nameArchive?: string;
+
+  @Expose()
   @IsOptional()
   @Type(() => FileDto)
-  public image?: FileDto;
+  public imageWatermark?: FileDto;
 
   @Expose()
   @IsOptional()
