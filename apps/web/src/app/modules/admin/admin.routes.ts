@@ -18,6 +18,10 @@ export const adminRoutes: Routes = [
         data: {
           title: 'Админ-панель'
         }
+      },
+      {
+        path: 'service',
+        loadChildren: () => import('./components/services/admin-service.routes').then((m) => m.adminServiceRoutes)
       }
     ]
   }

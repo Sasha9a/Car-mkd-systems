@@ -14,7 +14,7 @@ import { CardModule } from 'primeng/card';
 })
 export class DashboardAdminServicesComponent {
   public services: Array<{ name: string; link: string; description: string }> = [
-    { name: 'Изменить шрифт', link: '/admin/service/font-change', description: 'Сервис изменяет шрифт текста для Авито' },
+    // { name: 'Изменить шрифт', link: '/admin/service/font-change', description: 'Сервис изменяет шрифт текста для Авито' },
     { name: 'Добавить водяные знаки', link: '/admin/service/water-marks', description: 'Сервис добавляет водные знаки на изображения' }
   ];
 }
