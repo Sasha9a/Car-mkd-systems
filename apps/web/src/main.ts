@@ -7,6 +7,7 @@ import { appRoutes } from '@car-mkd-systems/web/core/app.routes';
 import { ErrorInterceptor } from '@car-mkd-systems/web/core/interceptors/error.interceptor';
 import { TokenInterceptor } from '@car-mkd-systems/web/core/interceptors/token.interceptor';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import 'reflect-metadata';
 
 bootstrapApplication(AppComponent, {
   providers: [

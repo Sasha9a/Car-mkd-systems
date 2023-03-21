@@ -4,7 +4,7 @@ import { Expose, Type } from 'class-transformer';
 import { IsDefined, IsOptional } from 'class-validator';
 
 @Expose()
-export class SettingsWatermarkFormDto {
+export class WatermarkFormDto {
   @Expose()
   @IsDefined({ message: 'Выберите тип водного знака' })
   public type: WatermarkTypeEnum;

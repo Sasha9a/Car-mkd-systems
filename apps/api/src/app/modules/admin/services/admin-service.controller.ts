@@ -3,20 +3,23 @@ import { Roles } from '@car-mkd-systems/api/core/decorators/role.decorator';
 import { BaseException } from '@car-mkd-systems/api/core/exceptions/base.exception';
 import { JwtAuthGuard } from '@car-mkd-systems/api/core/guards/jwt-auth.guard';
 import { RoleGuard } from '@car-mkd-systems/api/core/guards/role.guard';
-import { SettingsWatermarkFormDto } from '@car-mkd-systems/shared/dtos/admin-services/settings.watermark.form.dto';
+import { WatermarkFormDto } from '@car-mkd-systems/shared/dtos/admin-services/watermark.form.dto';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { WatermarkTypeEnum } from '@car-mkd-systems/shared/enums/watermark.type.enum';
-import { Body, Controller, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
+import fs from 'fs';
 import Jimp from 'jimp';
+import JSZip from 'jszip';
+import uuid from 'uuid';
 
 @Controller('admin/service')
 export class AdminServiceController extends BaseController {
   @Roles(RoleEnum.ADMIN, RoleEnum.SUPERADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Post('water-marks')
-  public async waterMarks(@Res() res: Response, @Body() body: SettingsWatermarkFormDto) {
-    const bodyParams = this.validate<SettingsWatermarkFormDto>(body, SettingsWatermarkFormDto);
+  public async waterMarks(@Res() res: Response, @Body() body: WatermarkFormDto) {
+    const bodyParams = this.validate<WatermarkFormDto>(body, WatermarkFormDto);
 
     let newImage;
     if (bodyParams.type === WatermarkTypeEnum.TEXT) {
@@ -47,6 +50,7 @@ export class AdminServiceController extends BaseController {
       }
     }
 
+    const zip = new JSZip();
     for (const img of bodyParams.images) {
       const image = await Jimp.read('./public/' + img.path);
       newImage.resize((image.bitmap.width * bodyParams.scale) / 100, Jimp.AUTO);
@@ -59,7 +63,14 @@ export class AdminServiceController extends BaseController {
         opacityDest: bodyParams.opacityDest
       });
       await image.writeAsync('./public/' + img.path).catch(console.error);
+      zip.file(img.path, fs.readFileSync('./public/' + img.path));
     }
-    return res.status(HttpStatus.CREATED).json(bodyParams.images).end();
+    const nameArchive = bodyParams.nameArchive ? bodyParams.nameArchive + '.zip' : uuid.v4() + '.zip';
+    zip
+      .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
+      .pipe(fs.createWriteStream('./public/' + nameArchive))
+      .on('finish', () => {
+        return res.sendFile(nameArchive, { root: './public' });
+      });
   }
 }

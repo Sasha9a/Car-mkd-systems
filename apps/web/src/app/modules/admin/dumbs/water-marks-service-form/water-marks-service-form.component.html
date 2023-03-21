@@ -1,0 +1,189 @@
+<div class="grid">
+  <div class="xl:col-4 md:col-6 col-12">
+    <div class="p-fluid">
+      <div class="field">
+        <label class="font-medium required-field">Картинки</label>
+        <div class="flex gap-3 mb-2">
+          <ng-container *ngFor="let file of form?.images">
+            <car-file [file]="file" [canDelete]="true" (delete)="deleteImage(form.images, file)"></car-file>
+          </ng-container>
+        </div>
+        <div class="flex">
+          <p-fileUpload
+            #fileUploadImage
+            mode="basic"
+            accept="image/*"
+            [customUpload]="true"
+            (uploadHandler)="addImages($event)"
+            [auto]="true"
+            [multiple]="true"
+            [disabled]="uploadingFiles"
+            chooseIcon="pi-paperclip"
+            chooseLabel="Загрузить картинки"
+          >
+          </p-fileUpload>
+          <button
+            *ngIf="form?.images"
+            pButton
+            type="button"
+            label="Удалить картинки"
+            (click)="deleteImages()"
+            class="p-button-danger ml-3"
+            style="width: 12rem"
+          ></button>
+        </div>
+        <small *ngIf="errors?.images" class="p-error">{{ errors.images | join }}</small>
+      </div>
+
+      <div class="field">
+        <label class="fw-bold">Название папки</label>
+        <input type="text" pInputText [(ngModel)]="form.nameArchive" [ngClass]="{ 'ng-invalid ng-dirty': errors?.nameArchive }" />
+        <small *ngIf="errors?.nameArchive" class="p-error">{{ errors.nameArchive | join }}</small>
+      </div>
+
+      <div class="field">
+        <label class="font-medium required-field">Тип</label>
+        <p-selectButton [options]="watermarkTypes" [(ngModel)]="selectWatermarkType" (onChange)="form.type = $event.value">
+        </p-selectButton>
+        <small *ngIf="errors?.type" class="p-error">{{ errors.type | join }}</small>
+      </div>
+
+      <ng-container *ngIf="form?.type === WatermarkTypeEnum.TEXT">
+        <div class="field">
+          <label class="fw-bold">Текст</label>
+          <input type="text" pInputText [(ngModel)]="form.text" [ngClass]="{ 'ng-invalid ng-dirty': errors?.text }" />
+          <small *ngIf="errors?.text" class="p-error">{{ errors.text | join }}</small>
+        </div>
+
+        <div class="field">
+          <label class="font-medium">Цвет фона</label>
+          <div>
+            <p-colorPicker [(ngModel)]="form.backgroundColor"></p-colorPicker>
+          </div>
+          <small *ngIf="errors?.backgroundColor" class="p-error">{{ errors.backgroundColor | join }}</small>
+        </div>
+
+        <div class="field">
+          <label class="font-medium">Шрифт</label>
+          <div class="flex gap-3 mb-2">
+            <ng-container *ngFor="let file of form?.font">
+              <car-file [file]="file"></car-file>
+            </ng-container>
+          </div>
+          <div class="flex">
+            <p-fileUpload
+              #fileUploadFont
+              mode="basic"
+              [customUpload]="true"
+              (uploadHandler)="addFilesFont($event)"
+              [auto]="true"
+              [disabled]="uploadingFiles"
+              [multiple]="true"
+              chooseIcon="pi-paperclip"
+              [chooseLabel]="form?.font?.length ? 'Обновить шрифты' : 'Загрузить шрифты'"
+            >
+            </p-fileUpload>
+            <button
+              *ngIf="form?.font?.length"
+              pButton
+              type="button"
+              label="Удалить шрифты"
+              (click)="deleteFont()"
+              class="p-button-danger ml-3"
+              style="width: 11rem"
+            ></button>
+          </div>
+          <small *ngIf="errors?.font" class="p-error">{{ errors.font | join }}</small>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="form?.type === WatermarkTypeEnum.IMAGE">
+        <div class="field">
+          <label class="font-medium">Водяная картинка</label>
+          <div *ngIf="form?.imageWatermark" class="flex mb-2">
+            <car-file [file]="form.imageWatermark" class="mr-2"></car-file>
+          </div>
+          <div class="flex">
+            <p-fileUpload
+              #fileUploadImageWatermark
+              mode="basic"
+              accept="image/*"
+              [customUpload]="true"
+              (uploadHandler)="addImageWatermark($event)"
+              [auto]="true"
+              [disabled]="uploadingFiles"
+              chooseIcon="pi-paperclip"
+              [chooseLabel]="form?.imageWatermark ? 'Обновить картинку' : 'Загрузить картинку'"
+            >
+            </p-fileUpload>
+            <button
+              *ngIf="form?.imageWatermark"
+              pButton
+              type="button"
+              label="Удалить картинку"
+              (click)="deleteImageWatermark()"
+              class="p-button-danger ml-3"
+              style="width: 12rem"
+            ></button>
+          </div>
+          <small *ngIf="errors?.imageWatermark" class="p-error">{{ errors.imageWatermark | join }}</small>
+        </div>
+      </ng-container>
+
+      <div class="field">
+        <label class="font-medium">Покрытие водного знака по ширине картинки</label>
+        <p-inputNumber
+          [(ngModel)]="form.scale"
+          [showButtons]="true"
+          [step]="5"
+          [min]="0"
+          [maxFractionDigits]="0"
+          [max]="100"
+          suffix="%"
+          [ngClass]="{ 'ng-invalid ng-dirty': errors?.scale }"
+        >
+        </p-inputNumber>
+        <small *ngIf="errors?.scale" class="p-error">{{ errors.scale | join }}</small>
+      </div>
+
+      <div class="field">
+        <label class="font-medium">Показатель прозрачности водного знака</label>
+        <p-inputNumber
+          [(ngModel)]="form.opacitySource"
+          [showButtons]="true"
+          [step]="0.1"
+          [min]="0"
+          [maxFractionDigits]="1"
+          [max]="1"
+          [ngClass]="{ 'ng-invalid ng-dirty': errors?.opacitySource }"
+        >
+        </p-inputNumber>
+        <small *ngIf="errors?.opacitySource" class="p-error">{{ errors.opacitySource | join }}</small>
+      </div>
+
+      <div class="field">
+        <label class="font-medium">Показатель прозрачности картинки</label>
+        <p-inputNumber
+          [(ngModel)]="form.opacityDest"
+          [showButtons]="true"
+          [step]="0.1"
+          [min]="0"
+          [maxFractionDigits]="1"
+          [max]="1"
+          [ngClass]="{ 'ng-invalid ng-dirty': errors?.opacityDest }"
+        >
+        </p-inputNumber>
+        <small *ngIf="errors?.opacityDest" class="p-error">{{ errors.opacityDest | join }}</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="grid mt-3">
+  <div class="xl:col-4 md:col-6 col-12 flex flex-wrap justify-content-between">
+    <div class="flex">
+      <button pButton label="Конвертировать" class="p-button-success mr-2" (click)="onSave(form)"></button>
+      <car-go-back-button [route]="route"></car-go-back-button>
+    </div>
+  </div>
+</div>
