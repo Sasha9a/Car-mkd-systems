@@ -22,7 +22,16 @@ export class WaterMarksServiceComponent {
     this.cdRef.markForCheck();
 
     this.adminServiceService.waterMarks(form).subscribe({
-      next: () => {
+      next: (file: Blob) => {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(new Blob([file], { type: file.type }));
+        if (form.nameArchive) {
+          downloadLink.download = form.nameArchive + '.zip';
+        }
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
         this.loading = false;
         this.cdRef.markForCheck();
       },

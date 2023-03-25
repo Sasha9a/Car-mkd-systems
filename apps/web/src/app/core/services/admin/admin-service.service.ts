@@ -10,6 +10,6 @@ export class AdminServiceService extends BaseService {
   protected override baseUrl = '/admin/service';
 
   public waterMarks(body: WatermarkFormDto): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/water-marks`, body);
+    return this.http.post<any>(`${this.baseUrl}/water-marks`, body, { responseType: 'blob' as any });
   }
 }

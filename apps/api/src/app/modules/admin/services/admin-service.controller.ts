@@ -11,7 +11,7 @@ import { Response } from 'express';
 import fs from 'fs';
 import Jimp from 'jimp';
 import JSZip from 'jszip';
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 
 @Controller('admin/service')
 export class AdminServiceController extends BaseController {
@@ -62,10 +62,13 @@ export class AdminServiceController extends BaseController {
         opacitySource: bodyParams.opacitySource,
         opacityDest: bodyParams.opacityDest
       });
-      await image.writeAsync('./public/' + img.path).catch(console.error);
-      zip.file(img.path, fs.readFileSync('./public/' + img.path));
+      const newNameFile = uuid.v4() + img.path.slice(img.path.indexOf('.'));
+      fs.writeFileSync('./public/' + newNameFile, fs.readFileSync('./public/' + img.path));
+      await image.writeAsync('./public/' + newNameFile).catch(console.error);
+      zip.file(newNameFile, fs.readFileSync('./public/' + newNameFile));
+      fs.unlinkSync('./public/' + newNameFile);
     }
-    const nameArchive = bodyParams.nameArchive ? bodyParams.nameArchive + '.zip' : uuid.v4() + '.zip';
+    const nameArchive = uuid.v4() + '.zip';
     zip
       .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
       .pipe(fs.createWriteStream('./public/' + nameArchive))

@@ -1,7 +1,7 @@
 <div class="border-round-md mb-3 p-2 shadow-3" style="background-color: #15448c">
   <a routerLink="/user/settings">
     <div class="flex align-items-center pb-2 border-bottom-1" style="border-color: #323468">
-      <car-user-avatar [user]="{ id: currentUser.id, login: currentUser.login }" shape="circle"></car-user-avatar>
+      <car-user-avatar [user]="{ id: currentUser.id, login: currentUser.login }" shape="circle" size="large"></car-user-avatar>
       <div class="ml-2" *ngIf="!minimized">
         <p class="text-0 font-medium white-space-nowrap">{{ currentUser?.login }}</p>
       </div>
