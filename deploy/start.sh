@@ -34,6 +34,7 @@ sudo /sbin/swapon /var/swap.1
 sudo ufw allow 'Nginx Full'
 sudo ufw delete allow 'Nginx HTTP'
 sudo ufw enable
+sudo ufw allow ssh
 git clone https://github.com/Sasha9a/Car-mkd-systems.git
 cd Car-mkd-systems
 sudo npm install
