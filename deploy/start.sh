@@ -15,7 +15,7 @@ echo 'Connect to Server...'
 # echo 'vm.vfs_cache_pressure=50' | sudo tee -a /etc/sysctl.conf
 
 umask 777
-ssh -tt -i ~/.ssh/id_rsa root@45.141.78.161 << EOF
+ssh -tt -i ~/.ssh/id_rsa root@45.12.18.116 << EOF
 sudo apt -y update
 sudo curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
 sudo apt -y install nodejs
@@ -34,7 +34,7 @@ sudo /sbin/swapon /var/swap.1
 sudo ufw allow 'Nginx Full'
 sudo ufw delete allow 'Nginx HTTP'
 sudo ufw enable
-git clone https://github.com/Sasha9a/Car-mkd-systems.git
+git clone https://github.com/Sasha9a/Car-mkd-systems.git -b v3.0
 cd Car-mkd-systems
 sudo npm install
 nx affected:build --all --prod
