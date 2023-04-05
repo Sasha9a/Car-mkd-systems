@@ -8,6 +8,11 @@ import { LoginComponent } from '@car-mkd-systems/web/modules/user/components/log
 export const appRoutes: Route[] = [
   {
     path: '',
+    redirectTo: 'admin',
+    pathMatch: 'prefix'
+  },
+  {
+    path: '',
     component: MainComponent,
     data: {
       title: 'Главная'
