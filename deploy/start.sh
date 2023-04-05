@@ -34,7 +34,7 @@ sudo /sbin/swapon /var/swap.1
 sudo ufw allow 'Nginx Full'
 sudo ufw delete allow 'Nginx HTTP'
 sudo ufw enable
-git clone https://github.com/Sasha9a/Car-mkd-systems.git -b v3.0
+git clone https://github.com/Sasha9a/Car-mkd-systems.git
 cd Car-mkd-systems
 sudo npm install
 nx affected:build --all --prod
