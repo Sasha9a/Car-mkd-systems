@@ -1,11 +1,11 @@
-import { Route } from '@angular/router';
+import { Routes } from '@angular/router';
 import { RoleEnum } from '@car-mkd-systems/shared/enums/role.enum';
 import { AuthGuard } from '@car-mkd-systems/web/core/guards/auth.guard';
 import { RoleGuard } from '@car-mkd-systems/web/core/guards/role.guard';
 import { MainComponent } from '@car-mkd-systems/web/modules/main/components/main/main.component';
 import { LoginComponent } from '@car-mkd-systems/web/modules/user/components/login/login.component';
 
-export const appRoutes: Route[] = [
+export const appRoutes: Routes = [
   {
     path: '',
     redirectTo: 'admin',
