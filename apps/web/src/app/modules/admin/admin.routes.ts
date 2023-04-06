@@ -15,9 +15,7 @@ export const adminRoutes: Routes = [
       {
         path: 'dashboard',
         component: DashboardAdminComponent,
-        data: {
-          title: 'Админ-панель'
-        }
+        title: 'Админ-панель'
       },
       {
         path: 'service',

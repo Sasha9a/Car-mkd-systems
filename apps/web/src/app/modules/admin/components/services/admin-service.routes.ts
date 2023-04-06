@@ -6,15 +6,11 @@ export const adminServiceRoutes: Routes = [
   {
     path: 'font-change',
     component: FontChangeServiceComponent,
-    data: {
-      title: 'Изменить шрифт'
-    }
+    title: 'Изменить шрифт'
   },
   {
     path: 'water-marks',
     component: WaterMarksServiceComponent,
-    data: {
-      title: 'Добавить водяные знаки'
-    }
+    title: 'Добавить водяные знаки'
   }
 ];

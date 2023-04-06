@@ -9,16 +9,12 @@ export const appRoutes: Route[] = [
   {
     path: '',
     component: MainComponent,
-    data: {
-      title: 'Главная'
-    }
+    title: 'Главная'
   },
   {
     path: 'login',
     component: LoginComponent,
-    data: {
-      title: 'Авторизация'
-    }
+    title: 'Авторизация'
   },
   {
     path: 'admin',
