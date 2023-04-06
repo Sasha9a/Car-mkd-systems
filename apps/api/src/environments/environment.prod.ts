@@ -12,6 +12,6 @@ export const environment: ConfigInterface = {
     username: process.env.DB_USERNAME || 'root',
     password: process.env.DB_PASSWORD || 'root',
     database: process.env.DB_DATABASE || 'car_mkd_systems',
-    synchronize: process.env.DB_SYNCHRONIZE ? Boolean(process.env.DB_SYNCHRONIZE) : false
+    synchronize: process.env.DB_SYNCHRONIZE ? Boolean(process.env.DB_SYNCHRONIZE) : true
   }
 };
