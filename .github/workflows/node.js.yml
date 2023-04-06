@@ -30,4 +30,5 @@ jobs:
           sudo git pull
           sudo npm install
           nx affected:build --all --prod
+          sudo cp -r ~/Car-mkd-systems/dist/apps/web/* /var/www/car-mkd-systems.ru/html
           sudo pm2 restart 0
