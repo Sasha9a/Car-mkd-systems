@@ -13,6 +13,7 @@ export class MainComponent implements OnInit {
   public constructor(private readonly router: Router) {}
 
   public ngOnInit() {
+    console.log('Router');
     this.router.navigate(['/admin']).catch(console.error);
   }
 }
