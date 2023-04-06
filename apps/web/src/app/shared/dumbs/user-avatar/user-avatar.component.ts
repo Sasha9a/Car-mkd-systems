@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ColorService } from '@car-mkd-systems/web/core/services/color.service';
 import { AvatarModule } from 'primeng/avatar';
-import * as uniqolor from 'uniqolor';
+import uniqolor from 'uniqolor';
 
 @Component({
   selector: 'car-user-avatar',

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'car-dashboard',
@@ -9,11 +8,4 @@ import { Router } from '@angular/router';
   templateUrl: './main.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MainComponent implements OnInit {
-  public constructor(private readonly router: Router) {}
-
-  public ngOnInit() {
-    console.log('Router');
-    this.router.navigate(['/admin']).catch(console.error);
-  }
-}
+export class MainComponent {}
