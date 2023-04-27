@@ -43,8 +43,7 @@
 
       <div class="field">
         <label class="font-medium required-field">Тип</label>
-        <p-selectButton [options]="watermarkTypes" [(ngModel)]="selectWatermarkType" (onChange)="form.type = $event.value">
-        </p-selectButton>
+        <p-selectButton [options]="watermarkTypes" [(ngModel)]="form.type"> </p-selectButton>
         <small *ngIf="errors?.type" class="p-error">{{ errors.type | join }}</small>
       </div>
 
@@ -56,11 +55,11 @@
         </div>
 
         <div class="field">
-          <label class="font-medium">Цвет фона</label>
+          <label class="font-medium">Цвет текста</label>
           <div>
-            <p-colorPicker [(ngModel)]="form.backgroundColor"></p-colorPicker>
+            <p-colorPicker [(ngModel)]="form.color" [inline]="true"></p-colorPicker>
           </div>
-          <small *ngIf="errors?.backgroundColor" class="p-error">{{ errors.backgroundColor | join }}</small>
+          <small *ngIf="errors?.color" class="p-error">{{ errors.color | join }}</small>
         </div>
 
         <div class="field">
@@ -174,6 +173,22 @@
         >
         </p-inputNumber>
         <small *ngIf="errors?.opacityDest" class="p-error">{{ errors.opacityDest | join }}</small>
+      </div>
+
+      <div class="field">
+        <label class="font-medium">Угол разворота</label>
+        <p-inputNumber
+          [(ngModel)]="form.rotate"
+          [showButtons]="true"
+          [step]="5"
+          [min]="0"
+          [maxFractionDigits]="0"
+          [max]="360"
+          suffix="°"
+          [ngClass]="{ 'ng-invalid ng-dirty': errors?.rotate }"
+        >
+        </p-inputNumber>
+        <small *ngIf="errors?.rotate" class="p-error">{{ errors.rotate | join }}</small>
       </div>
     </div>
   </div>

@@ -50,8 +50,6 @@ export class WaterMarksServiceFormComponent extends BaseFormComponent<WatermarkF
     { label: 'Картинка', value: WatermarkTypeEnum.IMAGE }
   ];
 
-  public selectWatermarkType: { label: string; value: WatermarkTypeEnum };
-
   public get WatermarkTypeEnum() {
     return WatermarkTypeEnum;
   }

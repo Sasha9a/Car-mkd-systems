@@ -28,7 +28,7 @@ export class WatermarkFormDto {
 
   @Expose()
   @IsOptional()
-  public backgroundColor?: string;
+  public color?: string;
 
   @Expose()
   @IsOptional()
@@ -46,4 +46,8 @@ export class WatermarkFormDto {
   @Expose()
   @IsOptional()
   public opacityDest?: number;
+
+  @Expose()
+  @IsOptional()
+  public rotate?: number;
 }

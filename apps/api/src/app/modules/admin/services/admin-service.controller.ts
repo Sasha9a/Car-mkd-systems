@@ -24,30 +24,35 @@ export class AdminServiceController extends BaseController {
     let newImage;
     if (bodyParams.type === WatermarkTypeEnum.TEXT) {
       const fileFont = bodyParams.font?.find((file) => file.name.endsWith('.fnt'));
-      const font = await Jimp.loadFont(fileFont ? './public/' + fileFont.path : Jimp.FONT_SANS_64_BLACK).catch(console.error);
+      const font = await Jimp.loadFont(fileFont ? './public/' + fileFont.path : Jimp.FONT_SANS_128_BLACK).catch(console.error);
       if (!font) {
         throw new BaseException('Ошибка загрузки шрифта');
       }
-      const textWidth = Jimp.measureText(font, bodyParams.text);
-      const textHeight = Jimp.measureTextHeight(font, bodyParams.text, 150);
-      newImage = await new Jimp(textWidth + 15, textHeight + 15, bodyParams.backgroundColor || 'grey');
+      const textWidth = Jimp.measureText(font, bodyParams.text || '');
+      const textHeight = Jimp.measureTextHeight(font, bodyParams.text || '', 150);
+      newImage = await new Jimp(textWidth, textHeight, 'rgba(255, 255, 255, 0)');
       newImage.print(
         font,
         0,
         0,
         {
-          text: bodyParams.text,
+          text: bodyParams.text || '',
           alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
           alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
         },
         newImage.bitmap.width,
         newImage.bitmap.height
       );
+      newImage.color([{ apply: 'xor', params: [bodyParams.color || '#b4b4b4'] }]);
     } else if (bodyParams.type === WatermarkTypeEnum.IMAGE) {
       newImage = await Jimp.read('./public/' + bodyParams.imageWatermark?.path).catch(console.error);
       if (!newImage) {
         throw new BaseException('Ошибка загрузки водяной картинки');
       }
+    }
+
+    if (bodyParams.rotate) {
+      await newImage.rotate(bodyParams.rotate || 0);
     }
 
     const zip = new JSZip();
@@ -58,7 +63,7 @@ export class AdminServiceController extends BaseController {
       const X = image.bitmap.width / 2 - newImage.bitmap.width / 2;
       const Y = image.bitmap.height / 2 - newImage.bitmap.height / 2;
       await image.composite(newImage, X, Y, {
-        mode: Jimp.BLEND_ADD,
+        mode: Jimp.BLEND_SOURCE_OVER,
         opacitySource: bodyParams.opacitySource,
         opacityDest: bodyParams.opacityDest
       });
@@ -73,7 +78,9 @@ export class AdminServiceController extends BaseController {
       .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
       .pipe(fs.createWriteStream('./public/' + nameArchive))
       .on('finish', () => {
-        return res.sendFile(nameArchive, { root: './public' });
+        return res.sendFile(nameArchive, { root: './public' }, () => {
+          fs.unlinkSync('./public/' + nameArchive);
+        });
       });
   }
 }

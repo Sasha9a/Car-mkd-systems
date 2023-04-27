@@ -1,4 +1,4 @@
 <h1>Сервис добавления водяных знаков</h1>
-<car-water-marks-service-form *ngIf="!loading" (save)="waterMarks($event)" route="/admin"></car-water-marks-service-form>
+<car-water-marks-service-form *ngIf="!loading" [form]="form" (save)="waterMarks($event)" route="/admin"></car-water-marks-service-form>
 
 <car-spinner *ngIf="loading"></car-spinner>
