@@ -15,7 +15,7 @@ echo 'Connect to Server...'
 # echo 'vm.vfs_cache_pressure=50' | sudo tee -a /etc/sysctl.conf
 
 umask 777
-ssh -tt -i ~/.ssh/id_rsa root@45.12.18.116 << EOF
+ssh -tt -i ~/.ssh/id_rsa root@2.59.41.104 << EOF
 cd Car-mkd-systems
 sudo git pull
 sudo npm install
