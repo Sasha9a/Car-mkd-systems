@@ -64,34 +64,12 @@
 
         <div class="field">
           <label class="font-medium">Шрифт</label>
-          <div class="flex gap-3 mb-2">
-            <ng-container *ngFor="let file of form?.font">
-              <car-file [file]="file"></car-file>
-            </ng-container>
-          </div>
-          <div class="flex">
-            <p-fileUpload
-              #fileUploadFont
-              mode="basic"
-              [customUpload]="true"
-              (uploadHandler)="addFilesFont($event)"
-              [auto]="true"
-              [disabled]="uploadingFiles"
-              [multiple]="true"
-              chooseIcon="pi-paperclip"
-              [chooseLabel]="form?.font?.length ? 'Обновить шрифты' : 'Загрузить шрифты'"
-            >
-            </p-fileUpload>
-            <button
-              *ngIf="form?.font?.length"
-              pButton
-              type="button"
-              label="Удалить шрифты"
-              (click)="deleteFont()"
-              class="p-button-danger ml-3"
-              style="width: 11rem"
-            ></button>
-          </div>
+          <car-water-marks-font-single-select
+            [(font)]="form.font"
+            [text]="form.text"
+            [class]="errors?.font ? 'ng-invalid ng-dirty' : ''"
+            [styleClass]="errors?.font ? 'ng-invalid ng-dirty' : ''"
+          ></car-water-marks-font-single-select>
           <small *ngIf="errors?.font" class="p-error">{{ errors.font | join }}</small>
         </div>
       </ng-container>

@@ -1,0 +1,15 @@
+<car-single-select
+  [options]="options"
+  [(selectedItem)]="font"
+  (selectedItemChange)="fontChange.emit($event)"
+  [class]="class"
+  [styleClass]="styleClass"
+  dataKey="name"
+  [filter]="false"
+  [showClear]="true"
+  [isTemplateCombined]="true"
+>
+  <ng-template #itemTemplate let-font="item">
+    <p [style.font-family]="'\'' + font.value + '\', serif'">{{ text || 'Введите текст' }}</p>
+  </ng-template>
+</car-single-select>

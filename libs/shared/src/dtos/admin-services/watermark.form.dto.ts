@@ -1,4 +1,5 @@
 import { FileDto } from '@car-mkd-systems/shared/dtos/file.dto';
+import { WatermarkFontEnum } from '@car-mkd-systems/shared/enums/watermark.font.enum';
 import { WatermarkTypeEnum } from '@car-mkd-systems/shared/enums/watermark.type.enum';
 import { Expose, Type } from 'class-transformer';
 import { IsDefined, IsOptional } from 'class-validator';
@@ -32,8 +33,7 @@ export class WatermarkFormDto {
 
   @Expose()
   @IsOptional()
-  @Type(() => FileDto)
-  public font?: FileDto[];
+  public font?: WatermarkFontEnum;
 
   @Expose()
   @IsOptional()

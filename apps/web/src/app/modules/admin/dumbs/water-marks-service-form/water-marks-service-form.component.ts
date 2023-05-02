@@ -8,6 +8,7 @@ import { ConfirmDialogService } from '@car-mkd-systems/web/core/services/confirm
 import { ErrorService } from '@car-mkd-systems/web/core/services/error.service';
 import { FileService } from '@car-mkd-systems/web/core/services/file.service';
 import { BaseFormComponent } from '@car-mkd-systems/web/shared/dumbs/base-form/base-form.component';
+import { WaterMarksFontSingleSelectComponent } from '@car-mkd-systems/web/shared/dumbs/dropdowns/water-marks-font-single-select/water-marks-font-single-select.component';
 import { FileComponent } from '@car-mkd-systems/web/shared/dumbs/file/file.component';
 import { GoBackButtonComponent } from '@car-mkd-systems/web/shared/dumbs/go-back-button/go-back-button.component';
 import { JoinPipe } from '@car-mkd-systems/web/shared/pipes/join.pipe';
@@ -30,7 +31,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     InputNumberModule,
     FileComponent,
     JoinPipe,
-    GoBackButtonComponent
+    GoBackButtonComponent,
+    WaterMarksFontSingleSelectComponent
   ],
   templateUrl: './water-marks-service-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -61,65 +63,6 @@ export class WaterMarksServiceFormComponent extends BaseFormComponent<WatermarkF
     private readonly confirmDialogService: ConfirmDialogService
   ) {
     super(errorService);
-  }
-
-  public addFilesFont(data: { files: FileList }) {
-    if (data.files.length === 2) {
-      if (
-        (data.files[0].type.includes('image/') && data.files[1].name.endsWith('.fnt')) ||
-        (data.files[1].type.includes('image/') && data.files[0].name.endsWith('.fnt'))
-      ) {
-        this.uploadingFiles = true;
-        this.cdRef.markForCheck();
-
-        this.fileService.upload(data.files).subscribe({
-          next: (files) => {
-            if (this.form.font?.length) {
-              this.fileService.deleteFiles(this.form?.font).subscribe(() => {
-                this.form.font = files;
-              });
-            } else {
-              this.form.font = files;
-            }
-            this.fileUploadFont.clear();
-            this.uploadingFiles = false;
-            this.cdRef.markForCheck();
-          },
-          error: () => {
-            this.uploadingFiles = false;
-            this.cdRef.markForCheck();
-          }
-        });
-      } else {
-        this.errorService.addCustomError('Ошибка', 'Нужны файлы формата картинки и .fnt');
-        this.fileUploadFont.clear();
-      }
-    } else {
-      this.errorService.addCustomError('Ошибка', 'Нужно залить сразу 2 файла');
-      this.fileUploadFont.clear();
-    }
-  }
-
-  public deleteFont() {
-    this.confirmDialogService.confirm({
-      message: `Вы действительно хотите удалить шрифты?`,
-      accept: () => {
-        this.uploadingFiles = true;
-        this.cdRef.markForCheck();
-
-        this.fileService.deleteFiles(this.form?.font).subscribe({
-          next: () => {
-            this.form.font = [];
-            this.uploadingFiles = false;
-            this.cdRef.markForCheck();
-          },
-          error: () => {
-            this.uploadingFiles = false;
-            this.cdRef.markForCheck();
-          }
-        });
-      }
-    });
   }
 
   public addImageWatermark(data: { files: FileList }) {

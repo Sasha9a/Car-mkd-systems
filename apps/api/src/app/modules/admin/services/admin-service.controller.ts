@@ -11,6 +11,7 @@ import { Response } from 'express';
 import fs from 'fs';
 import Jimp from 'jimp';
 import JSZip from 'jszip';
+import * as path from 'path';
 import * as uuid from 'uuid';
 
 @Controller('admin/service')
@@ -23,8 +24,11 @@ export class AdminServiceController extends BaseController {
 
     let newImage;
     if (bodyParams.type === WatermarkTypeEnum.TEXT) {
-      const fileFont = bodyParams.font?.find((file) => file.name.endsWith('.fnt'));
-      const font = await Jimp.loadFont(fileFont ? './public/' + fileFont.path : Jimp.FONT_SANS_128_BLACK).catch(console.error);
+      const font = await Jimp.loadFont(
+        bodyParams.font
+          ? path.join(__dirname, `assets/fonts/water-marks/${bodyParams.font}/${bodyParams.font}.fnt`)
+          : Jimp.FONT_SANS_128_BLACK
+      ).catch(console.error);
       if (!font) {
         throw new BaseException('Ошибка загрузки шрифта');
       }
